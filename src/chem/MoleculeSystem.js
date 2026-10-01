@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Molecule, bondLength, atomRadius } from './Molecule.js';
 import { BY_SYMBOL } from './elements.js';
-import { addBond, removeBond, bondsToSeparate, components, canAcceptBond } from './graph.js';
+import { addBond, removeBond, bondsToSeparate, components, canAcceptBond, normalizeOrders, saturate } from './graph.js';
 
 const _v = new THREE.Vector3();
 const BREAK_STRETCH = 0.07; // metres of pull needed to break a bond
@@ -32,6 +32,7 @@ export class MoleculeSystem {
   spawnElement(symbol, position, { diatomic = false } = {}) {
     const el = BY_SYMBOL[symbol];
     if (!el) return null;
+    this.app.history?.record('Add ' + symbol + (diatomic ? '₂' : ' atom'));
     const pos = this.freeSpot(position, el);
     let mol;
     if (diatomic) {
@@ -53,6 +54,55 @@ export class MoleculeSystem {
     this.enforceLimit();
     this.app.audio?.play('spawn', { position: pos, volume: 0.45 });
     this.app.effects?.sparkle(pos, 0x9fe7ff, 14, 0.06);
+    return mol;
+  }
+
+  /**
+   * Spawn a whole molecule from a structure { symbols, bonds: [[i, j, order]] } (used when
+   * the synthesizer turns a physical substance back into atoms). Atoms are laid out as a
+   * tree and then relax into their real VSEPR shape.
+   */
+  spawnMolecule(spec, position, { stasis = this.app.mode !== 'lab', velocity = null } = {}) {
+    const n = spec.symbols.length;
+    const adj = Array.from({ length: n }, () => []);
+    for (const [i, j] of spec.bonds) { adj[i].push(j); adj[j].push(i); }
+    const els = spec.symbols.map((sym) => BY_SYMBOL[sym]);
+    const local = new Array(n).fill(null);
+    const dirs = [];
+    for (let k = 0; k < 40; k++) {
+      const y = 1 - (k / 39) * 2, r = Math.sqrt(1 - y * y), a = k * 2.39996;
+      dirs.push(new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r));
+    }
+    for (let root = 0; root < n; root++) {
+      if (local[root]) continue;
+      local[root] = new THREE.Vector3(root * 0.05, 0, 0);
+      const queue = [root];
+      while (queue.length) {
+        const a = queue.shift();
+        const used = adj[a].filter((b) => local[b]).map((b) => local[b].clone().sub(local[a]).normalize());
+        for (const b of adj[a]) {
+          if (local[b]) continue;
+          let best = dirs[0], bestScore = -1;
+          for (const d of dirs) {
+            const score = used.length ? Math.min(...used.map((u) => d.angleTo(u))) : d.x + 1;
+            if (score > bestScore) { bestScore = score; best = d; }
+          }
+          used.push(best.clone());
+          local[b] = local[a].clone().addScaledVector(best, bondLength(els[a], els[b], 1));
+          queue.push(b);
+        }
+      }
+    }
+    const mol = Molecule.create(this.app, els.map((el, i) => ({ el, local: local[i] })), spec.bonds.map(([i, j]) => [i, j, 1]), position);
+    normalizeOrders(mol.atoms, mol.bonds);
+    saturate(mol.atoms, mol.bonds);
+    mol.rebuildVisuals();
+    mol.refreshIdentity(false);
+    mol.startSettle(n > 8 ? 200 : 120);
+    if (stasis) mol.enterStasis();
+    this.app.addEntity(mol);
+    if (velocity) mol.body.setLinvel(velocity, true);
+    this.enforceLimit();
     return mol;
   }
 
@@ -80,6 +130,7 @@ export class MoleculeSystem {
   }
 
   clearAll() {
+    this.app.history?.record('Clear atoms');
     for (const m of this.molecules) {
       if (m.absorbing) continue;
       this.app.effects?.poof(m.object.position, 0x9fd8ff, 0.5);
@@ -198,6 +249,7 @@ export class MoleculeSystem {
   // Merging
 
   merge(M, a, N, b) {
+    this.app.history?.record(`Bond ${a.el.symbol}–${b.el.symbol}`);
     M.object.updateWorldMatrix(true, false);
     N.object.updateWorldMatrix(true, false);
     const inv = M.object.matrixWorld.clone().invert();
@@ -294,6 +346,7 @@ export class MoleculeSystem {
   }
 
   split(M, keepAtom, pullAtom, rec) {
+    this.app.history?.record('Break bond');
     this.clearTension(M);
     for (const a of M.atoms) a.mesh.position.copy(a.local);
     const cut = bondsToSeparate(keepAtom, pullAtom, M.bonds);

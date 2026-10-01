@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Panel } from './Panel.js';
 import { ELEMENTS, CATEGORIES, BY_SYMBOL } from '../chem/elements.js';
 import { font, roundRect, drawFormula, fitFont, drawWrapped, hexToRgba } from './canvasUtil.js';
+import { drawUndoButton } from './undoButton.js';
 
 const NOBLE_CORES = { He: '1s2', Ne: '[He] 2s2 2p6', Ar: '[Ne] 3s2 3p6', Kr: '[Ar] 3d10 4s2 4p6', Xe: '[Kr] 4d10 5s2 5p6', Rn: '[Xe] 4f14 5d10 6s2 6p6' };
 
@@ -376,13 +377,15 @@ export class PeriodicTablePanel extends Panel {
     ctx.textBaseline = 'middle';
     ctx.fillText('Clear all atoms', bx + bw / 2, by + bh / 2);
     this.addButton({ id: 'clear', x: bx, y: by, w: bw, h: bh, onPress: () => this.app.molecules.clearAll() });
+    const ux = bx - bw * 0.62 - 12 * u;
+    drawUndoButton(this, ctx, ux, by, bw * 0.62, bh, u);
 
     // Legend
     let lx = x;
     let ly = y + (portrait ? 2 * u : h / 2 - 9 * u);
     ctx.textAlign = 'left';
     ctx.font = font(13 * u, 600);
-    const maxX = bx - 16 * u;
+    const maxX = bx - bw * 0.62 - 28 * u;
     for (const [code, cat] of Object.entries(CATEGORIES)) {
       const tw = ctx.measureText(cat.name).width + 26 * u;
       if (lx + tw > maxX) {

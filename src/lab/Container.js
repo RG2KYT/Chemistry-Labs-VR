@@ -4,7 +4,7 @@ import { Mixture } from '../chem/Mixture.js';
 import { react } from '../chem/reactions.js';
 import { SUBSTANCES } from '../chem/substances.js';
 import { cavityFillGeometry, volumeTable, radiusAt } from './materials.js';
-import { drawFormula, font, roundRect } from '../ui/canvasUtil.js';
+import { font, roundRect } from '../ui/canvasUtil.js';
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -395,6 +395,7 @@ export class Container extends Equipment {
       }
     }
     if (rate > 0 && lip) {
+      if (!this.pouring) this.app.history?.record('Pour', { debounce: 4 });
       const ml = Math.min(lv, rate * dt);
       const portion = c.takeLiquid(ml);
       const out = dperp.clone();
@@ -573,47 +574,75 @@ export class Container extends Equipment {
   // ------------------------------------------------------------------------------------
   // Contents tag (shown while held / hovered / just changed)
 
+  /**
+   * Name tag of the physical form ("Water", "Salt water", "Bromine" …) floating above the
+   * container whenever it holds something. The atoms form is labelled by formula instead.
+   */
   updateTag(dt) {
     this.labelT = Math.max(0, this.labelT - dt);
-    const show = (this.isHeld || this.highlighted || this.labelT > 0) && !this.contents.isEmpty;
+    const show = !this.contents.isEmpty && !this.disabled;
     this.tag.visible = show;
     if (!show) return;
+    const detailed = this.isHeld || this.highlighted || this.labelT > 0;
     const now = performance.now();
-    if (this.contents.version !== this.lastVersion && (!this._tagTime || now - this._tagTime > 250)) {
+    const key = this.contents.version + (detailed ? 'd' : '');
+    if ((key !== this.lastVersion && (!this._tagTime || now - this._tagTime > 250)) || this._tagDetailed !== detailed) {
       this._tagTime = now;
-      this.lastVersion = this.contents.version;
-      this.drawTag();
+      this.lastVersion = key;
+      this._tagDetailed = detailed;
+      this.drawTag(detailed);
     }
     const b = this.worldBounds(new THREE.Box3());
-    this.tag.position.set((b.min.x + b.max.x) / 2, b.max.y + 0.06, (b.min.z + b.max.z) / 2);
+    this.tag.position.set((b.min.x + b.max.x) / 2, b.max.y + 0.045, (b.min.z + b.max.z) / 2);
+    const dist = this.tag.position.distanceTo(this.app.headPosition());
+    this.tag.material.opacity = THREE.MathUtils.clamp(3.2 - dist, 0.2, 1);
   }
 
-  drawTag() {
+  drawTag(detailed) {
     const ctx = this.tagCanvas.getContext('2d');
     const W = this.tagCanvas.width, H = this.tagCanvas.height;
     ctx.clearRect(0, 0, W, H);
-    const items = this.contents.summary().slice(0, 3);
-    roundRect(ctx, 4, 4, W - 8, H - 8, 24);
+    const items = this.contents.summary();
+    if (!items.length) return;
+    let name = items[0].name;
+    if (items.length === 2) name += ' + ' + items[1].name;
+    else if (items.length > 2) name += ` + ${items.length - 1} more`;
+    ctx.font = font(50, 800);
+    let size = 50;
+    while (size > 26 && ctx.measureText(name).width > W - 60) { size -= 2; ctx.font = font(size, 800); }
+    const nameW = ctx.measureText(name).width;
+    let detail = '';
+    if (detailed) {
+      const parts = items.slice(0, 2).map((it) => `${it.amount >= 10 ? Math.round(it.amount) : it.amount.toFixed(1)} ${it.unit}`);
+      const pH = this.contents.pH;
+      detail = parts.join(' + ') + `  ·  ${Math.round(this.contents.temperature)} °C` + (pH !== null ? `  ·  pH ${pH.toFixed(1)}` : '') + (this.etch > 0 ? '  ·  etching glass!' : '');
+    }
+    ctx.font = font(26, 600);
+    const dW = detail ? ctx.measureText(detail).width : 0;
+    const bw = Math.min(W - 8, Math.max(nameW, dW) + 50);
+    const bh = detail ? H - 12 : 96;
+    const x = (W - bw) / 2, y = detail ? 6 : H - 6 - bh;
+    roundRect(ctx, x, y, bw, bh, 26);
     ctx.fillStyle = 'rgba(8,14,24,0.82)';
     ctx.fill();
-    ctx.strokeStyle = 'rgba(127,227,255,0.6)';
+    ctx.strokeStyle = 'rgba(127,227,255,0.65)';
     ctx.lineWidth = 3;
     ctx.stroke();
-    let y = 46;
-    for (const it of items) {
-      ctx.fillStyle = '#ffffff';
-      const fw = drawFormula(ctx, it.formula || '', 24, y, 32, { weight: 700 });
-      ctx.fillStyle = '#a9c6e6';
-      ctx.font = font(26, 500);
-      ctx.textAlign = 'left';
-      const amt = it.amount >= 10 ? Math.round(it.amount) : it.amount.toFixed(1);
-      ctx.fillText(`${it.name} · ${amt} ${it.unit}`, 24 + fw + 14, y);
-      y += 40;
+    const dot = items[0].s;
+    ctx.fillStyle = dot.phase === 'gas' && dot.opacity < 0.1 ? '#e6eef7' : dot.color;
+    ctx.beginPath();
+    ctx.arc(x + 24, y + (detail ? 52 : bh / 2), 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = font(size, 800);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(name, W / 2 + 10, y + (detail ? 54 : bh / 2 + 2));
+    if (detail) {
+      ctx.fillStyle = '#ffd27a';
+      ctx.font = font(26, 600);
+      ctx.fillText(detail, W / 2, y + bh - 42);
     }
-    const pH = this.contents.pH;
-    ctx.fillStyle = '#ffd27a';
-    ctx.font = font(24, 600);
-    ctx.fillText(`${Math.round(this.contents.temperature)} °C${pH !== null ? `   ·   pH ${pH.toFixed(1)}` : ''}${this.etch > 0 ? '   ·   glass etching!' : ''}`, 24, H - 26);
     this.tag.material.map.needsUpdate = true;
     this.tag.scale.set(0.2, 0.2 * (H / W), 1);
   }

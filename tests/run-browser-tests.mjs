@@ -424,6 +424,122 @@ await test('heating water to boiling with the burner', async () => {
   await shot('08-boiling');
 });
 
+await test('physical form on top of the machine turns back into atoms', async () => {
+  const r = await page.evaluate(() => {
+    const app = window.lab;
+    const m = app.machine;
+    m.cancel();
+    const b = app.spawnEquipment('beaker100', m.toWorld(new THREE_V(0, 1.6, 0)));
+    b.addSubstance('nacl_aq', 40);
+    const before = new Set(app.molecules.molecules);
+    let sawDecompose = false;
+    for (let i = 0; i < 60 * 5; i++) {
+      app.renderEnabled = false;
+      app.clock.getDelta = () => 1 / 60;
+      app.loop(performance.now(), null);
+      if (m.state === 'decomposing') sawDecompose = true;
+    }
+    app.renderEnabled = true;
+    const made = app.molecules.molecules.filter((x) => !before.has(x)).map((x) => x.displayFormula).sort();
+    window.__topBeaker = b;
+    return { sawDecompose, made, left: b.contents.total, state: m.state };
+  });
+  assert.ok(r.sawDecompose, 'machine broke it down');
+  assert.deepEqual(r.made, ['H2O', 'NaCl'], 'salt water → NaCl + H2O, got ' + r.made);
+  assert.ok(r.left < 0.01, 'container emptied');
+  await page.evaluate(() => {
+    const app = window.lab;
+    const front = app.machine.toWorld(new THREE_V(0, 1.0, 0.95));
+    app.rig.position.set(front.x, 0, front.z);
+    app.camera.position.set(0, front.y, 0);
+    app.camera.lookAt(app.machine.toWorld(new THREE_V(0, 0.75, 0)));
+  });
+  await step(page, 0.05);
+  await shot('13-reverse-to-atoms');
+  await page.evaluate(() => { window.lab.camera.position.set(0, 1.6, 0); window.__topBeaker.destroy(); });
+});
+
+await test('holding a container against another combines the physical forms', async () => {
+  const r = await page.evaluate(() => {
+    const app = window.lab;
+    const hand = app.input.desktop.hand;
+    const a = app.spawnEquipment('beaker250', new THREE_V(-0.2, 0.93, -0.5));
+    const b = app.spawnEquipment('beaker250', new THREE_V(0.0, 0.93, -0.5));
+    a.addSubstance('elem:H', 250);
+    b.addSubstance('elem:O', 200);
+    for (let i = 0; i < 20; i++) { app.renderEnabled = false; app.loop(performance.now(), null); }
+    hand.gripPosition.copy(a.object.position);
+    hand.gripQuaternion.identity();
+    hand.setButtons(true, true);
+    app.grab.grab(hand, a, null, 'near');
+    // Bring A's rim against B's rim
+    const target = b.object.position.clone().add(new THREE_V(-0.04, 0.0, 0));
+    let combined = false;
+    app.events.on('combine', () => { combined = true; });
+    for (let i = 0; i < 90 && !combined; i++) {
+      hand.gripPosition.lerp(target, 0.15);
+      app.renderEnabled = false;
+      app.loop(performance.now(), null);
+    }
+    hand.setButtons(false, false);
+    app.loop(performance.now(), null);
+    app.renderEnabled = true;
+    const summary = b.contents.summary().map((x) => x.name);
+    window.__a = a; window.__b = b;
+    return { combined, aEmpty: a.contents.isEmpty, water: b.contents.amount('water'), summary };
+  });
+  assert.ok(r.combined, 'combined');
+  assert.ok(r.aEmpty, 'source emptied');
+  assert.ok(r.water > 1, 'hydrogen + oxygen made water: ' + JSON.stringify(r.summary));
+  await step(page, 0.05);
+  await shot('14-combined');
+});
+
+await test('undo steps back through actions', async () => {
+  const r = await page.evaluate(() => {
+    const app = window.lab;
+    const ms = app.molecules;
+    const n0 = ms.molecules.length;
+    const h = ms.spawnElement('H', new THREE_V(-0.3, 1.3, -0.4));
+    const o = ms.spawnElement('O', new THREE_V(-0.15, 1.3, -0.4));
+    ms.bondAtoms(o, o.atoms[0], h, h.atoms[0]);
+    const afterBond = ms.molecules.length;
+    app.history.undo(); // undo the bond
+    const afterUndo1 = ms.molecules.length;
+    app.history.undo(); // undo adding O
+    const afterUndo2 = ms.molecules.length;
+    // Undo the combine from the previous test: the hydrogen comes back
+    return { n0, afterBond, afterUndo1, afterUndo2, label: app.history.lastLabel };
+  });
+  assert.equal(r.afterBond, r.n0 + 1);
+  assert.equal(r.afterUndo1, r.n0 + 2, 'bond undone');
+  assert.equal(r.afterUndo2, r.n0 + 1, 'add undone');
+  const r2 = await page.evaluate(() => {
+    const app = window.lab;
+    while (app.history.lastLabel && app.history.lastLabel !== 'Combine') app.history.undo();
+    app.history.undo();
+    const beakers = app.entities.filter((e) => e.catalogId === 'beaker250');
+    return beakers.map((b) => b.contents.amount('elem:H'));
+  });
+  assert.ok(r2.some((v) => v > 100), 'combine undone: ' + r2);
+});
+
+await test('labels: formula on atoms, name on physical forms', async () => {
+  const r = await page.evaluate(() => {
+    const app = window.lab;
+    const w = app.molecules.spawnElement('H', new THREE_V(0.2, 1.4, -0.4), { diatomic: true });
+    const b = app.entities.find((e) => e.isContainer && !e.contents.isEmpty);
+    b.update(0.016);
+    return { formula: w.identity.formula, tagVisible: b.tag.visible, name: b.contents.summary()[0].name };
+  });
+  assert.equal(r.formula, 'H2');
+  assert.ok(r.tagVisible, 'container name tag shown');
+  assert.ok(r.name && !/\d/.test(r.name), 'physical form labelled by name: ' + r.name);
+  await look(-0.2, -0.35, [0, 0, 0]);
+  await step(page, 0.1);
+  await shot('15-labels');
+});
+
 await test('reset removes everything and restores the lab', async () => {
   const r = await page.evaluate(() => {
     const app = window.lab;

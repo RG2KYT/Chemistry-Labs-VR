@@ -15,6 +15,8 @@ import { EquipmentPanel } from '../ui/EquipmentPanel.js';
 import { CATALOG, createEquipment } from '../lab/catalog.js';
 import { RoomScan } from '../ar/RoomScan.js';
 import { Toasts } from '../ui/Toasts.js';
+import { History } from '../lab/History.js';
+import { Combiner } from '../lab/Combiner.js';
 
 class Events {
   constructor() {
@@ -117,6 +119,8 @@ export class App {
     this.input = new InputManager(this);
     this.grab = new Interaction(this);
     this.toasts = new Toasts(this);
+    this.history = new History(this);
+    this.combiner = new Combiner(this);
 
     onProgress('Building the lab…');
     this.labRoom = new LabRoom(this);
@@ -142,6 +146,11 @@ export class App {
     window.addEventListener('resize', () => this.onResize());
     renderer.setAnimationLoop((t, frame) => this.loop(t, frame));
     this.events.on('discover', (m) => this.toasts.show(`You made ${m.identity.substance.name}!`, '#8ff0c2', 2.5));
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.code === 'KeyZ') { e.preventDefault(); this.history.undo(); }
+    });
+    this.events.on('historychange', () => { this.periodicPanel.dirty = true; this.equipmentPanel.dirty = true; });
+    this.ready = true;
     onProgress('Ready');
   }
 
@@ -181,6 +190,7 @@ export class App {
 
   /** Called by the equipment list. */
   spawnEquipmentFromPanel(id, panel) {
+    this.history.record('Add equipment');
     let pos, stasis = false;
     if (this.mode === 'lab') {
       pos = this.freeTableSpot();
@@ -357,6 +367,7 @@ export class App {
 
   /** Remove everything the player made and put the lab back as it was. */
   resetLab(silent = false) {
+    if (!silent) this.history.record('Reset lab');
     for (const e of this.entities.slice()) {
       if (e.kind === 'molecule' || e.kind === 'equipment') e.destroy();
     }
@@ -521,6 +532,7 @@ export class App {
     this.locomotion(dt);
     this.grab.update(dt);
     this.molecules.update(dt);
+    this.combiner.update(dt);
     this.physics.step(dt, (ent, other, speed) => ent.onImpact?.(speed, other));
     for (const e of this.entities) {
       if (e.body && !e.removed && !e.disabled && !e.absorbing && e.kind !== 'machine') e.syncFromBody();

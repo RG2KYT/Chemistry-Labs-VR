@@ -70,6 +70,15 @@ Open the `https://<your-computer-ip>:5173/` address it prints in the Quest Brows
 - Choose the amount on its touch screen: 25, 50, 100 or 250 mL (grams for solids). **Make again** repeats the last product.
 - Products look like the real thing. Water is clear. Bromine is a dark red-brown liquid. Mercury is a liquid metal. Gold, copper and sodium are shiny metals. Sulfur is a yellow powder and table salt forms cubic crystals. Copper sulfate is off-white and turns blue in water. Chlorine is a yellow-green gas and NO₂ is a brown gas.
 
+### Physical form ⇄ atoms
+- **Atoms → substance:** drop a molecule into the reactor on top of the synthesizer and the real substance pours into the container docked below.
+- **Substance → atoms:** set a container with something in it **on top of the reactor**. The machine sucks the substance out, breaks it down and the **atoms come out of the bay below** — e.g. a beaker of water gives you an H₂O molecule, salt water gives NaCl + H₂O (up to three kinds of molecule at once).
+- **Labels:** atoms and molecules show their **chemical formula** above them (H₂, H₂O, NaCl …); containers show the **name of the physical form** inside them (Water, Salt water, Bromine …). Hold or point at a container to also see amount, temperature and pH.
+- **Combining physical forms:** hold a container and touch its rim against another container. A green ring appears and, after a moment, everything flows into the other container and they react — elements combine like they do in real chemistry: hydrogen + oxygen → water, hydrogen + chlorine → hydrochloric acid, nitrogen + hydrogen → ammonia, sodium + chlorine → salt, magnesium + oxygen → magnesium oxide, and so on. (Gas amounts are converted at game scale so the product is visible.)
+
+### Undo
+Every action can be undone with the **↶ Undo** button on the periodic table and on the equipment list (or Ctrl+Z on a computer): adding atoms or equipment, making or breaking bonds, synthesizing, turning substances into atoms, combining, pouring, broken glass, clearing atoms and even a reset. It keeps the last 30 steps.
+
 ### Experiments
 - **Pouring:** tilt a container and the liquid pours from its lowest point on the rim as a real arcing stream. The liquid surface stays level as you tilt.
 - **Mixing chemistry**, all with visual effects:

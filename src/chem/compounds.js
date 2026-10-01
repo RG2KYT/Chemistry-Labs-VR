@@ -19,7 +19,7 @@ const LONE_OK_NONMETALS = new Set(['C', 'S', 'P', 'Se', 'B', 'Si']);
 
 const CUSTOM = new Map();
 
-function customSubstance(atoms) {
+function customSubstance(atoms, bonds) {
   const formula = formulaString(atoms);
   if (CUSTOM.has(formula)) return CUSTOM.get(formula);
   const mass = molarMass(atoms);
@@ -52,6 +52,11 @@ function customSubstance(atoms) {
     molarMass: mass,
     custom: true,
     info: 'A valid molecule that is not in the lab database. Its appearance is estimated.',
+    // Remember the structure so the synthesizer can turn the substance back into atoms.
+    graph: {
+      symbols: atoms.map((a) => a.el.symbol),
+      bonds: bonds.map((b) => [atoms.indexOf(b.a), atoms.indexOf(b.b), b.order]),
+    },
   };
   SUBSTANCES[s.id] = s;
   CUSTOM.set(formula, s);
@@ -103,9 +108,44 @@ export function identify(atoms, bonds) {
     // e.g. chains of carbon or sulfur rings — treat as the element itself.
     return { ok: true, substance: SUBSTANCES['elem:' + first.symbol], known: true, formula, element: true };
   }
-  return { ok: true, substance: customSubstance(atoms), known: false, formula };
+  return { ok: true, substance: customSubstance(atoms, bonds), known: false, formula };
 }
 
 export function knownCompoundCount() {
   return INDEX.size;
+}
+
+// ---------------------------------------------------------------------------------------
+// Physical form -> atoms (used by the synthesizer in reverse).
+
+const SPECIAL = {
+  steam: 'O',
+  copper_deposit: '[Cu]',
+  iodine_vapor: 'II',
+};
+
+/**
+ * Molecular structure of a substance as { symbols, bonds: [[i, j, order]] }, or null when
+ * it has no single molecule (foam, smoke…). Solutions return their dissolved substance.
+ */
+export function moleculeSpecFor(substance) {
+  if (!substance) return null;
+  if (substance.graph) return substance.graph;
+  let smiles = substance.smiles || SPECIAL[substance.id];
+  if (!smiles && substance.element) {
+    const el = substance.element;
+    return substance.formula === el + '2'
+      ? { symbols: [el, el], bonds: [[0, 1, 1]] }
+      : { symbols: [el], bonds: [] };
+  }
+  if (!smiles && substance.solution) {
+    const solute = Object.values(SUBSTANCES).find((x) => x.aq === substance.id);
+    return solute ? moleculeSpecFor(solute) : moleculeSpecFor(SUBSTANCES.water);
+  }
+  if (!smiles) return null;
+  const { atoms, bonds } = parseSmiles(smiles);
+  return {
+    symbols: atoms.map((a) => a.el.symbol),
+    bonds: bonds.map((b) => [atoms.indexOf(b.a), atoms.indexOf(b.b), b.order]),
+  };
 }

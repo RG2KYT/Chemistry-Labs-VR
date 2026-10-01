@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Panel } from './Panel.js';
 import { CATALOG, CATEGORIES } from '../lab/catalog.js';
 import { font, roundRect, drawWrapped, fitFont } from './canvasUtil.js';
+import { drawUndoButton } from './undoButton.js';
 
 /** The equipment list: tap an item to put it on the table (or float it in front of you). */
 export class EquipmentPanel extends Panel {
@@ -94,11 +95,13 @@ export class EquipmentPanel extends Panel {
     ctx.font = font(16 * u, 600);
     ctx.textAlign = 'right';
     ctx.fillText(`${this.page + 1} / ${pages}`, w - m - pbw * 2 - 22 * u, pby + pbw / 2);
+    const uw = 120 * u;
+    drawUndoButton(this, ctx, w - m - pbw * 2 - 70 * u - uw, pby, uw, pbw, u);
     ctx.textAlign = 'left';
     const info = this.lastSpawned ? `${this.lastSpawned.name}: ${this.lastSpawned.desc}` : 'Grab the bars above and below this screen to move it. Rotate it 90° for portrait mode.';
     ctx.fillStyle = this.lastSpawned ? '#cfe6ff' : '#7f93ad';
     ctx.font = font(17 * u, 500);
-    drawWrapped(ctx, info, m, fy + 18 * u, w - 2 * m - pbw * 2 - 110 * u, 21 * u, 2);
+    drawWrapped(ctx, info, m, fy + 18 * u, w - 2 * m - pbw * 2 - 250 * u, 21 * u, 2);
   }
 
   drawCard(ctx, def, x, y, w, h, u) {

@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import { Entity } from '../core/Entity.js';
 import { neighbors, vsepr, openSites, formulaString, canAcceptBond } from './graph.js';
 import { identify } from './compounds.js';
-import { drawFormula, font, roundRect } from '../ui/canvasUtil.js';
+import { drawFormula, measureFormula, font, roundRect } from '../ui/canvasUtil.js';
+
+const drawFormulaWidth = (ctx, text, size) => measureFormula(ctx, text, size, 800);
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -343,46 +345,61 @@ export class Molecule extends Entity {
     }
   }
 
+  /**
+   * The tag above a molecule shows its chemical formula (H₂, H₂O, CH₄ …) — the "atoms form".
+   * Physical substances in containers are labelled by name instead (Water, Salt …).
+   */
+  /** Formula as chemists write it (NaCl, Ca(OH)₂ …) when known, else Hill notation. */
+  get displayFormula() {
+    const id = this.identity;
+    if (id && id.ok && id.substance && !id.substance.custom && id.substance.formula) return id.substance.formula;
+    return formulaString(this.atoms);
+  }
+
   drawLabel() {
     const c = this.labelCanvas;
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     const id = this.identity;
-    const formula = formulaString(this.atoms);
+    const formula = this.displayFormula;
     const open = this.atoms.reduce((s, a) => s + openSites(a, this.bonds), 0);
-    let title = formula;
     let sub = '';
-    let subColor = '#a9c6e6';
-    if (id.ok && id.substance) {
-      sub = id.substance.custom ? 'Valid molecule (not in database)' : id.substance.name;
-      subColor = id.substance.custom ? '#c6d4e4' : '#8ff0c2';
-    } else if (open > 0) {
-      sub = `${open} open bond${open > 1 ? 's' : ''}`;
-      subColor = '#ffcf6b';
-    } else {
-      sub = 'Unstable';
-      subColor = '#ff9b8f';
+    let color = '#8ff0c2';
+    if (!(id.ok && id.substance)) {
+      if (open > 0) {
+        sub = `${open} open bond${open > 1 ? 's' : ''}`;
+        color = '#ffcf6b';
+      } else {
+        sub = 'unstable';
+        color = '#ff9b8f';
+      }
+    } else if (id.substance.custom) {
+      color = '#c6d4e4';
     }
-    ctx.font = font(52, 700);
-    const fw = Math.max(200, Math.min(600, ctx.measureText(title).width + 40));
-    ctx.font = font(36, 600);
-    const sw = ctx.measureText(sub).width + 40;
-    const w = Math.min(c.width - 8, Math.max(fw, sw));
+    const big = 64;
+    const tw = drawFormulaWidth(ctx, formula, big);
+    ctx.font = font(30, 600);
+    const sw = sub ? ctx.measureText(sub).width : 0;
+    const w = Math.min(c.width - 8, Math.max(tw, sw) + 56);
+    const h = sub ? c.height - 12 : 96;
     const x = (c.width - w) / 2;
-    roundRect(ctx, x, 6, w, c.height - 12, 26);
-    ctx.fillStyle = 'rgba(8,14,24,0.78)';
+    const y = sub ? 6 : (c.height - h) / 2;
+    roundRect(ctx, x, y, w, h, 26);
+    ctx.fillStyle = 'rgba(8,14,24,0.8)';
     ctx.fill();
-    ctx.strokeStyle = subColor;
-    ctx.globalAlpha = 0.7;
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = 0.75;
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#ffffff';
-    drawFormula(ctx, title, c.width / 2, 64, 52, { align: 'center', weight: 700 });
-    ctx.fillStyle = subColor;
-    ctx.font = font(34, 600);
-    ctx.textAlign = 'center';
-    ctx.fillText(sub, c.width / 2, 118);
+    drawFormula(ctx, formula, c.width / 2, sub ? 72 : c.height / 2 + 22, big, { align: 'center', weight: 800 });
+    if (sub) {
+      ctx.fillStyle = color;
+      ctx.font = font(30, 600);
+      ctx.textAlign = 'center';
+      ctx.fillText(sub, c.width / 2, 124);
+    }
     this.label.material.map.needsUpdate = true;
     this.label.scale.set(0.18, 0.18 * (c.height / c.width), 1);
   }

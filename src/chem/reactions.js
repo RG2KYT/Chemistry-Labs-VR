@@ -333,3 +333,69 @@ export function react(mix, dt, env = {}) {
   }
   return ev;
 }
+
+// ---------------------------------------------------------------------------------------
+// Direct combination: when two physical forms are brought together they react the way the
+// elements combine in real chemistry (2 H₂ + O₂ → 2 H₂O, metal + halogen → salt, …).
+// Gas volumes are converted to liquid/solid at game scale so the product is visible.
+
+const GAS_TO_CONDENSED = 1 / 40;
+const NONMETAL_RULES = [
+  { r: [['elem:H', 2], ['elem:O', 1]], p: ['water', 2] },
+  { r: [['elem:H', 1], ['elem:Cl', 1]], p: ['hydrochloric_acid', 2] },
+  { r: [['elem:H', 1], ['elem:F', 1]], p: ['hydrofluoric_acid', 2] },
+  { r: [['elem:H', 1], ['elem:Br', 1]], p: ['hydrobromic_acid', 2] },
+  { r: [['elem:H', 1], ['elem:I', 1]], p: ['hydroiodic_acid', 2] },
+  { r: [['elem:N', 1], ['elem:H', 3]], p: ['ammonia', 2] },
+  { r: [['elem:C', 1], ['elem:O', 1]], p: ['carbon_dioxide', 1] },
+  { r: [['elem:S', 1], ['elem:O', 1]], p: ['sulfur_dioxide', 1] },
+  { r: [['elem:H', 1], ['elem:S', 1]], p: ['hydrogen_sulfide', 1] },
+];
+const ANION_OF = { 'elem:O': 'O', 'elem:Cl': 'Cl', 'elem:F': 'F', 'elem:Br': 'Br', 'elem:I': 'I', 'elem:S': 'S' };
+
+function units(mix, id) {
+  const s = S(id);
+  const ml = mix.amount(id);
+  return s.phase === 'gas' ? ml * GAS_TO_CONDENSED : ml;
+}
+
+function take(mix, id, u) {
+  const s = S(id);
+  mix.remove(id, s.phase === 'gas' ? u / GAS_TO_CONDENSED : u);
+}
+
+function give(mix, id, u) {
+  const s = S(id);
+  if (s.phase === 'gas') mix.add(id, u / GAS_TO_CONDENSED);
+  else mix.add(id, u);
+}
+
+export function combineSynthesis(mix) {
+  const ev = [];
+  for (const rule of NONMETAL_RULES) {
+    let extent = Infinity;
+    for (const [id, n] of rule.r) extent = Math.min(extent, units(mix, id) / n);
+    if (!(extent > 0.01)) continue;
+    for (const [id, n] of rule.r) take(mix, id, extent * n);
+    give(mix, rule.p[0], extent * rule.p[1]);
+    mix.temperature += Math.min(60, extent * 8);
+    ev.push({ type: 'combine', product: rule.p[0], violent: rule.p[0] === 'water' || rule.p[0] === 'hydrochloric_acid' });
+  }
+  // Metal + non-metal element → its salt / oxide / sulfide.
+  for (const [mid, , ms] of [...mix.items].map(([id, ml]) => [id, ml, S(id)])) {
+    if (!ms.element || !ms.metalness || ms.phase !== 'solid') continue;
+    for (const nid of Object.keys(ANION_OF)) {
+      if (mix.amount(nid) <= 0) continue;
+      const salt = findSalt(ms.element, ANION_OF[nid]);
+      if (!salt || salt.phase !== 'solid') continue;
+      const extent = Math.min(units(mix, mid), units(mix, nid));
+      if (!(extent > 0.01)) continue;
+      take(mix, mid, extent);
+      take(mix, nid, extent);
+      mix.add(salt.id, extent * 1.5);
+      mix.temperature += Math.min(80, extent * 10);
+      ev.push({ type: 'combine', product: salt.id, violent: true });
+    }
+  }
+  return ev;
+}

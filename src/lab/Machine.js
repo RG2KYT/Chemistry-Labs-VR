@@ -7,6 +7,8 @@ import { M, roundedBox } from './materials.js';
 import { font, roundRect, drawFormula, drawWrapped, fitFont } from '../ui/canvasUtil.js';
 import { Molecule } from '../chem/Molecule.js';
 import { BY_SYMBOL } from '../chem/elements.js';
+import { moleculeSpecFor } from '../chem/compounds.js';
+import { SUBSTANCES } from '../chem/substances.js';
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -28,7 +30,10 @@ const STATE_TEXT = {
   flowing: ['DISPENSING', '#8ff0c2'],
   pouring: ['DISPENSING', '#8ff0c2'],
   done: ['COMPLETE', '#8ff0c2'],
+  decomposing: ['TO ATOMS', '#c69bff'],
+  assembling: ['TO ATOMS', '#c69bff'],
 };
+const TOP_Y = 1.555; // top of the reactor (where a container can be set down)
 
 /**
  * The Molecular Synthesizer. Drop a molecule into the reactor on top; it is analysed and
@@ -116,11 +121,14 @@ export class Machine extends Entity {
     hctx.font = font(44, 700);
     hctx.textAlign = 'center';
     hctx.textBaseline = 'middle';
-    hctx.fillText('▼ DROP MOLECULE HERE ▼', 256, 64);
+    hctx.font = font(34, 700);
+    hctx.fillText('▼ ATOMS → SUBSTANCE ▼', 256, 40);
+    hctx.fillStyle = '#c69bff';
+    hctx.fillText('or set a filled beaker here', 256, 92);
     const ht = new THREE.CanvasTexture(hc);
     ht.colorSpace = THREE.SRGBColorSpace;
     this.hint = new THREE.Sprite(new THREE.SpriteMaterial({ map: ht, transparent: true, opacity: 0.85, depthWrite: false, toneMapped: false }));
-    this.hint.scale.set(0.34, 0.085, 1);
+    this.hint.scale.set(0.36, 0.09, 1);
     this.hint.position.set(0, 1.7, 0);
     this.hint.userData.noPick = true;
     m.add(this.hint);
@@ -312,7 +320,7 @@ export class Machine extends Entity {
   checkIntake(dt) {
     const intake = this.toWorld(INTAKE, new THREE.Vector3());
     for (const m of this.app.molecules.molecules) {
-      if (m.isHeld || m.absorbing || m.disabled) continue;
+      if (m.isHeld || m.absorbing || m.disabled || (m.noIntakeUntil && performance.now() < m.noIntakeUntil)) continue;
       const d = m.object.position.distanceTo(intake);
       if (d < 0.2) {
         this.absorb(m, intake);
@@ -326,6 +334,7 @@ export class Machine extends Entity {
   }
 
   absorb(m, intake) {
+    this.app.history?.record('Synthesize');
     m.absorbing = { t: 0, from: m.object.position.clone(), to: this.toWorld(new THREE.Vector3(0, 1.4, 0)) };
     if (m.body) m.body.setEnabled(false);
     m.grabbable = false;
@@ -432,6 +441,9 @@ export class Machine extends Entity {
     this.stateT += dt;
     const s = this.state;
 
+    if ((s === 'idle' || s === 'done' || s === 'rejected') && !this.queue.length && !this.isHeld) this.checkTop(dt);
+    if (s === 'decomposing') this.updateDecompose(dt);
+    else if (s === 'assembling') this.updateAssemble(dt);
     if (s === 'idle' || s === 'done' || s === 'rejected') {
       if (this.queue.length && (s !== 'rejected' || this.stateT > 1.5)) {
         const record = this.queue.shift();
@@ -499,6 +511,7 @@ export class Machine extends Entity {
 
   repeat() {
     if (!this.lastProduct || !['idle', 'done', 'rejected'].includes(this.state)) return;
+    this.app.history?.record('Make again');
     this.current = { substance: this.lastProduct };
     this.startProduct(this.lastProduct);
   }
@@ -507,6 +520,8 @@ export class Machine extends Entity {
     if (this.stream) { this.app.fluids.stop(this.stream); this.stream = null; }
     this.queue.length = 0;
     this.current = null;
+    this.decompose = null;
+    this.topContainer = null;
     this.tubeFill = 0;
     this.setState('idle', 'Cancelled. Drop a molecule into the reactor on top.', '#a9c6e6');
   }
@@ -556,13 +571,114 @@ export class Machine extends Entity {
     this.app.events.emit('synthesized', this.current?.substance);
   }
 
+  // ------------------------------------------------------------------------------------
+  // Reverse: a physical substance set on top is broken down into its atoms, which come out
+  // of the bay below.
+
+  containerOnTop() {
+    this.object.updateWorldMatrix(true, false);
+    const inv = this.object.matrixWorld.clone().invert();
+    const up = UP.clone().applyQuaternion(this.object.quaternion);
+    for (const e of this.app.entities) {
+      if (!e.isContainer || e.isHeld || e.removed || e.disabled || e.stasis || e.contents.isEmpty) continue;
+      const local = e.object.position.clone().applyMatrix4(inv);
+      if (Math.hypot(local.x, local.z) > 0.17 || local.y < TOP_Y - 0.05 || local.y > TOP_Y + 0.08) continue;
+      if (e.upVector(new THREE.Vector3()).dot(up) < 0.85) continue;
+      return e;
+    }
+    return null;
+  }
+
+  checkTop(dt) {
+    const c = this.containerOnTop();
+    if (!c) { this.topT = 0; return; }
+    this.topT = (this.topT || 0) + dt;
+    if (this.topT < 0.5) return;
+    this.topT = 0;
+    // Which substances are in it (largest first, up to three kinds).
+    const kinds = [];
+    const all = new Map(c.contents.items);
+    for (const [id, ml] of c.contents.suspended) all.set(id, (all.get(id) || 0) + ml);
+    for (const [id, ml] of [...all].sort((x, y) => y[1] - x[1])) {
+      const sub = SUBSTANCES[id];
+      const spec = moleculeSpecFor(sub);
+      if (!spec || ml < 0.05) continue;
+      if (sub.solution && !kinds.some((k) => k.sub.id === 'water')) {
+        // A solution is the dissolved substance + water.
+        kinds.push({ sub, spec });
+        if (sub.id !== 'water') kinds.push({ sub: SUBSTANCES.water, spec: moleculeSpecFor(SUBSTANCES.water) });
+      } else if (!kinds.some((k) => k.sub === sub)) {
+        kinds.push({ sub, spec });
+      }
+      if (kinds.length >= 3) break;
+    }
+    if (!kinds.length) {
+      this.setState('rejected', 'That substance has no single molecule to rebuild (e.g. foam or smoke).', '#ff9b8f');
+      return;
+    }
+    this.app.history?.record('Turn into atoms');
+    this.topContainer = c;
+    this.decompose = { kinds: kinds.slice(0, 3), total: c.contents.total + c.contents.gasVolume };
+    this.current = { substance: kinds[0].sub };
+    this.setState('decomposing', `Breaking ${kinds[0].sub.name} down into atoms…`, '#c69bff');
+    this.app.audio?.play('suck', { position: this.toWorld(INTAKE), volume: 0.7 });
+    this.app.audio?.play('machineStart', { position: this.object.position, volume: 0.5, rate: 0.8 });
+  }
+
+  updateDecompose(dt) {
+    const c = this.topContainer;
+    if (!c || c.removed) { this.setState('idle'); return; }
+    // Suck the contents out of the container into the reactor.
+    const f = Math.min(1, dt / Math.max(0.05, 1.6 - this.stateT));
+    const m = c.contents;
+    for (const [id, ml] of [...m.items]) m.remove(id, ml * f);
+    for (const [id, ml] of [...m.suspended]) m.remove(id, ml * f);
+    m.foam *= 1 - f;
+    const from = c.liquidSurfacePoint(new THREE.Vector3());
+    const col = new THREE.Color(this.current.substance.phase === 'gas' && this.current.substance.opacity < 0.1 ? '#dfe9f5' : this.current.substance.color);
+    for (let i = 0; i < 3; i++) {
+      this.app.effects.glow.emit(from.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.04, Math.random() * 0.03, (Math.random() - 0.5) * 0.04)),
+        new THREE.Vector3(0, -0.35, 0), col, 0.8, 0.007, 0.5);
+    }
+    if (this.stateT >= 1.6) {
+      m.clear();
+      this.setState('assembling', 'Assembling atoms…', '#c69bff');
+    }
+  }
+
+  updateAssemble() {
+    if (Math.random() < 0.5) {
+      const p = this.toWorld(new THREE.Vector3((Math.random() - 0.5) * 0.25, 0.5 + Math.random() * 0.2, 0.06));
+      this.app.effects.glow.emit(p, new THREE.Vector3(0, 0, 0), 0xc69bff, 0.9, 0.008, 0.4);
+    }
+    if (this.stateT < 0.9) return;
+    const kinds = this.decompose.kinds;
+    const names = [];
+    kinds.forEach((k, i) => {
+      const x = (i - (kinds.length - 1) / 2) * 0.13;
+      const pos = this.toWorld(new THREE.Vector3(x, 0.62, 0.06));
+      const vel = new THREE.Vector3(0, 0.02, 0.18).applyQuaternion(this.object.quaternion);
+      const mol = this.app.molecules.spawnMolecule(k.spec, pos, { velocity: vel });
+      this.app.effects.sparkle(pos, 0xc69bff, 24, 0.08);
+      names.push(`${k.sub.name} → ${mol.displayFormula}`);
+    });
+    this.app.audio?.play('ding', { position: this.object.position, volume: 0.5 });
+    const msg = names.join(' · ');
+    this.app.toasts.show(msg, '#c69bff', 3);
+    this.app.events.emit('decomposed', kinds.map((k) => k.sub));
+    this.decompose = null;
+    this.topContainer = null;
+    this.setState('done', `Turned into atoms: ${msg}. Take them from the bay.`, '#c69bff');
+  }
+
   /** Spit a rejected molecule back out of the reactor. */
   eject(record) {
     const pos = this.toWorld(new THREE.Vector3(0, 1.75, 0.18));
     const specs = record.atoms.map((a) => ({ el: BY_SYMBOL[a.symbol], local: a.local }));
     const mol = Molecule.create(this.app, specs, record.bonds, pos, record.quaternion);
     this.app.addEntity(mol);
-    const fwd = new THREE.Vector3(0, 0.6, 1.0).applyQuaternion(this.object.quaternion).multiplyScalar(0.5);
+    mol.noIntakeUntil = performance.now() + 6000; // don't suck it straight back in
+    const fwd = new THREE.Vector3(0, 0.4, 1.0).applyQuaternion(this.object.quaternion).multiplyScalar(0.9);
     mol.body.setLinvel(fwd, true);
     this.app.effects.sparkle(pos, 0xff7a6a, 20, 0.08);
   }
@@ -572,7 +688,7 @@ export class Machine extends Entity {
 
   updateVisuals(dt) {
     const t = this.time;
-    const busy = ['analyzing', 'synthesizing', 'flowing', 'pouring', 'drain'].includes(this.state);
+    const busy = ['analyzing', 'synthesizing', 'flowing', 'pouring', 'drain', 'decomposing', 'assembling'].includes(this.state);
     this.core.rotation.x = Math.PI / 2 + Math.sin(t * 0.7) * 0.3;
     this.core.rotation.z += dt * (busy ? 6 : 0.8);
     this.core2.rotation.y += dt * (busy ? 9 : 1.2);

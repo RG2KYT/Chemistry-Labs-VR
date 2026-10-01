@@ -103,6 +103,7 @@ export class Equipment extends Entity {
   /** Break apart and disappear. */
   shatter() {
     if (this.removed) return;
+    this.app.history?.record('Broken ' + this.name.toLowerCase());
     const pos = this.worldBounds().getCenter(new THREE.Vector3());
     const size = this.worldBounds().getSize(new THREE.Vector3()).length() * 0.5;
     const vel = this.body ? new THREE.Vector3().copy(this.body.linvel()) : new THREE.Vector3();
