@@ -431,7 +431,7 @@ function convert(mix, tr, amountCondensed, ev) {
 export function phaseChanges(mix, dt, env, ev) {
   const V = Math.max(4, mix.total);
   const envT = env.envTemp ?? AMBIENT;
-  const tau = 35 * Math.sqrt(V / 60);
+  const tau = 35 * Math.sqrt(V / 60) / (env.envCoupling || 1); // fan-forced freezers couple faster
   let q = (envT - mix.temperature) / tau + (env.heatRate || 0) * (60 / V); // °C per second
   let T = mix.temperature;
   let T1 = T + q * dt;

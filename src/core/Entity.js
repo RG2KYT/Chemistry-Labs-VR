@@ -116,6 +116,69 @@ export class Entity {
     if (this.body) {
       this.body.setBodyType(this.app.physics.R.RigidBodyType.KinematicPositionBased, true);
     }
+    if (this.carrier && this.holds.length === 1) this.pickUpCargo();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Carriers (test-tube rack, freezer …): whatever rests in / on them moves with them while
+  // they are held, instead of being shoved around by an unstoppable kinematic body.
+
+  pickUpCargo() {
+    this.dropCargo();
+    this.object.updateWorldMatrix(true, false);
+    _inv.copy(this.object.matrixWorld).invert();
+    _box.copy(this.localBounds).expandByScalar(0.01);
+    _box.max.y += 0.03;
+    this.cargo = [];
+    for (const e of this.app.entities) {
+      if (e === this || e.removed || e.isHeld || e.disabled || !e.body || e.carriedBy || e.kind === 'panel' || e.fixed) continue;
+      if (!e.body.isDynamic?.()) continue;
+      const c = e.worldBounds(new THREE.Box3()).getCenter(_v).applyMatrix4(_inv);
+      if (!_box.containsPoint(c)) continue;
+      e.object.updateWorldMatrix(true, false);
+      const rel = new THREE.Matrix4().multiplyMatrices(_inv, e.object.matrixWorld);
+      e.carriedBy = this;
+      e.body.setBodyType(this.app.physics.R.RigidBodyType.KinematicPositionBased, true);
+      this.cargo.push({ e, rel });
+    }
+  }
+
+  moveCargo(pos, quat) {
+    if (!this.cargo || !this.cargo.length) return;
+    _m.compose(pos, quat, this.object.scale);
+    const m = new THREE.Matrix4();
+    const p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
+    for (let i = this.cargo.length - 1; i >= 0; i--) {
+      const { e, rel } = this.cargo[i];
+      if (e.removed || !e.body || e.isHeld || e.disabled || e.carriedBy !== this) {
+        if (!e.removed && e.carriedBy === this) e.carriedBy = null;
+        this.cargo.splice(i, 1);
+        continue;
+      }
+      m.multiplyMatrices(_m, rel).decompose(p, q, sc);
+      e.body.setNextKinematicTranslation(p);
+      e.body.setNextKinematicRotation(q);
+    }
+  }
+
+  dropCargo(lin = null, ang = null) {
+    if (!this.cargo) return;
+    const R = this.app.physics.R;
+    const c = this.object.position;
+    for (const { e } of this.cargo) {
+      if (e.removed || e.carriedBy !== this) continue;
+      e.carriedBy = null;
+      if (!e.body || e.isHeld) continue;
+      e.body.setBodyType(R.RigidBodyType.Dynamic, true);
+      if (lin) {
+        // Velocity of that point of the carrier: v + ω × r
+        const r = _v.copy(e.object.position).sub(c);
+        const w = ang || { x: 0, y: 0, z: 0 };
+        e.body.setLinvel({ x: lin.x + w.y * r.z - w.z * r.y, y: lin.y + w.z * r.x - w.x * r.z, z: lin.z + w.x * r.y - w.y * r.x }, true);
+        if (ang) e.body.setAngvel(ang, true);
+      }
+    }
+    this.cargo = [];
   }
 
   updateHolds() {
@@ -132,6 +195,7 @@ export class Entity {
     if (this.body) {
       this.body.setNextKinematicTranslation(pos);
       this.body.setNextKinematicRotation(quat);
+      if (this.cargo) this.moveCargo(pos, quat);
     } else {
       this.object.position.copy(pos);
       this.object.quaternion.copy(quat);
@@ -149,6 +213,9 @@ export class Entity {
       if (linVel) this.body.setLinvel(linVel, true);
       if (angVel) this.body.setAngvel(angVel, true);
     }
+    this.releaseT = this.app.elapsed || 0;
+    this.releaseSpeed = linVel ? Math.hypot(linVel.x, linVel.y, linVel.z) : 0;
+    if (this.cargo) this.dropCargo(linVel, angVel);
   }
 
   // ------------------------------------------------------------------------------------
@@ -202,6 +269,7 @@ export class Entity {
     if (this.removed) return;
     this.removed = true;
     for (const rec of this.holds.slice()) this.app.grab.forceRelease(rec.hand);
+    if (this.cargo) this.dropCargo();
     if (this.body) this.app.physics.removeBody(this.body);
     this.body = null;
     this.app.physics.impactListeners.delete(this);

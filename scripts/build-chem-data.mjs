@@ -92,8 +92,19 @@ function ourSmiles(pubchemSmiles) {
   return { smiles: toSmiles(g.atoms, g.bonds), sig: signature(g.atoms, g.bonds), heavy: g.atoms.filter((a) => a.el.symbol !== 'H').length };
 }
 
-const result = { generated: new Date().toISOString(), enrich: {}, compounds: [] };
+// Resumable: progress is saved after every compound, so an interrupted run continues.
+let result = { generated: new Date().toISOString(), enrich: {}, compounds: [], done: [] };
+try {
+  result = { ...result, ...JSON.parse(fs.readFileSync(OUT, 'utf8')) };
+  result.done = result.done || [];
+} catch { /* fresh run */ }
+const done = new Set(result.done);
 const knownSigs = new Map();
+fs.mkdirSync(new URL('../src/chem/data/', import.meta.url), { recursive: true });
+const save = () => fs.writeFileSync(OUT, JSON.stringify(result, null, 1));
+for (const c of result.compounds) {
+  try { knownSigs.set(ourSmiles(c.smiles).sig, c.query); } catch { /* ignore */ }
+}
 
 // (1) existing database entries
 const existing = Object.values(SUBSTANCES).filter((s) => s.smiles);
@@ -102,6 +113,7 @@ for (const s of existing) {
   const g = parseSmiles(s.smiles);
   const smi = toSmiles(g.atoms, g.bonds);
   knownSigs.set(signature(g.atoms, g.bonds), s.id);
+  if (done.has('id:' + s.id)) continue;
   const r = await lookupMolecule(smi, { metal: g.atoms.some((a) => a.el.isMetal) });
   if (r.status === 'found') {
     result.enrich[s.id] = { cid: r.cid, pubchemName: r.name, mp: r.mp, bp: r.bp, density: r.density, info: r.info, describe: r.describe, look: r.look };
@@ -109,12 +121,15 @@ for (const s of existing) {
   } else {
     process.stdout.write(r.status === 'none' ? 'x' : 'E');
   }
+  if (r.status !== 'error') { result.done.push('id:' + s.id); save(); }
   await sleep(250);
 }
 
 // (2) extra compounds by name
 console.log('\nadding', EXTRA.length, 'named compounds');
 for (const name of EXTRA) {
+  if (done.has('name:' + name)) continue;
+  let ok = true;
   try {
     const p = await getJson(`${API}/pug/compound/name/${encodeURIComponent(name)}/property/Title,MolecularFormula,ConnectivitySMILES/JSON`);
     const prop = p?.PropertyTable?.Properties?.[0];
@@ -128,7 +143,7 @@ for (const name of EXTRA) {
     }
     if (knownSigs.has(parsed.sig) || parsed.heavy > 40) { process.stdout.write('='); continue; }
     const r = await lookupMolecule(parsed.smiles);
-    if (r.status !== 'found') { process.stdout.write('x'); continue; }
+    if (r.status !== 'found') { if (r.status === 'error') ok = false; process.stdout.write(r.status === 'error' ? 'E' : 'x'); continue; }
     knownSigs.set(parsed.sig, name);
     result.compounds.push({
       name: r.name, query: name, smiles: parsed.smiles, formula: prop.MolecularFormula, cid: r.cid,
@@ -136,11 +151,14 @@ for (const name of EXTRA) {
     });
     process.stdout.write('+');
   } catch (e) {
+    ok = false;
     process.stdout.write('E');
+  } finally {
+    if (ok) { result.done.push('name:' + name); save(); }
   }
   await sleep(250);
 }
 
-fs.mkdirSync(new URL('../src/chem/data/', import.meta.url), { recursive: true });
-fs.writeFileSync(OUT, JSON.stringify(result, null, 1));
+delete result.done;
+save();
 console.log(`\nwrote ${Object.keys(result.enrich).length} enrichments and ${result.compounds.length} new compounds`);

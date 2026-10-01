@@ -215,6 +215,7 @@ export class Container extends Equipment {
       flame: this.flameContact,
       stirring: this.stirring,
       envTemp: this.envTemp ?? undefined,
+      envCoupling: this.envCoupling || 1,
     });
     this.handleEvents(events, dt);
     this.checkThermalShock();
@@ -230,15 +231,20 @@ export class Container extends Equipment {
     let rate = 0;
     let flame = false;
     let env = null;
+    let coupling = 1;
     for (const src of this.app.heatSources) {
       if (src.removed || src === this) continue;
       const h = src.heatFor(this);
       if (h) {
         rate += h.rate || 0;
         flame = flame || !!h.flame;
-        if (h.env !== undefined) env = env === null ? h.env : Math.min(env, h.env);
+        if (h.env !== undefined) {
+          env = env === null ? h.env : Math.min(env, h.env);
+          coupling = Math.max(coupling, h.coupling || 1);
+        }
       }
     }
+    this.envCoupling = coupling;
     this.heatRate = rate;
     this.flameContact = flame;
     this.envTemp = env;

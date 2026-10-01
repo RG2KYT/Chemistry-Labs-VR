@@ -24,7 +24,7 @@ function containersNear(app, p, exclude) {
 }
 
 /** Small canvas screen helper. */
-class Screen {
+export class Screen {
   constructor(w, h, pxW = 256, pxH = 128) {
     this.canvas = document.createElement('canvas');
     this.canvas.width = pxW;
@@ -86,7 +86,7 @@ const flameFrag = /* glsl */ `
   }
 `;
 
-function flameMesh(radius, height, color, intensity) {
+export function flameMesh(radius, height, color, intensity) {
   const geo = new THREE.ConeGeometry(radius, height, 20, 6, true);
   geo.translate(0, height / 2, 0);
   const mat = new THREE.ShaderMaterial({
@@ -323,6 +323,10 @@ export class Thermometer extends Equipment {
     super.update(dt);
     const p = this.probe(_v);
     let target = 22;
+    for (const b of this.app.heatSources) {
+      const t = b.ambientAt ? b.ambientAt(p) : null;
+      if (t !== null) target = t;
+    }
     for (const c of containersNear(this.app, p, null)) {
       if (c.pointInLiquid(p) || c.pointInSolid(p)) { target = c.contents.temperature; c.stirring = Math.max(c.stirring, 0.1); break; }
     }
@@ -707,6 +711,7 @@ export class Funnel extends Equipment {
 export class TestTubeRack extends Equipment {
   constructor(app, def) {
     super(app, { ...def, material: 'wood', mass: 0.3 });
+    this.carrier = true; // tubes in the rack travel with it
     const W = 0.24, D = 0.06, H = 0.1;
     const wood = M.wood();
     const base = mesh(new THREE.BoxGeometry(W, 0.012, D), wood, 0, 0.006, 0);

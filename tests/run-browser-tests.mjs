@@ -37,7 +37,7 @@ const look = (yaw, pitch, pos) => page.evaluate(({ yaw, pitch, pos }) => {
 }, { yaw, pitch, pos });
 
 // The tests drive the "mouse hand" directly, so switch off real mouse/keyboard input.
-await page.evaluate(() => { window.lab.input.desktop.enabled = false; window.lab.input.desktop.hand.active = true; });
+await page.evaluate(() => { window.lab.input.desktop.enabled = false; window.lab.input.desktop.hand.active = true; window.lab.input.desktop.hand.resetMotion(); });
 
 await test('build water atom by atom and identify it', async () => {
   const r = await page.evaluate(() => {
@@ -319,6 +319,7 @@ await test('panels: carry by a handle, rotate to portrait, no throwing', async (
     const atRelease = panel.object.position.clone();
     for (let i = 0; i < 60; i++) { app.loop(performance.now(), null); }
     delete hand.recordMotion;
+    hand.resetMotion();
     const moved = panel.object.position.distanceTo(atRelease);
     const up = new THREE_V(0, 1, 0).applyQuaternion(panel.object.quaternion);
     return { whileHeld, portrait: panel.portrait, k: panel.k, moved, upY: up.y, displaced: p0.distanceTo(atRelease) };
@@ -486,11 +487,11 @@ await test('holding a container against another combines the physical forms', as
     app.renderEnabled = true;
     const summary = b.contents.summary().map((x) => x.name);
     window.__a = a; window.__b = b;
-    return { combined, aEmpty: a.contents.isEmpty, water: b.contents.amount('water'), summary };
+    return { combined, aEmpty: a.contents.isEmpty, water: b.contents.amount('water'), summary, broken: b.removed };
   });
   assert.ok(r.combined, 'combined');
   assert.ok(r.aEmpty, 'source emptied');
-  assert.ok(r.water > 1, 'hydrogen + oxygen made water: ' + JSON.stringify(r.summary));
+  assert.ok(r.water > 1, 'hydrogen + oxygen made water: ' + JSON.stringify(r));
   await step(page, 0.05);
   await shot('14-combined');
 });

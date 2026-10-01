@@ -26,16 +26,25 @@ function saveCache() {
   } catch { /* storage full or unavailable */ }
 }
 
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function getJson(url, timeout = 9000) {
-  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const t = ctl ? setTimeout(() => ctl.abort(), timeout) : null;
-  try {
-    const res = await fetch(url, ctl ? { signal: ctl.signal } : undefined);
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  } finally {
-    if (t) clearTimeout(t);
+  // PubChem allows ~5 requests/second; it answers 503 when busy, so back off and retry.
+  for (let attempt = 0; ; attempt++) {
+    const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const t = ctl ? setTimeout(() => ctl.abort(), timeout) : null;
+    try {
+      const res = await fetch(url, ctl ? { signal: ctl.signal } : undefined);
+      if (res.status === 404) return null;
+      if ((res.status === 503 || res.status === 429) && attempt < 4) {
+        await wait(800 * (attempt + 1) + Math.random() * 400);
+        continue;
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    } finally {
+      if (t) clearTimeout(t);
+    }
   }
 }
 

@@ -201,3 +201,28 @@ export function glowFor(T) {
   const b = Math.min(1, Math.max(0, (k - 0.55) * 1.6));
   return { r, g, b, intensity: 0.4 + k * 2.2 };
 }
+
+const known = (v) => v !== null && v !== undefined && Number.isFinite(v);
+
+/**
+ * Which states the synthesizer can deliver a substance in. A state is only offered when
+ * the substance really reaches it (a known melting / boiling point); things that
+ * decompose before melting or boiling (sugar, baking soda …) stay in their natural form.
+ */
+export function availableForms(sub) {
+  const base = baseOf(sub);
+  if (!base) return [];
+  const out = new Set([base.phase]);
+  if (/smoke|foam/.test(base.id) || base.mixture) return [...out];
+  if (base.phase === 'gas') {
+    if (known(base.bp)) out.add('liquid');
+    if (known(base.mp) || known(base.bp)) out.add('solid');
+  } else if (base.phase === 'liquid') {
+    if (known(base.mp) || base.solution || base.id === 'water') out.add('solid');
+    if ((known(base.bp) || base.solution) && !base.decomposes) out.add('gas');
+  } else {
+    if (known(base.mp) && !base.decomposes) out.add('liquid');
+    if (known(base.bp) && !base.decomposes) out.add('gas');
+  }
+  return STATES.filter((s) => out.has(s));
+}

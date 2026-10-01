@@ -66,6 +66,9 @@ export class HandBase {
 
   /** Track motion to estimate throw velocities. */
   recordMotion(time) {
+    // A jump of more than 30 cm between frames is a tracking glitch / teleport, not a throw.
+    const last = this._posHist[this._posHist.length - 1];
+    if (last && (last.distanceToSquared(this.gripPosition) > 0.09 || !Number.isFinite(this.gripPosition.x + this.gripPosition.y + this.gripPosition.z))) this.resetMotion();
     this._posHist.push(this.gripPosition.clone());
     this._quatHist.push(this.gripQuaternion.clone());
     this._timeHist.push(time);

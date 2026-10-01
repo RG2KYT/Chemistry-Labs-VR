@@ -6,6 +6,7 @@ import {
   BunsenBurner, HotPlate, Thermometer, PHMeter, Balance, Dropper, WashBottle, StirringRod, Spatula, Funnel,
   TestTubeRack, Tripod, Tongs,
 } from './tools.js';
+import { PortableFreezer, Matchstick, Matchbox } from './coldfire.js';
 
 function mesh(geo, mat, x = 0, y = 0, z = 0) {
   const m = new THREE.Mesh(geo, mat);
@@ -23,6 +24,62 @@ function hullFromProfile(profile, segs = 12) {
     }
   }
   return new Float32Array(pts);
+}
+
+/**
+ * Hollow collider for an open vessel: a floor disk plus a ring of thin slabs along every
+ * segment of the inside profile, so thermometers, stirring rods, matches … really go
+ * inside (a solid collider would shove the vessel away instead).
+ */
+function hollowColliders(cavity, t = 0.0018) {
+  const tw = Math.max(0.0008, t / 2 + 0.0003); // half thickness (≈ the glass wall)
+  // Merge nearly collinear segments to keep the collider count down.
+  const segs = [];
+  for (let i = 1; i < cavity.length; i++) {
+    const a = cavity[i - 1], b = cavity[i];
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (L < 1e-4) continue;
+    const last = segs[segs.length - 1];
+    if (last) {
+      const d0 = [(last.b[0] - last.a[0]) / last.L, (last.b[1] - last.a[1]) / last.L];
+      if (d0[0] * (b[0] - a[0]) / L + d0[1] * (b[1] - a[1]) / L > Math.cos((14 * Math.PI) / 180)) {
+        last.b = b;
+        last.L = Math.hypot(b[0] - last.a[0], b[1] - last.a[1]);
+        continue;
+      }
+    }
+    segs.push({ a, b, L });
+  }
+  const rMax = Math.max(...cavity.map((p) => p[0]));
+  const N = Math.max(10, Math.min(18, Math.round((2 * Math.PI * rMax) / 0.012)));
+  const out = [];
+  const m = new THREE.Matrix4();
+  const er = new THREE.Vector3(), et = new THREE.Vector3(), D = new THREE.Vector3(), Nn = new THREE.Vector3();
+  for (const sg of segs) {
+    const dx = (sg.b[0] - sg.a[0]) / sg.L, dy = (sg.b[1] - sg.a[1]) / sg.L;
+    if (sg.a[0] < 0.002 && Math.abs(dy) < 0.35) {
+      // Floor
+      const y0 = Math.min(sg.a[1], sg.b[1]);
+      const hh = Math.max(y0 / 2, 0.0015);
+      out.push({ type: 'cylinder', hh, r: Math.max(sg.a[0], sg.b[0]) + tw, pos: [0, y0 - hh, 0] });
+      continue;
+    }
+    const rm = (sg.a[0] + sg.b[0]) / 2, ym = (sg.a[1] + sg.b[1]) / 2;
+    const rOut = Math.max(sg.a[0], sg.b[0]) + 2 * tw;
+    const hx = rOut * Math.tan(Math.PI / N) * 1.08;
+    for (let k = 0; k < N; k++) {
+      const th = (k / N) * Math.PI * 2;
+      er.set(Math.cos(th), 0, Math.sin(th));
+      et.set(Math.sin(th), 0, -Math.cos(th)); // = −tangent, keeps the basis right-handed
+      D.copy(er).multiplyScalar(dx).add(new THREE.Vector3(0, dy, 0));
+      Nn.copy(er).multiplyScalar(dy).add(new THREE.Vector3(0, -dx, 0)); // outward normal
+      m.makeBasis(et, D, Nn);
+      const rot = new THREE.Quaternion().setFromRotationMatrix(m);
+      const c = er.clone().multiplyScalar(rm).add(new THREE.Vector3(0, ym, 0)).addScaledVector(Nn, tw);
+      out.push({ type: 'box', hx, hy: sg.L / 2 + tw * 0.5, hz: tw, pos: [c.x, c.y, c.z], rot: { x: rot.x, y: rot.y, z: rot.z, w: rot.w } });
+    }
+  }
+  return out;
 }
 
 function cylinderCavity(r, bottom, top, fillet = 0.002) {
@@ -70,7 +127,9 @@ class Vessel extends Container {
       this.model.add(decal);
     }
     def.extra?.(this.model, this);
-    this.colliderSpecs = def.colliders;
+    // Open vessels get hollow colliders; `keep` lists solid extras (feet, cork rings) to keep.
+    this.colliderSpecs = def.hollow === false ? def.colliders
+      : [...(def.keep || []).map((i) => def.colliders[i]), ...hollowColliders(def.cavity, def.t ?? 0.0018)];
     this.finalize();
   }
 }
@@ -126,6 +185,7 @@ export const CATALOG = [
       ring.rotation.x = Math.PI / 2;
       model.add(ring);
     },
+    keep: [1],
     colliders: [
       { type: 'ball', r: 0.042, pos: [0, 0.044, 0] },
       { type: 'cylinder', hh: 0.008, r: 0.034, pos: [0, 0.008, 0] },
@@ -161,6 +221,7 @@ export const CATALOG = [
       const foot = mesh(new THREE.CylinderGeometry(0.04, 0.042, 0.011, 6), M.plasticBlue(), 0, 0.0055, 0);
       model.add(foot);
     },
+    keep: [0],
     colliders: [
       { type: 'cylinder', hh: 0.0055, r: 0.04, pos: [0, 0.0055, 0] },
       { type: 'cylinder', hh: 0.124, r: 0.0155, pos: [0, 0.135, 0] },
@@ -179,13 +240,13 @@ export const CATALOG = [
     colliders: [{ type: 'hull', points: hullFromProfile([[0.006, 0], [0.025, 0.003], [0.047, 0.015]]) }],
   },
   {
-    id: 'evapdish', name: 'Evaporating dish', category: 'Heating', cls: Vessel, material: 'porcelain', mass: 0.12, capacity: 60,
+    id: 'evapdish', name: 'Evaporating dish', category: 'Heat & cold', cls: Vessel, material: 'porcelain', mass: 0.12, capacity: 60,
     desc: 'Glazed porcelain dish — boil a solution away and crystals remain.',
     cavity: [[0, 0.004], [0.02, 0.0055], [0.036, 0.014], [0.046, 0.03]], t: 0.0028,
     colliders: [{ type: 'hull', points: hullFromProfile([[0.018, 0], [0.038, 0.012], [0.05, 0.031]]) }],
   },
   {
-    id: 'crucible', name: 'Crucible', category: 'Heating', cls: Vessel, material: 'porcelain', mass: 0.05, capacity: 12,
+    id: 'crucible', name: 'Crucible', category: 'Heat & cold', cls: Vessel, material: 'porcelain', mass: 0.05, capacity: 12,
     desc: 'Heat-proof porcelain cup for very hot reactions.',
     cavity: [[0, 0.004], [0.011, 0.0045], [0.0185, 0.04]], t: 0.0025,
     colliders: [{ type: 'hull', points: hullFromProfile([[0.013, 0], [0.021, 0.041]]) }],
@@ -206,9 +267,12 @@ export const CATALOG = [
     ],
   },
   { id: 'funnel', name: 'Funnel', category: 'Glassware', cls: Funnel, desc: 'Pour into narrow necks without spilling.' },
-  { id: 'burner', name: 'Bunsen burner', category: 'Heating', cls: BunsenBurner, desc: 'Press the red valve to light it. Hold samples in the flame for flame tests.' },
-  { id: 'tripod', name: 'Tripod & gauze', category: 'Heating', cls: Tripod, desc: 'Stand a beaker over the burner flame.' },
-  { id: 'hotplate', name: 'Hot plate', category: 'Heating', cls: HotPlate, desc: 'Flameless heating. Press the knob to switch on.' },
+  { id: 'burner', name: 'Bunsen burner', category: 'Heat & cold', cls: BunsenBurner, desc: 'Press the red valve to light it. Hold samples in the flame for flame tests.' },
+  { id: 'tripod', name: 'Tripod & gauze', category: 'Heat & cold', cls: Tripod, desc: 'Stand a beaker over the burner flame.' },
+  { id: 'hotplate', name: 'Hot plate', category: 'Heat & cold', cls: HotPlate, desc: 'Flameless heating. Press the knob to switch on.' },
+  { id: 'freezer', name: 'Portable freezer', category: 'Heat & cold', cls: PortableFreezer, desc: 'Fan-forced −30 °C cool box. Put a beaker inside to freeze it (water → ice). Blue = lid, green = power.' },
+  { id: 'matches', name: 'Matchbox', category: 'Heat & cold', cls: Matchbox, desc: 'Press the red dot to take a match.' },
+  { id: 'match', name: 'Matchstick', category: 'Heat & cold', cls: Matchstick, desc: 'Strike it quickly along the table (or pull the trigger) to light it. Lights flammable liquids and pops hydrogen.' },
   { id: 'thermometer', name: 'Thermometer', category: 'Measuring', cls: Thermometer, desc: 'Dip the bulb into a liquid to read its temperature.' },
   { id: 'phmeter', name: 'pH meter', category: 'Measuring', cls: PHMeter, desc: 'Dip the probe to measure acidity.' },
   { id: 'balance', name: 'Digital balance', category: 'Measuring', cls: Balance, desc: 'Weighs whatever rests on the pan. Blue button = tare.' },
@@ -221,7 +285,7 @@ export const CATALOG = [
 ];
 
 export const CATALOG_BY_ID = Object.fromEntries(CATALOG.map((d) => [d.id, d]));
-export const CATEGORIES = ['All', 'Glassware', 'Heating', 'Measuring', 'Tools'];
+export const CATEGORIES = ['All', 'Glassware', 'Heat & cold', 'Measuring', 'Tools'];
 
 /** Instantiate an item (not yet placed in the world). */
 export function createEquipment(app, id) {

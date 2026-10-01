@@ -130,6 +130,7 @@ const SPECIAL = {
  */
 export function moleculeSpecFor(substance) {
   if (!substance) return null;
+  if (substance.base && SUBSTANCES[substance.base] && SUBSTANCES[substance.base] !== substance) return moleculeSpecFor(SUBSTANCES[substance.base]);
   if (substance.graph) return substance.graph;
   let smiles = substance.smiles || SPECIAL[substance.id];
   if (!smiles && substance.element) {
