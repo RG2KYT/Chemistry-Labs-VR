@@ -11,12 +11,19 @@ function once(key, make) {
 export const M = {
   glass: () => once('glass', () => new THREE.MeshPhysicalMaterial({
     color: 0xf4fbff, metalness: 0, roughness: 0.04, transparent: true, opacity: 0.2,
-    clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 1.8, depthWrite: false, side: THREE.DoubleSide,
+    clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 1.8, depthWrite: false, side: THREE.FrontSide,
     specularIntensity: 1, emissive: 0x000000,
   })),
+  // For open, single-surface glass (no wall thickness) that must be visible from inside too.
+  glassDouble: () => once('glassDouble', () => {
+    const m = M.glass().clone();
+    m.side = THREE.DoubleSide;
+    m.opacity = 0.14;
+    return m;
+  }),
   amberGlass: () => once('amberGlass', () => new THREE.MeshPhysicalMaterial({
     color: 0x9a5a1c, metalness: 0, roughness: 0.06, transparent: true, opacity: 0.62,
-    clearcoat: 1, envMapIntensity: 1.5, depthWrite: false, side: THREE.DoubleSide,
+    clearcoat: 1, envMapIntensity: 1.5, depthWrite: false, side: THREE.FrontSide,
   })),
   porcelain: () => once('porcelain', () => new THREE.MeshPhysicalMaterial({ color: 0xf7f6f1, roughness: 0.18, clearcoat: 0.8, clearcoatRoughness: 0.1 })),
   porcelainMatte: () => once('porcelainMatte', () => new THREE.MeshStandardMaterial({ color: 0xe9e6dc, roughness: 0.75 })),
@@ -32,10 +39,10 @@ export const M = {
   plasticBlue: () => once('plasticBlue', () => new THREE.MeshStandardMaterial({ color: 0x2f7fd8, roughness: 0.4 })),
   plasticDark: () => once('plasticDark', () => new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.5 })),
   plasticTranslucent: () => once('plasticTranslucent', () => new THREE.MeshPhysicalMaterial({
-    color: 0xf3f1ea, roughness: 0.35, transparent: true, opacity: 0.55, depthWrite: false, side: THREE.DoubleSide,
+    color: 0xf3f1ea, roughness: 0.35, transparent: true, opacity: 0.55, depthWrite: false, side: THREE.FrontSide,
   })),
   washBottle: () => once('washBottle', () => new THREE.MeshPhysicalMaterial({
-    color: 0xeef6ff, roughness: 0.4, transparent: true, opacity: 0.6, depthWrite: false, side: THREE.DoubleSide,
+    color: 0xeef6ff, roughness: 0.4, transparent: true, opacity: 0.6, depthWrite: false, side: THREE.FrontSide,
   })),
   cork: () => once('cork', () => new THREE.MeshStandardMaterial({ color: 0xa9784a, roughness: 0.95 })),
   screen: () => once('screen', () => new THREE.MeshBasicMaterial({ color: 0x0b1a12 })),

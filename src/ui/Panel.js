@@ -100,6 +100,7 @@ export class Panel extends Entity {
     this.buildFrame();
     this.buildHandles();
     this.buildScreen();
+    app.uiSurfaces.push(this);
   }
 
   get layoutPortrait() {

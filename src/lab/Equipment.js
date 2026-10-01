@@ -41,7 +41,10 @@ export class Equipment extends Entity {
         o.receiveShadow = true;
       }
     });
+    this.model.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(this.model, true);
+    // Bounds are in the entity's local frame (the model sits at the entity origin).
+    box.applyMatrix4(this.object.matrixWorld.clone().invert());
     this.localBounds.copy(box);
     this.prepareHighlight();
   }

@@ -383,6 +383,19 @@ export class App {
     const map = new Map();
     const scene = new THREE.Scene();
     scene.environment = this.envMap;
+    scene.environmentIntensity = 1.0;
+    // An opaque backdrop matching the cards, so clear glass shows its reflections.
+    const bgc = document.createElement('canvas');
+    bgc.width = bgc.height = 64;
+    const bctx = bgc.getContext('2d');
+    const grad = bctx.createRadialGradient(32, 26, 4, 32, 32, 46);
+    grad.addColorStop(0, '#5d7698');
+    grad.addColorStop(1, '#22304a');
+    bctx.fillStyle = grad;
+    bctx.fillRect(0, 0, 64, 64);
+    const bgTex = new THREE.CanvasTexture(bgc);
+    bgTex.colorSpace = THREE.SRGBColorSpace;
+    scene.background = bgTex;
     scene.add(new THREE.HemisphereLight(0xffffff, 0x8899aa, 1.3));
     const dl = new THREE.DirectionalLight(0xffffff, 1.8);
     dl.position.set(1, 2, 2);
@@ -405,12 +418,14 @@ export class App {
         continue;
       }
       if (e.surface) e.surface.visible = false;
+      // Clear glass is hard to see in a small picture: make it a bit more visible.
+      for (const m of e.highlightMaterials) if (m.transparent && m.opacity < 0.5) m.opacity = 0.3;
       const obj = e.object;
       obj.rotation.set(0.35, -0.6, 0);
       if (['thermometer', 'stirrod', 'spatula', 'tongs', 'dropper'].includes(def.id)) obj.rotation.set(0.2, 0.3, 0.55);
       scene.add(obj);
       obj.updateMatrixWorld(true);
-      const box = new THREE.Box3().setFromObject(obj, true);
+      const box = new THREE.Box3().setFromObject(e.model || obj, true);
       const c = box.getCenter(new THREE.Vector3());
       const rad = box.getSize(new THREE.Vector3()).length() * 0.5;
       const dist = rad / Math.sin(THREE.MathUtils.degToRad(15)) * 0.95;
@@ -431,6 +446,12 @@ export class App {
         img.data.set(pixels.subarray((size - 1 - y) * size * 4, (size - y) * size * 4), y * size * 4);
       }
       ctx.putImageData(img, 0, 0);
+      // Round the corners
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, 22);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
       map.set(def.id, canvas);
       scene.remove(obj);
       e.destroy();
@@ -439,6 +460,7 @@ export class App {
     r.setClearColor(prevClear, prevAlpha);
     r.toneMapping = prevTone;
     rt.dispose();
+    bgTex.dispose();
     return map;
   }
 

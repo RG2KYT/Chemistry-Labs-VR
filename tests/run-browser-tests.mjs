@@ -32,8 +32,12 @@ const look = (yaw, pitch, pos) => page.evaluate(({ yaw, pitch, pos }) => {
   const d = window.lab.input.desktop;
   d.yaw = yaw;
   d.pitch = pitch;
+  window.lab.camera.quaternion.setFromEuler(new window.THREE.Euler(pitch, yaw, 0, 'YXZ'));
   if (pos) window.lab.rig.position.set(pos[0], pos[1], pos[2]);
 }, { yaw, pitch, pos });
+
+// The tests drive the "mouse hand" directly, so switch off real mouse/keyboard input.
+await page.evaluate(() => { window.lab.input.desktop.enabled = false; window.lab.input.desktop.hand.active = true; });
 
 await test('build water atom by atom and identify it', async () => {
   const r = await page.evaluate(() => {
@@ -71,12 +75,17 @@ await test('grab with the mouse hand and bond by proximity', async () => {
     const ms = app.molecules;
     const c = ms.spawnElement('C', new THREE_V(0.4, 1.35, -0.25));
     const hs = [0, 1, 2, 3].map((i) => ms.spawnElement('H', new THREE_V(0.15 + i * 0.12, 1.15, -0.3)));
+    const c0 = c.atoms[0];
     const hand = app.input.desktop.hand;
     const grab = app.grab;
     const results = [];
     for (const h of hs) {
+      hand.gripPosition.copy(h.object.position);
+      hand.gripQuaternion.identity();
+      hand.setButtons(true, true);
       grab.grab(hand, h, h.atoms[0], 'near');
-      const cPos = c.atomWorldPosition(c.atoms[0]);
+      const cm = ms.molecules.find((m) => m.atoms.includes(c0));
+      const cPos = cm.atomWorldPosition(c0);
       // Approach the carbon from a free direction
       const dir = new THREE_V(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
       for (let k = 0; k < 40; k++) {
@@ -86,18 +95,19 @@ await test('grab with the mouse hand and bond by proximity', async () => {
         app.clock.getDelta = () => 1 / 60;
         app.renderEnabled = false;
         app.loop(performance.now(), null);
-        if (h.removed) break;
+        if (h.removed || h.atoms.includes(c0)) break;
       }
       hand.setButtons(false, false);
       app.loop(performance.now(), null);
-      results.push(h.removed);
+      results.push(ms.molecules.find((m) => m.atoms.includes(c0)).atoms.length);
     }
     app.renderEnabled = true;
-    for (let i = 0; i < 90; i++) c.update(1 / 60);
-    window.__methane = c;
-    return { merged: results, name: c.identity.substance?.name, held: !!hand.held };
+    const mol = ms.molecules.find((m) => m.atoms.includes(c0));
+    for (let i = 0; i < 90; i++) mol.update(1 / 60);
+    window.__methane = mol;
+    return { merged: results, name: mol.identity.substance?.name, held: !!hand.held };
   });
-  assert.deepEqual(r.merged, [true, true, true, true], 'all hydrogens bonded');
+  assert.deepEqual(r.merged, [2, 3, 4, 5], 'all hydrogens bonded');
   assert.equal(r.name, 'Methane');
   assert.equal(r.held, false);
   await step(page, 0.1);
@@ -221,35 +231,30 @@ await test('pouring between beakers transfers liquid', async () => {
 await test('acid dissolves what it is poured on, which reforms', async () => {
   const r = await page.evaluate(() => {
     const app = window.lab;
-    const tube = app.entities.find((e) => e.catalogId === 'testtube');
-    const pos0 = tube.object.position.clone();
-    const acid = app.spawnEquipment('beaker100', new THREE_V(0.36, 1.25, -0.84));
-    acid.addSubstance('hydrochloric_acid', 60);
-    acid.body.setBodyType(window.lab.physics.R.RigidBodyType.KinematicPositionBased, true);
-    // Place it above the test tube and tip it over.
-    const above = pos0.clone().add(new THREE_V(-0.06, 0.32, 0));
-    const q = new THREE_Q().setFromAxisAngle(new THREE_V(0, 0, 1), -2.0);
-    acid.body.setNextKinematicTranslation(above);
-    acid.body.setNextKinematicRotation(q);
+    const target = app.entities.find((e) => e.catalogId === 'washbottle');
+    const top = target.worldBounds().max.y;
+    const above = target.object.position.clone();
+    above.y = top + 0.25;
+    let stream = null;
     let dissolving = false;
-    for (let i = 0; i < 150; i++) {
-      acid.body.setNextKinematicTranslation(above);
-      acid.body.setNextKinematicRotation(q);
+    for (let i = 0; i < 90; i++) {
+      const portion = new window.LabMixture();
+      portion.add('hydrochloric_acid', 2);
+      stream = app.fluids.pour(null, stream, above, new THREE_V(0, -0.1, 0), portion, 40);
       app.renderEnabled = false;
       app.clock.getDelta = () => 1 / 60;
       app.loop(performance.now(), null);
-      if (app.dissolver.isDissolving(tube)) dissolving = true;
+      if (app.dissolver.isDissolving(target)) dissolving = true;
     }
-    window.__tube = tube;
-    window.__tubePos = pos0;
-    acid.destroy();
-    return { dissolving, disabled: tube.disabled };
+    app.fluids.stop(stream);
+    window.__target = target;
+    return { dissolving };
   });
-  assert.ok(r.dissolving, 'test tube started dissolving');
+  assert.ok(r.dissolving, 'wash bottle started dissolving');
   await step(page, 0.05);
   await shot('06-acid');
   await step(page, 12);
-  const after = await page.evaluate(() => ({ disabled: window.__tube.disabled, removed: window.__tube.removed, visible: window.__tube.object.visible, active: window.lab.dissolver.isDissolving(window.__tube) }));
+  const after = await page.evaluate(() => ({ disabled: window.__target.disabled, removed: window.__target.removed, visible: window.__target.object.visible, active: window.lab.dissolver.isDissolving(window.__target) }));
   assert.equal(after.removed, false);
   assert.equal(after.visible, true);
   assert.equal(after.disabled, false, 'restored');

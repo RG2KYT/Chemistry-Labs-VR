@@ -82,6 +82,7 @@ const flameFrag = /* glsl */ `
     float h = clamp(vPos.y / uHeight, 0.0, 1.0);
     float a = (1.0 - h) * uIntensity;
     gl_FragColor = vec4(uColor * (1.2 - h * 0.6), a);
+    #include <colorspace_fragment>
   }
 `;
 
@@ -500,7 +501,7 @@ export class Dropper extends Equipment {
     const lv = this.load.liquidVolume;
     this.liquidMesh.visible = lv > 0.02;
     if (look) {
-      this.liquidMat.color.setRGB(look.color[0], look.color[1], look.color[2]);
+      this.liquidMat.color.setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace);
       this.liquidMat.opacity = Math.min(0.95, look.opacity + 0.3);
     }
     this.liquidMesh.scale.y = 0.05 * Math.min(1, lv / this.capacityMl) + 0.0001;

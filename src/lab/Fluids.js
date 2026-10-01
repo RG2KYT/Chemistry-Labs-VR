@@ -111,9 +111,18 @@ export class Fluids {
           const o = P.ownerOf(col);
           return !(o && o.kind === 'molecule');
         });
-        if (r && (!best || r.toi / len < best.f)) {
+        if (r && (!best || r.toi / len < best.f - 1e-4)) {
           const owner = r.owner && r.owner !== 'static' ? r.owner : null;
-          best = { f: r.toi / len, kind: owner && owner.kind !== 'static' && owner.kind !== 'room' ? 'entity' : 'surface', target: owner, point: new THREE.Vector3(r.point.x, r.point.y, r.point.z), normal: new THREE.Vector3(r.normal.x, r.normal.y, r.normal.z) };
+          const point = new THREE.Vector3(r.point.x, r.point.y, r.point.z);
+          best = { f: r.toi / len, kind: owner && owner.kind !== 'static' && owner.kind !== 'room' ? 'entity' : 'surface', target: owner, point, normal: new THREE.Vector3(r.normal.x, r.normal.y, r.normal.z) };
+          // Landing on the (solid) collider cap of an open vessel = landing in its opening.
+          if (owner && owner.isContainer && owner !== stream.source) {
+            const rim = owner.rim();
+            const along = point.clone().sub(rim.center);
+            const h = along.dot(rim.normal);
+            const radial = along.addScaledVector(rim.normal, -h).length();
+            if (rim.normal.y > 0.3 && Math.abs(h) < 0.015 && radial < rim.radius) best.kind = 'container';
+          }
         }
       }
       if (best) {
@@ -154,7 +163,7 @@ export class Fluids {
       }
       // Splash droplets at the impact point
       if (hit && hit.kind !== 'container' && Math.random() < dt * 30 && look) {
-        const c = new THREE.Color().setRGB(look.color[0], look.color[1], look.color[2]);
+        const c = new THREE.Color().setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace);
         const v = new THREE.Vector3((Math.random() - 0.5) * 0.6, 0.4 + Math.random() * 0.4, (Math.random() - 0.5) * 0.6);
         this.app.effects.droplet(hit.point.clone().add(new THREE.Vector3(0, 0.005, 0)), v, c, 0.003, 0.6);
       } else if (hit && hit.kind === 'container' && Math.random() < dt * 20 && look) {
@@ -206,7 +215,7 @@ export class Fluids {
     if (!mixture || mixture.total <= 0) return;
     const look = granular ? null : mixture.liquidLook();
     const floorY = this.app.effects.floorBelow(point);
-    const color = look ? new THREE.Color().setRGB(look.color[0], look.color[1], look.color[2]) : new THREE.Color(mixture.dominant('solid')?.color || '#ffffff');
+    const color = look ? new THREE.Color().setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace) : new THREE.Color(mixture.dominant('solid')?.color || '#ffffff');
     for (let i = 0; i < Math.min(30, 6 + mixture.total * 0.3); i++) {
       const v = new THREE.Vector3((Math.random() - 0.5) * 1.2, Math.random() * 1.2, (Math.random() - 0.5) * 1.2);
       this.app.effects.droplet(point.clone(), v, color, 0.003 + Math.random() * 0.004, 1);
@@ -243,7 +252,7 @@ export class Fluids {
     }
     p.volume += lv;
     if (look) {
-      p.mesh.material.color.setRGB(look.color[0], look.color[1], look.color[2]);
+      p.mesh.material.color.setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace);
       p.baseOpacity = Math.min(0.9, look.opacity + 0.25);
     }
     if (corrosive && !p.corrosive) {
@@ -265,7 +274,7 @@ export class Fluids {
     const g = s.mesh.geometry;
     const pos = g.attributes.position;
     const n = points.length;
-    const r0 = THREE.MathUtils.clamp(Math.sqrt(Math.max(1, s.rate) / 900) * 0.0065, 0.0012, 0.0075) * (s.active ? 1 : Math.max(0.1, 1 - s.tail * 4));
+    const r0 = THREE.MathUtils.clamp(Math.sqrt(Math.max(1, s.rate) / 900) * 0.011, 0.0012, 0.008) * (s.active ? 1 : Math.max(0.1, 1 - s.tail * 4));
     const v0 = Math.max(0.2, s.vel.length());
     const tangent = new THREE.Vector3();
     const normal = new THREE.Vector3();
@@ -294,7 +303,7 @@ export class Fluids {
     g.computeVertexNormals();
     g.computeBoundingSphere();
     if (look) {
-      s.mesh.material.color.setRGB(look.color[0], look.color[1], look.color[2]);
+      s.mesh.material.color.setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace);
       s.mesh.material.opacity = Math.min(0.95, look.opacity + 0.3);
       s.mesh.material.metalness = look.metalness || 0;
     }

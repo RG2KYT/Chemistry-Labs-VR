@@ -176,7 +176,7 @@ export class XRHandInput extends HandBase {
       index.getWorldPosition(_v2);
       this.gripPosition.copy(_v1).add(_v2).multiplyScalar(0.5);
     }
-    this.reach = mode === 'fist' ? 0.075 : 0.045;
+    this.reach = mode === 'fist' ? 0.075 : 0.055;
 
     this.pokeTip = this.pokeTip || new THREE.Vector3();
     index.getWorldPosition(this.pokeTip);

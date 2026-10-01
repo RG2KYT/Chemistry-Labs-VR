@@ -131,7 +131,7 @@ src/
   audio/Sound.js        procedurally synthesised, spatial sound effects
 ```
 
-- `npm test` runs the chemistry unit tests and the headless-browser tests. The browser tests run against a production build served with `npm run build && npx vite preview`.
+- `npm test` runs the chemistry unit tests, the headless-browser scenario tests and the emulated-Quest-3 XR tests. The last two run against a production build served on port 4173: `npm run build && npx vite preview --port 4173`.
 - Adding `?emulate=1` to the URL loads Meta's Immersive Web Emulation Runtime, which emulates a Quest 3 on a desktop browser. Use `?emulate=1&room=living_room` to add a synthetic room for the mixed-reality modes.
 
 Built with [three.js](https://threejs.org/) and the [Rapier](https://rapier.rs/) physics engine.

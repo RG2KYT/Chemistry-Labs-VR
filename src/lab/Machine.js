@@ -98,7 +98,7 @@ export class Machine extends Entity {
     add(new THREE.CylinderGeometry(0.011, 0.005, 0.02, 20), M.chrome(), NOZZLE.x, NOZZLE.y + 0.01, NOZZLE.z);
     // Reactor
     add(new THREE.CylinderGeometry(0.2, 0.21, 0.04, 48), M.chrome(), 0, 1.3, 0);
-    const glass = add(new THREE.CylinderGeometry(0.16, 0.16, 0.22, 48, 1, true), M.glass(), 0, 1.43, 0);
+    const glass = add(new THREE.CylinderGeometry(0.16, 0.16, 0.22, 48, 1, true), M.glassDouble(), 0, 1.43, 0);
     glass.renderOrder = 3;
     this.intakeMat = new THREE.MeshBasicMaterial({ color: 0x2fbfff, toneMapped: false });
     const intake = add(new THREE.TorusGeometry(0.16, 0.012, 12, 64), this.intakeMat, 0, 1.54, 0);

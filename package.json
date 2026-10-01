@@ -11,7 +11,8 @@
     "preview": "vite preview --host",
     "test:chem": "node tests/chem.test.mjs",
     "test:browser": "node tests/run-browser-tests.mjs",
-    "test": "npm run test:chem && npm run test:browser"
+    "test": "npm run test:chem && npm run test:browser && npm run test:xr",
+    "test:xr": "node tests/run-xr-tests.mjs"
   },
   "license": "MIT",
   "dependencies": {

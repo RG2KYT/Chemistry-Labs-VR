@@ -102,13 +102,15 @@ const frames = (page, n) => page.evaluate((n) => new Promise((resolve) => {
       c.quaternion.set(q.x, q.y, q.z, q.w);
     });
     await frames(page, 6);
-    // Push it through the screen
-    for (let i = 0; i < 8; i++) {
-      await page.evaluate(() => {
+    // Push the controller tip (poke point) through the tile, correcting for the tip offset.
+    for (let i = 0; i <= 10; i++) {
+      await page.evaluate((i) => {
+        const hand = window.lab.input.xrHands.find((h) => h.handedness === 'left');
         const c = window.xrDevice.controllers.left;
-        const n = window.__pokeNormal;
-        c.position.set(c.position.x - n.x * 0.01, c.position.y - n.y * 0.01, c.position.z - n.z * 0.01);
-      });
+        const want = window.__pokeTarget.clone().addScaledVector(window.__pokeNormal, 0.05 - i * 0.007);
+        const delta = want.sub(hand.pokeTip);
+        c.position.set(c.position.x + delta.x, c.position.y + delta.y, c.position.z + delta.z);
+      }, i);
       await frames(page, 2);
     }
     const sel = await page.evaluate(() => window.lab.periodicPanel.selected.symbol);
@@ -131,6 +133,22 @@ const frames = (page, n) => page.evaluate((n) => new Promise((resolve) => {
       return app.entities.filter((e) => e.kind === 'equipment').length;
     });
     await frames(page, 6);
+    // Correct for the angle between the grip and the target ray so the laser hits the card.
+    for (let i = 0; i < 3; i++) {
+      await page.evaluate(() => {
+        const app = window.lab;
+        const hand = app.input.xrHands.find((h) => h.handedness === 'right');
+        const panel = app.equipmentPanel;
+        const btn = panel.buttons.find((b) => b.id.startsWith('item-'));
+        const target = panel.screen.localToWorld(panel.pxToLocal(btn.x + btn.w / 2, btn.y + btn.h / 2, new THREE_V()));
+        const want = target.clone().sub(hand.rayOrigin).normalize();
+        const fix = new THREE_Q().setFromUnitVectors(hand.rayDirection.clone().normalize(), want);
+        const c = window.xrDevice.controllers.right;
+        const q = new THREE_Q(c.quaternion.x, c.quaternion.y, c.quaternion.z, c.quaternion.w).premultiply(fix);
+        c.quaternion.set(q.x, q.y, q.z, q.w);
+      });
+      await frames(page, 3);
+    }
     await page.evaluate(() => window.xrDevice.controllers.right.updateButtonValue('trigger', 1));
     await frames(page, 4);
     await page.screenshot({ path: `${OUT}/xr-02-laser.png` });
@@ -186,10 +204,14 @@ const frames = (page, n) => page.evaluate((n) => new Promise((resolve) => {
     await frames(page, 10);
     const kinds = await page.evaluate(() => window.lab.input.xrHands.map((h) => h.kind));
     assert.ok(kinds.every((k) => k === 'hand'), 'hands active: ' + kinds);
-    // Spawn an atom right at the right hand's pinch point
+    // Find where the fingers meet, open the hand, put an atom there, then pinch it.
+    await page.evaluate(() => window.xrDevice.hands.right.updatePinchValue(1));
+    await frames(page, 4);
+    await page.evaluate(() => { window.__pinchAt = window.lab.input.xrHands.find((x) => x.handedness === 'right').gripPosition.clone(); });
+    await page.evaluate(() => window.xrDevice.hands.right.updatePinchValue(0));
+    await frames(page, 4);
     await page.evaluate(() => {
-      const h = window.lab.input.xrHands.find((x) => x.handedness === 'right');
-      window.__atom = window.lab.molecules.spawnElement('C', h.gripPosition.clone());
+      window.__atom = window.lab.molecules.spawnElement('C', window.__pinchAt.clone());
     });
     await frames(page, 3);
     await page.evaluate(() => window.xrDevice.hands.right.updatePinchValue(1));

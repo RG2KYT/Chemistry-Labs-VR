@@ -53,7 +53,7 @@ export class Container extends Equipment {
     this.clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     this.liquidMat = new THREE.MeshPhysicalMaterial({
       color: 0xd6ecff, transparent: true, opacity: 0.3, roughness: 0.06, metalness: 0,
-      clearcoat: 0.4, depthWrite: false, clippingPlanes: [this.clipPlane], side: THREE.FrontSide, envMapIntensity: 1.2,
+      clearcoat: 0.15, depthWrite: false, clippingPlanes: [this.clipPlane], side: THREE.FrontSide, envMapIntensity: 0.9,
     });
     this.liquid = new THREE.Mesh(cavityFillGeometry(this.cavity, 0.0007, 36), this.liquidMat);
     this.liquid.renderOrder = 1;
@@ -81,6 +81,7 @@ export class Container extends Equipment {
     this.solidTop.userData.noPick = true;
     this.solidTop.userData.noHighlight = true;
     this.solidTop.visible = false;
+    this.solidTop.scale.setScalar(0.001);
     this.crystals = null;
 
     // Gas: tinted volume
@@ -97,6 +98,7 @@ export class Container extends Equipment {
     this.foamMesh.userData.noPick = true;
     this.foamMesh.userData.noHighlight = true;
     this.foamMesh.visible = false;
+    this.foamMesh.scale.setScalar(0.001);
 
     this.object.add(this.liquid, this.solid, this.solidTop, this.gas, this.foamMesh);
     // The surface disc lives in world space (it is always horizontal).
@@ -473,10 +475,14 @@ export class Container extends Equipment {
     if (showLiquid) {
       const look = c.liquidLook();
       if (look) {
-        this.liquidMat.color.setRGB(look.color[0], look.color[1], look.color[2]);
+        this.liquidMat.color.setRGB(look.color[0], look.color[1], look.color[2], THREE.SRGBColorSpace);
         this.liquidMat.opacity = Math.min(0.96, look.opacity);
         this.liquidMat.metalness = look.metalness;
         this.liquidMat.roughness = look.metalness > 0.5 ? 0.08 : 0.05;
+        // Dark, opaque liquids (bromine, permanganate…) should not be washed out by reflections.
+        const lum = 0.2126 * look.color[0] + 0.7152 * look.color[1] + 0.0722 * look.color[2];
+        this.liquidMat.envMapIntensity = look.metalness > 0.5 ? 1.4 : look.opacity > 0.6 ? 0.25 + lum * 0.6 : 0.9;
+        this.surfaceMat.envMapIntensity = this.liquidMat.envMapIntensity;
         this.surfaceMat.color.copy(this.liquidMat.color);
         this.surfaceMat.opacity = Math.min(0.97, look.opacity * 1.25 + 0.05);
         this.surfaceMat.metalness = look.metalness;
@@ -499,15 +505,20 @@ export class Container extends Equipment {
       this.surface.position.y = levelY;
       const yaw = Math.atan2(up.x, up.z);
       this.surface.rotation.set(0, yaw, 0);
-      this.surface.scale.set(r, 1, r / cosT);
-      this.surface.visible = up.y > 0.02 || lv > 0.5;
+      // The ellipse is exact while the surface only touches the side wall; near the bottom
+      // (little liquid, steep tilt) limit the stretch so it stays inside the glass.
+      const tanT = Math.sqrt(Math.max(0, 1 - cosT * cosT)) / cosT;
+      const room = Math.max(0, hl - this.bottomY);
+      const stretch = Math.min(1 / cosT, 1 + room / Math.max(1e-3, r * Math.max(1e-3, tanT)) * (1 / cosT - 1));
+      this.surface.scale.set(r, 1, r * Math.max(1, stretch));
+      this.surface.visible = up.y > 0.05 && lv > 0.3;
     }
 
     // Gas
     const gl = c.gasLook();
     this.gas.visible = !!gl && gl.opacity * gl.volume > 0.5;
     if (this.gas.visible) {
-      this.gasMat.color.setRGB(gl.color[0], gl.color[1], gl.color[2]);
+      this.gasMat.color.setRGB(gl.color[0], gl.color[1], gl.color[2], THREE.SRGBColorSpace);
       this.gasMat.opacity = Math.min(0.75, gl.opacity * Math.min(1.5, gl.volume / (this.capacity * 0.6)));
     }
 
