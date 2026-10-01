@@ -1,0 +1,29 @@
+{
+  "name": "chemistry-labs-vr",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A WebXR chemistry lab for Meta Quest 3 — build molecules atom by atom, synthesize real substances and experiment with lab equipment.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:quest": "vite --https",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "test:chem": "node tests/chem.test.mjs",
+    "test:browser": "node tests/run-browser-tests.mjs",
+    "test": "npm run test:chem && npm run test:browser"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.21.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@iwer/sem": "^2.5.0",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@webxr-input-profiles/assets": "^1.0.20",
+    "iwer": "^2.5.0",
+    "playwright-core": "^1.63.0",
+    "vite": "^8.3.2"
+  }
+}
