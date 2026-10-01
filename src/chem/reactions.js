@@ -4,6 +4,7 @@
 
 import { SUBSTANCES, findSalt, FLAME_COLORS } from './substances.js';
 import { AMBIENT } from './Mixture.js';
+import { baseOf, phaseAt, variantId, latentHeat } from './phases.js';
 
 const ACTIVITY = ['Cs', 'Rb', 'K', 'Na', 'Li', 'Ba', 'Sr', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Pb', 'H', 'Cu', 'Ag', 'Hg', 'Pt', 'Au'];
 const WATER_RATE = { Li: 0.35, Na: 1.1, K: 2.4, Rb: 5, Cs: 8, Fr: 8, Ca: 0.25, Sr: 0.4, Ba: 0.6 };
@@ -284,33 +285,8 @@ export function react(mix, dt, env = {}) {
     }
   }
 
-  // --- Heating, boiling, sublimation --------------------------------------------------
-  const v = vol();
-  if (env.heatRate) mix.temperature += env.heatRate * (60 / v) * dt;
-  mix.temperature += (AMBIENT - mix.temperature) * 0.02 * dt * (v < 20 ? 3 : 1);
-  // Boiling: the most volatile liquid boils first and pins the temperature.
-  let minBp = Infinity, boiler = null;
-  for (const [id, ml, s] of entries()) {
-    if (s.phase !== 'liquid' || ml < 0.05 || s.bp === null || s.bp === undefined) continue;
-    if (s.bp < minBp) { minBp = s.bp; boiler = [id, ml, s]; }
-  }
-  if (boiler && mix.temperature >= minBp) {
-    mix.temperature = minBp;
-    const r = Math.min(boiler[1], (0.4 + Math.max(0, env.heatRate || 0) * 0.25) * dt);
-    mix.remove(boiler[0], r);
-    if (boiler[2].solution) {
-      // Evaporating a solution leaves the dissolved salt behind as crystals.
-      const solute = Object.values(SUBSTANCES).find((x) => x.aq === boiler[0]);
-      if (solute) mix.add(solute.id, r * 0.2);
-    }
-    mix.add('steam', r * 20);
-    ev.push({ type: 'boil', intensity: Math.min(1, 0.4 + (env.heatRate || 0) / 4) });
-  }
-  if (mix.amount('elem:I') > 0 && mix.temperature > 90) {
-    const r = Math.min(mix.amount('elem:I'), 0.2 * dt);
-    mix.remove('elem:I', r);
-    mix.add('iodine_vapor', r * 30);
-  }
+  // --- Temperature & changes of state -------------------------------------------------
+  phaseChanges(mix, dt, env, ev);
 
   // --- Gas escape, settling, foam decay ----------------------------------------------
   for (const [id, ml, s] of entries()) {
@@ -398,4 +374,95 @@ export function combineSynthesis(mix) {
     }
   }
   return ev;
+}
+
+// ---------------------------------------------------------------------------------------
+// Heat flow and changes of state (melting, freezing, boiling, condensing, sublimation).
+// Heat comes from the surroundings (room, freezer) and from heat sources; while something
+// is changing state the temperature stays pinned at its melting / boiling point.
+
+const GAS_EXPANSION = 20; // mL of gas per mL of liquid/solid (lab scale)
+
+function transitionsAt(mix, heating) {
+  const list = [];
+  for (const [id, ml] of mix.items) {
+    if (ml < 0.01) continue;
+    const s = SUBSTANCES[id];
+    const base = baseOf(s);
+    if (heating) {
+      if (s.phase === 'solid' && base.mp !== null && base.mp !== undefined) {
+        const sublimes = base.bp !== null && base.bp !== undefined && base.bp <= base.mp;
+        list.push({ id, s, base, t: sublimes ? base.bp : base.mp, to: sublimes ? 'gas' : 'liquid' });
+      } else if (s.phase === 'liquid' && base.bp !== null && base.bp !== undefined) {
+        list.push({ id, s, base, t: base.bp, to: 'gas' });
+      } else if (s.phase === 'solid' && base.bp !== null && base.bp !== undefined && (base.mp === null || base.mp === undefined)) {
+        list.push({ id, s, base, t: base.bp, to: 'gas' });
+      }
+    } else {
+      if (s.phase === 'liquid' && base.mp !== null && base.mp !== undefined) list.push({ id, s, base, t: base.mp, to: 'solid' });
+      else if (s.phase === 'gas' && base.bp !== null && base.bp !== undefined && !(base.mp !== null && base.mp !== undefined && base.bp <= base.mp)) {
+        list.push({ id, s, base, t: base.bp, to: 'liquid' });
+      }
+    }
+  }
+  return list;
+}
+
+function convert(mix, tr, amountCondensed, ev) {
+  // amountCondensed is measured in condensed (liquid/solid) mL.
+  const { id, s, base, to } = tr;
+  const have = s.phase === 'gas' ? mix.amount(id) / GAS_EXPANSION : mix.amount(id);
+  const n = Math.min(have, amountCondensed);
+  if (n <= 0) return 0;
+  mix.remove(id, s.phase === 'gas' ? n * GAS_EXPANSION : n);
+  if (to === 'gas' && s.solution) {
+    // Boiling a solution: the water leaves as steam, the dissolved salt stays as crystals.
+    const solute = Object.values(SUBSTANCES).find((x) => x.aq === base.id);
+    if (solute) mix.add(solute.id, n * 0.2);
+    mix.add('steam', n * GAS_EXPANSION);
+  } else {
+    const target = variantId(base.id, to);
+    mix.add(target, to === 'gas' ? n * GAS_EXPANSION : n);
+  }
+  ev.push({ type: to === 'gas' ? 'boil' : s.phase === 'gas' ? 'condense' : to === 'liquid' ? 'melt' : 'freeze', intensity: Math.min(1, 0.3 + n * 4), id });
+  return n;
+}
+
+export function phaseChanges(mix, dt, env, ev) {
+  const V = Math.max(4, mix.total);
+  const envT = env.envTemp ?? AMBIENT;
+  const tau = 35 * Math.sqrt(V / 60) / (env.envCoupling || 1); // fan-forced freezers couple faster
+  let q = (envT - mix.temperature) / tau + (env.heatRate || 0) * (60 / V); // °C per second
+  let T = mix.temperature;
+  let T1 = T + q * dt;
+  if (!Number.isFinite(T1)) T1 = AMBIENT;
+  const heating = T1 > T;
+  const trs = transitionsAt(mix, heating).filter((tr) => (heating ? tr.t <= T1 && T <= tr.t + 0.5 : tr.t >= T1 && T >= tr.t - 0.5));
+  if (trs.length) {
+    trs.sort((a, b) => (heating ? a.t - b.t : b.t - a.t));
+    const tr = trs[0];
+    const energy = Math.abs(T1 - (heating ? Math.max(T, tr.t) : Math.min(T, tr.t))) * V; // °C·mL
+    const L = latentHeat(tr.base, (tr.s.phase === 'gas' || tr.to === 'gas') ? 'vaporisation' : 'fusion');
+    convert(mix, tr, energy / L + (Math.abs(T - tr.t) < 1 ? 0.002 * dt : 0), ev);
+    T = tr.t;
+  } else {
+    T = T1;
+  }
+  mix.temperature = T;
+  // Natural evaporation of very volatile liquids below their boiling point (e.g. ether).
+  for (const [id, ml] of [...mix.items]) {
+    const s = SUBSTANCES[id];
+    const base = baseOf(s);
+    if (s.phase !== 'liquid' || base.bp === null || base.bp === undefined || base.solution || base.acid || base.base || base.pH !== null || id === 'water') continue;
+    if (base.bp < 60 && T < base.bp) {
+      const r = Math.min(ml, (0.004 + (60 - base.bp) * 0.0004) * dt * ml);
+      mix.remove(id, r);
+      if (r > 0.001) mix.add(variantId(base.id, 'gas'), r * GAS_EXPANSION);
+    }
+  }
+}
+
+/** Is a substance in the state it naturally has at this temperature? */
+export function stableAt(s, T) {
+  return phaseAt(baseOf(s), T) === s.phase;
 }

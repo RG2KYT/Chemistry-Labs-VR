@@ -76,6 +76,7 @@ export class History {
         contents: e.contents ? mixtureState(saved?.contents || e.contents) : null,
         load: e.load ? mixtureState(e.load) : null,
         on: !!e.on,
+        extra: e.saveState ? e.saveState() : null,
         stasis: e.stasis,
       };
     });
@@ -122,6 +123,7 @@ export class History {
         if (s.contents && e.contents) restoreMixture(e.contents, s.contents);
         if (s.load && e.load) restoreMixture(e.load, s.load);
         if (s.on && e.toggle) e.toggle(true);
+        if (s.extra && e.loadState) e.loadState(s.extra);
       }
       app.machine.lastProduct = state.machine.lastProduct ? SUBSTANCES[state.machine.lastProduct] : null;
       app.machine.amountIndex = state.machine.amountIndex;

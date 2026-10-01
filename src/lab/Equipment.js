@@ -85,11 +85,35 @@ export class Equipment extends Entity {
     const threshold = BREAK_SPEED[this.material] ?? 6;
     // Very soft things (molecules) never break glass.
     if (other && other.kind === 'molecule') return;
+    // Things pushed into each other by a hand (an unstoppable kinematic body) or released
+    // while overlapping get a depenetration kick far faster than anything really moved.
+    // Only count what is physically possible: the hand's speed, or the throw speed plus
+    // what gravity added since the release.
+    const now = performance.now();
+    let cap = Infinity;
+    if (other && other.isHeld && other.body) {
+      const v = other.body.linvel();
+      cap = Math.hypot(v.x, v.y, v.z) + 0.3;
+    }
+    for (const e of [this, other]) {
+      const since = (this.app.elapsed || 0) - (e?.releaseT ?? -1e9);
+      if (e && since < 0.4) {
+        cap = Math.min(cap, (e.releaseSpeed || 0) + 9.81 * since + 0.5);
+      }
+    }
+    if (cap < Infinity && speed > cap) {
+      speed = cap;
+      if (this.body) {
+        const v = this.body.linvel();
+        const m = Math.hypot(v.x, v.y, v.z);
+        const lim = cap + 0.5;
+        if (m > lim) this.body.setLinvel({ x: (v.x * lim) / m, y: (v.y * lim) / m, z: (v.z * lim) / m }, true);
+      }
+    }
     if (this.breakable && speed > threshold) {
       this.shatter();
       return;
     }
-    const now = performance.now();
     if (speed > 0.55 && now - this.lastImpactSound > 120) {
       this.lastImpactSound = now;
       this.app.audio?.play(IMPACT_SOUND[this.material] || 'thud', {

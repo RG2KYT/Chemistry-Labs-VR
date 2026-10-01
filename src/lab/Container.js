@@ -3,6 +3,7 @@ import { Equipment } from './Equipment.js';
 import { Mixture } from '../chem/Mixture.js';
 import { react } from '../chem/reactions.js';
 import { SUBSTANCES } from '../chem/substances.js';
+import { glowFor } from '../chem/phases.js';
 import { cavityFillGeometry, volumeTable, radiusAt } from './materials.js';
 import { font, roundRect } from '../ui/canvasUtil.js';
 
@@ -18,7 +19,12 @@ const CRYSTAL_GEOS = {
   pellets: new THREE.SphereGeometry(0.6, 10, 6).scale(1, 0.45, 1),
   metal: new THREE.IcosahedronGeometry(0.6, 0),
   chunk: new THREE.DodecahedronGeometry(0.6, 0),
+  ice: new THREE.BoxGeometry(1, 0.9, 1),
+  needles: new THREE.CylinderGeometry(0.16, 0.16, 1.7, 6),
+  flakes: new THREE.BoxGeometry(1.1, 0.12, 0.8),
+  glassy: new THREE.DodecahedronGeometry(0.6, 0),
 };
+const THERMAL_LIMIT = { glass: 600, plastic: 160, porcelain: 1650 };
 
 /**
  * Glassware that holds substances. Liquids are rendered with a world-space clipping plane
@@ -208,8 +214,11 @@ export class Container extends Equipment {
       heatRate: this.heatRate,
       flame: this.flameContact,
       stirring: this.stirring,
+      envTemp: this.envTemp ?? undefined,
+      envCoupling: this.envCoupling || 1,
     });
     this.handleEvents(events, dt);
+    this.checkThermalShock();
     if (this.contents.foam > 0) this.updateFoamOverflow(dt);
 
     this.updatePouring(dt);
@@ -221,16 +230,24 @@ export class Container extends Equipment {
   updateHeat() {
     let rate = 0;
     let flame = false;
+    let env = null;
+    let coupling = 1;
     for (const src of this.app.heatSources) {
       if (src.removed || src === this) continue;
       const h = src.heatFor(this);
       if (h) {
-        rate += h.rate;
-        flame = flame || h.flame;
+        rate += h.rate || 0;
+        flame = flame || !!h.flame;
+        if (h.env !== undefined) {
+          env = env === null ? h.env : Math.min(env, h.env);
+          coupling = Math.max(coupling, h.coupling || 1);
+        }
       }
     }
+    this.envCoupling = coupling;
     this.heatRate = rate;
     this.flameContact = flame;
+    this.envTemp = env;
   }
 
   handleEvents(events, dt) {
@@ -322,6 +339,19 @@ export class Container extends Equipment {
       if (Math.random() < dt * 6) fx.smoke(sp.clone().add(new THREE.Vector3(0, 0.12, 0)), 0x777777, 0.15, 0.03);
     }
     this.burningColor = burning;
+  }
+
+  /** Glass cracks when it gets far too hot (molten metals belong in a crucible). */
+  checkThermalShock() {
+    const limit = THERMAL_LIMIT[this.material];
+    if (!limit || this.removed) return;
+    if (this.contents.temperature > limit && !this.contents.isEmpty) {
+      const msg = this.material === 'plastic'
+        ? `The plastic melted at ${Math.round(this.contents.temperature)} °C!`
+        : `The ${this.name.toLowerCase()} cracked from the heat (${Math.round(this.contents.temperature)} °C). Use a crucible for molten metal.`;
+      this.app.toasts.show(msg, '#ffb35a', 3.5);
+      this.shatter();
+    }
   }
 
   setLoop(name, vol, pos) {
@@ -453,19 +483,33 @@ export class Container extends Equipment {
       this.solidTopMat.color.copy(this.solidMat.color);
       this.solidTopMat.metalness = this.solidMat.metalness;
       this.solidTopMat.roughness = this.solidMat.roughness;
-      if (s.emissive) {
+      const glow = glowFor(c.temperature);
+      if (glow) {
+        this.solidMat.emissive.setRGB(glow.r, glow.g, glow.b);
+        this.solidMat.emissiveIntensity = glow.intensity;
+      } else if (s.emissive) {
         this.solidMat.emissive.set(s.emissive);
         this.solidMat.emissiveIntensity = s.emissiveIntensity;
       } else {
         this.solidMat.emissive.setHex(0);
       }
+      this.solidTopMat.emissive.copy(this.solidMat.emissive);
+      this.solidTopMat.emissiveIntensity = this.solidMat.emissiveIntensity;
+      const translucent = !!s.translucent;
+      if (this.solidMat.transparent !== translucent) {
+        for (const mm of [this.solidMat, this.solidTopMat]) { mm.transparent = translucent; mm.needsUpdate = true; }
+      }
+      this.solidMat.opacity = this.solidTopMat.opacity = translucent ? 0.72 : 1;
+      // Ice floats: cubes bob at the liquid surface instead of lying on the bottom.
+      this.floatingIce = s.form === 'ice' && lv > 0.5;
+      this.solid.visible = this.solidTop.visible = !this.floatingIce;
       const p = _v.set(0, hs, 0).applyMatrix4(this.object.matrixWorld);
       this.solidPlane.normal.copy(up).negate();
       this.solidPlane.constant = -this.solidPlane.normal.dot(p);
       const rTop = radiusAt(this.cavity, hs) - 0.0009;
       this.solidTop.position.set(0, hs, 0);
       this.solidTop.scale.set(rTop, 1, rTop);
-      this.updateCrystals(s, hs, rTop, sv);
+      this.updateCrystals(s, this.floatingIce ? hl - 0.004 : hs, this.floatingIce ? radiusAt(this.cavity, Math.min(hl, this.rimY)) - 0.002 : rTop, sv, glow);
     } else if (this.crystals) {
       this.crystals.visible = false;
     }
@@ -484,6 +528,16 @@ export class Container extends Equipment {
         const lum = 0.2126 * look.color[0] + 0.7152 * look.color[1] + 0.0722 * look.color[2];
         this.liquidMat.envMapIntensity = look.metalness > 0.5 ? 1.4 : look.opacity > 0.6 ? 0.25 + lum * 0.6 : 0.9;
         this.surfaceMat.envMapIntensity = this.liquidMat.envMapIntensity;
+        const lg = glowFor(c.temperature);
+        if (lg) {
+          this.liquidMat.emissive.setRGB(lg.r, lg.g, lg.b);
+          this.liquidMat.emissiveIntensity = lg.intensity;
+          this.liquidMat.opacity = Math.max(this.liquidMat.opacity, 0.9);
+        } else {
+          this.liquidMat.emissive.setHex(0);
+        }
+        this.surfaceMat.emissive.copy(this.liquidMat.emissive);
+        this.surfaceMat.emissiveIntensity = this.liquidMat.emissiveIntensity;
         this.surfaceMat.color.copy(this.liquidMat.color);
         this.surfaceMat.opacity = Math.min(0.97, look.opacity * 1.25 + 0.05);
         this.surfaceMat.metalness = look.metalness;
@@ -533,7 +587,7 @@ export class Container extends Equipment {
     }
   }
 
-  updateCrystals(s, hs, rTop, sv) {
+  updateCrystals(s, hs, rTop, sv, glow = null) {
     const kind = s.cubic ? 'cubic' : s.form;
     const geo = CRYSTAL_GEOS[kind];
     if (!geo) {
@@ -556,9 +610,12 @@ export class Container extends Equipment {
     mat.color.set(s.color);
     mat.metalness = s.metalness || 0;
     mat.roughness = Math.min(0.5, s.roughness);
-    const n = Math.max(3, Math.min(14, Math.round(sv * 1.5)));
+    if (mat.transparent !== !!s.translucent) { mat.transparent = !!s.translucent; mat.needsUpdate = true; }
+    mat.opacity = s.translucent ? 0.8 : 1;
+    if (glow) { mat.emissive.setRGB(glow.r, glow.g, glow.b); mat.emissiveIntensity = glow.intensity; } else mat.emissive.setHex(0);
+    const n = kind === 'ice' ? Math.max(1, Math.min(8, Math.round(sv / 3))) : Math.max(3, Math.min(14, Math.round(sv * 1.5)));
     this.crystals.count = n;
-    const size = Math.min(0.006, rTop * 0.22) * (kind === 'metal' || kind === 'chunk' ? 1.6 : 1);
+    const size = kind === 'ice' ? Math.min(0.016, rTop * 0.55) : Math.min(0.006, rTop * 0.22) * (kind === 'metal' || kind === 'chunk' ? 1.6 : kind === 'needles' ? 1.3 : 1);
     const m = new THREE.Matrix4();
     for (let i = 0; i < n; i++) {
       const [a, b, c2, d] = this.crystalSeeds[i];

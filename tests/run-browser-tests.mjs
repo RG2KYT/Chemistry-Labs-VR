@@ -37,7 +37,7 @@ const look = (yaw, pitch, pos) => page.evaluate(({ yaw, pitch, pos }) => {
 }, { yaw, pitch, pos });
 
 // The tests drive the "mouse hand" directly, so switch off real mouse/keyboard input.
-await page.evaluate(() => { window.lab.input.desktop.enabled = false; window.lab.input.desktop.hand.active = true; });
+await page.evaluate(() => { window.lab.input.desktop.enabled = false; window.lab.input.desktop.hand.active = true; window.lab.input.desktop.hand.resetMotion(); });
 
 await test('build water atom by atom and identify it', async () => {
   const r = await page.evaluate(() => {
@@ -79,7 +79,9 @@ await test('grab with the mouse hand and bond by proximity', async () => {
     const hand = app.input.desktop.hand;
     const grab = app.grab;
     const results = [];
-    for (const h of hs) {
+    // Fixed approach directions from above (a random one could come up through the bench)
+    const dirs = [[1, 0.6, 0.2], [-1, 0.6, -0.2], [0.2, 0.7, 1], [-0.2, 1, -0.6]].map((d) => new THREE_V(...d).normalize());
+    for (const [hi, h] of hs.entries()) {
       hand.gripPosition.copy(h.object.position);
       hand.gripQuaternion.identity();
       hand.setButtons(true, true);
@@ -87,7 +89,7 @@ await test('grab with the mouse hand and bond by proximity', async () => {
       const cm = ms.molecules.find((m) => m.atoms.includes(c0));
       const cPos = cm.atomWorldPosition(c0);
       // Approach the carbon from a free direction
-      const dir = new THREE_V(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+      const dir = dirs[hi];
       for (let k = 0; k < 40; k++) {
         const target = cPos.clone().addScaledVector(dir, 0.3 - k * 0.006);
         hand.gripPosition.copy(target);
@@ -319,6 +321,7 @@ await test('panels: carry by a handle, rotate to portrait, no throwing', async (
     const atRelease = panel.object.position.clone();
     for (let i = 0; i < 60; i++) { app.loop(performance.now(), null); }
     delete hand.recordMotion;
+    hand.resetMotion();
     const moved = panel.object.position.distanceTo(atRelease);
     const up = new THREE_V(0, 1, 0).applyQuaternion(panel.object.quaternion);
     return { whileHeld, portrait: panel.portrait, k: panel.k, moved, upY: up.y, displaced: p0.distanceTo(atRelease) };
@@ -486,11 +489,11 @@ await test('holding a container against another combines the physical forms', as
     app.renderEnabled = true;
     const summary = b.contents.summary().map((x) => x.name);
     window.__a = a; window.__b = b;
-    return { combined, aEmpty: a.contents.isEmpty, water: b.contents.amount('water'), summary };
+    return { combined, aEmpty: a.contents.isEmpty, water: b.contents.amount('water'), summary, broken: b.removed };
   });
   assert.ok(r.combined, 'combined');
   assert.ok(r.aEmpty, 'source emptied');
-  assert.ok(r.water > 1, 'hydrogen + oxygen made water: ' + JSON.stringify(r.summary));
+  assert.ok(r.water > 1, 'hydrogen + oxygen made water: ' + JSON.stringify(r));
   await step(page, 0.05);
   await shot('14-combined');
 });

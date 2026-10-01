@@ -9,6 +9,7 @@ import { Molecule } from '../chem/Molecule.js';
 import { BY_SYMBOL } from '../chem/elements.js';
 import { moleculeSpecFor } from '../chem/compounds.js';
 import { SUBSTANCES } from '../chem/substances.js';
+import { baseOf, variantId, temperatureFor, availableForms, ROOM } from '../chem/phases.js';
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -19,6 +20,8 @@ const PAD = new THREE.Vector3(0, 0.312, 0.04); // dock pad top (local)
 const NOZZLE = new THREE.Vector3(0, 0.695, 0.04);
 const INTAKE = new THREE.Vector3(0, 1.53, 0);
 const AMOUNTS = [25, 50, 100, 250];
+const FORMS = [['natural', 'Natural'], ['solid', 'Solid'], ['liquid', 'Liquid'], ['gas', 'Gas']];
+const THERMAL_LIMIT = { glass: 600, plastic: 160, porcelain: 1650 };
 const POUR_RATE = 70; // mL/s
 
 const STATE_TEXT = {
@@ -51,6 +54,7 @@ export class Machine extends Entity {
     this.queue = [];
     this.current = null; // { record, identity, substance }
     this.amountIndex = 2;
+    this.form = 'natural'; // which state of matter to deliver the product in
     this.remaining = 0;
     this.docked = null;
     this.message = 'Drop a molecule into the reactor on top.';
@@ -184,11 +188,11 @@ export class Machine extends Entity {
   }
 
   buildScreen() {
-    this.screen = new CanvasScreen(this.app, 0.4, 0.25, 1500, (ctx, w, h, s) => this.drawScreen(ctx, w, h, s));
-    this.screen.mesh.position.set(-0.07, 1.07, 0.263);
+    this.screen = new CanvasScreen(this.app, 0.4, 0.29, 1500, (ctx, w, h, s) => this.drawScreen(ctx, w, h, s));
+    this.screen.mesh.position.set(-0.07, 1.085, 0.263);
     this.model.add(this.screen.mesh);
-    const bezel = new THREE.Mesh(roundedBox(0.42, 0.27, 0.01, 0.01), new THREE.MeshStandardMaterial({ color: 0x14181f, roughness: 0.4 }));
-    bezel.position.set(-0.07, 1.07, 0.258);
+    const bezel = new THREE.Mesh(roundedBox(0.42, 0.31, 0.01, 0.01), new THREE.MeshStandardMaterial({ color: 0x14181f, roughness: 0.4 }));
+    bezel.position.set(-0.07, 1.085, 0.258);
     this.model.add(bezel);
 
     // Reset: big red button, hold to confirm
@@ -465,7 +469,7 @@ export class Machine extends Entity {
         }
       }
     } else if (s === 'waiting') {
-      if (this.docked) this.setState('synthesizing', 'Synthesizing ' + this.current.substance.name + '…', '#c69bff');
+      if (this.docked) this.setState('synthesizing', 'Synthesizing ' + this.current.substance.name + '…' + this.heatWarning(), this.heatWarning() ? '#ffb35a' : '#c69bff');
     } else if (s === 'synthesizing') {
       if (this.stateT > 1.1) {
         this.setState('flowing');
@@ -497,16 +501,32 @@ export class Machine extends Entity {
     }
   }
 
+  /** The substance actually delivered for `sub` in the selected form, and its temperature. */
+  productFor(sub) {
+    const base = baseOf(sub);
+    const phase = this.form === 'natural' || !availableForms(base).includes(this.form) ? base.phase : this.form;
+    const out = SUBSTANCES[variantId(base.id, phase)] || base;
+    return { substance: out, temperature: phase === base.phase ? ROOM : temperatureFor(base, phase) };
+  }
+
   startProduct(substance) {
-    this.current = this.current || { substance };
-    this.current.substance = substance;
-    const s = substance;
+    const { substance: s, temperature } = this.productFor(substance);
+    this.current = this.current || { substance: s };
+    this.current.substance = s;
+    this.productTemp = temperature;
     if (s.phase === 'gas') this.remaining = Infinity; // fill the container
     else if (s.phase === 'solid') this.remaining = this.amount / (s.density || 1);
     else this.remaining = this.amount;
     this.app.events.emit('synthesize', s);
     if (!this.docked) this.setState('waiting', `Identified: ${s.name}. Place a beaker or flask in the dock below.`, '#ffb35a');
-    else this.setState('synthesizing', 'Synthesizing ' + s.name + '…', '#c69bff');
+    else this.setState('synthesizing', 'Synthesizing ' + s.name + '…' + this.heatWarning(), this.heatWarning() ? '#ffb35a' : '#c69bff');
+  }
+
+  heatWarning() {
+    const c = this.docked;
+    const T = this.productTemp ?? ROOM;
+    if (!c || T <= (THERMAL_LIMIT[c.material] ?? 600)) return '';
+    return ` It comes out at ${Math.round(T)} °C — too hot for ${c.material}! Use a crucible.`;
   }
 
   repeat() {
@@ -539,7 +559,13 @@ export class Machine extends Entity {
     const nozzle = this.toWorld(NOZZLE, new THREE.Vector3());
     if (sub.phase === 'gas') {
       const add = Math.min(c.capacity * 0.9 * dt, c.capacity * 1.1 - c.contents.gasVolume);
-      if (add > 0) c.addSubstance(sub.id, add + c.capacity * 0.1 * dt);
+      if (add > 0) {
+        // Gas enters at the delivery temperature (hot vapour / cold boil-off).
+        const T = this.productTemp ?? ROOM;
+        const k = Math.min(1, add / Math.max(1, c.contents.total * 4 + add));
+        c.contents.temperature += (T - c.contents.temperature) * k;
+        c.addSubstance(sub.id, add + c.capacity * 0.1 * dt);
+      }
       const col = new THREE.Color(sub.opacity > 0.1 ? sub.color : '#e8f2ff');
       for (let i = 0; i < 3; i++) {
         const p = nozzle.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.01, -0.01, (Math.random() - 0.5) * 0.01));
@@ -556,6 +582,7 @@ export class Machine extends Entity {
     const step = Math.min(this.remaining, POUR_RATE * dt, free);
     const mix = new Mixture();
     mix.add(sub.id, step);
+    mix.temperature = this.productTemp ?? ROOM;
     this.remaining -= step;
     this.stream = this.app.fluids.pour(this, this.stream, nozzle, new THREE.Vector3(0, -0.12, 0), mix, POUR_RATE, sub.phase === 'solid');
     if (this.remaining <= 0.01) {
@@ -833,6 +860,41 @@ export class Machine extends Entity {
       roundRect(ctx, m, my + 40 * u, (w - 2 * m) * Math.max(0.02, f), 8 * u, 4 * u);
       ctx.fillStyle = '#8ff0c2';
       ctx.fill();
+    }
+
+    // State of matter selector
+    const fy = h - m - 44 * u - 68 * u;
+    ctx.fillStyle = '#7f93ad';
+    ctx.font = font(13 * u, 700);
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillText('FORM', m, fy - 12 * u);
+    const forms = sub ? availableForms(sub) : ['solid', 'liquid', 'gas'];
+    let fx = m;
+    for (const [key, label] of FORMS) {
+      const bw = key === 'natural' ? 96 * u : 80 * u;
+      const ok = key === 'natural' || forms.includes(key);
+      const sel = this.form === key;
+      roundRect(ctx, fx, fy, bw, 38 * u, 10 * u);
+      ctx.fillStyle = sel ? (ok ? '#8a5cf0' : 'rgba(138,92,240,0.35)') : ok ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)';
+      ctx.fill();
+      ctx.fillStyle = sel ? '#ffffff' : ok ? '#c8d6e6' : '#566476';
+      ctx.font = font(16 * u, 800);
+      ctx.textAlign = 'center';
+      ctx.fillText(label, fx + bw / 2, fy + 19 * u);
+      screen.addButton({ x: fx, y: fy, w: bw, h: 38 * u, onPress: () => { this.form = key; screen.dirty = true; } });
+      fx += bw + 8 * u;
+    }
+    if (sub) {
+      const p = this.productFor(sub);
+      const unavailable = this.form !== 'natural' && !forms.includes(this.form);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = unavailable ? '#ffb38a' : '#d8ecff';
+      const text = unavailable
+        ? `No ${this.form} form (it breaks down first)`
+        : `→ ${p.substance.name} · ${Math.round(p.temperature)} °C`;
+      ctx.font = font(fitFont(ctx, text, w - fx - m, 15 * u, 700), 700);
+      ctx.fillText(text, fx + 4 * u, fy + 19 * u);
     }
 
     // Controls

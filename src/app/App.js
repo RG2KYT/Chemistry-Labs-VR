@@ -17,6 +17,7 @@ import { RoomScan } from '../ar/RoomScan.js';
 import { Toasts } from '../ui/Toasts.js';
 import { History } from '../lab/History.js';
 import { Combiner } from '../lab/Combiner.js';
+import { onSubstanceUpdate } from '../chem/compounds.js';
 
 class Events {
   constructor() {
@@ -150,6 +151,8 @@ export class App {
       if ((e.ctrlKey || e.metaKey) && e.code === 'KeyZ') { e.preventDefault(); this.history.undo(); }
     });
     this.events.on('historychange', () => { this.periodicPanel.dirty = true; this.equipmentPanel.dirty = true; });
+    // A molecule identified online (PubChem): refresh everything that shows its name.
+    onSubstanceUpdate((sub) => this.onSubstanceIdentified(sub));
     this.ready = true;
     onProgress('Ready');
   }
@@ -525,26 +528,63 @@ export class App {
       }
     }
 
-    this.input.update(dt, this.elapsed);
+    // Every subsystem runs guarded: an unexpected error in one part must never stop the
+    // XR frame loop (which would freeze the headset view).
+    const safe = (name, fn) => {
+      try {
+        fn();
+      } catch (err) {
+        this.reportError(name, err);
+      }
+    };
+    safe('input', () => this.input.update(dt, this.elapsed));
     if (frame && this.inXR && this.mode !== 'lab') {
-      this.roomScan.update(frame, this.renderer.xr.getReferenceSpace());
+      safe('room scan', () => this.roomScan.update(frame, this.renderer.xr.getReferenceSpace()));
     }
-    this.locomotion(dt);
-    this.grab.update(dt);
-    this.molecules.update(dt);
-    this.combiner.update(dt);
-    this.physics.step(dt, (ent, other, speed) => ent.onImpact?.(speed, other));
+    safe('locomotion', () => this.locomotion(dt));
+    safe('grab', () => this.grab.update(dt));
+    safe('molecules', () => this.molecules.update(dt));
+    safe('combine', () => this.combiner.update(dt));
+    safe('physics', () => this.physics.step(dt, (ent, other, speed) => safe('impact', () => ent.onImpact?.(speed, other))));
     for (const e of this.entities) {
-      if (e.body && !e.removed && !e.disabled && !e.absorbing && e.kind !== 'machine') e.syncFromBody();
+      if (e.body && !e.removed && !e.disabled && !e.absorbing && e.kind !== 'machine') safe('sync', () => e.syncFromBody());
     }
-    for (const e of this.entities.slice()) if (!e.removed) e.update(dt);
-    this.fluids.update(dt);
-    this.dissolver.update(dt);
-    this.effects.update(dt);
-    this.labRoom.update(dt);
-    this.toasts.update(dt);
-    this.audio.updateListener(this.camera);
+    for (const e of this.entities.slice()) if (!e.removed) safe(e.name || e.kind, () => e.update(dt));
+    safe('fluids', () => this.fluids.update(dt));
+    safe('dissolve', () => this.dissolver.update(dt));
+    safe('effects', () => this.effects.update(dt));
+    safe('room', () => this.labRoom.update(dt));
+    safe('toasts', () => this.toasts.update(dt));
+    safe('audio', () => this.audio.updateListener(this.camera));
     if (this.renderEnabled !== false) this.renderer.render(this.scene, this.camera);
+  }
+
+  onSubstanceIdentified(sub) {
+    if (this.machine) this.machine.screen.dirty = true;
+    for (const e of this.entities) {
+      if (e.isContainer && (e.contents.items.has(sub.id) || e.contents.suspended.has(sub.id))) {
+        e.contents.version++;
+        e.labelT = Math.max(e.labelT || 0, 3);
+      }
+    }
+    for (const m of this.molecules.molecules) if (m.identity?.substance === sub) m.drawLabel();
+    if (sub.pending || sub.offline) return;
+    const text = sub.undiscovered
+      ? `${sub.formula}: no one has ever recorded this molecule. You may have invented it!`
+      : `${sub.formula} is ${sub.name}`;
+    try { this.toasts.show(text, sub.undiscovered ? '#c69bff' : '#8ff0c2', 3.5); } catch { /* ignore */ }
+  }
+
+  reportError(where, err) {
+    this.errors = this.errors || [];
+    const msg = `${where}: ${err && err.message ? err.message : err}`;
+    if (this.errors.length < 50) this.errors.push(msg + (err && err.stack ? '\n' + err.stack : ''));
+    console.error('[lab]', msg, err);
+    const now = performance.now();
+    if (!this._lastErrorToast || now - this._lastErrorToast > 8000) {
+      this._lastErrorToast = now;
+      try { this.toasts.show('Oops — something glitched (' + msg.slice(0, 80) + '). The lab keeps running.', '#ff9b8f', 4); } catch { /* ignore */ }
+    }
   }
 
   welcome() {

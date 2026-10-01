@@ -90,6 +90,10 @@ export class AudioEngine {
     B('reset', 1.4, (t, i, r) => (Math.sin(TAU * (900 - 600 * t) * t) * 0.25 + (r() - 0.5) * 0.2) * Math.sin(Math.PI * t / 1.4));
     B('drip', 0.12, (t) => Math.sin(TAU * (1400 - 6000 * t) * t) * env(t, 0.001, 0.02) * 0.4);
     B('suck', 0.5, (t, i, r) => ((r() - 0.5) * 0.4 + Math.sin(TAU * (300 + 900 * t) * t) * 0.3) * Math.sin(Math.PI * t / 0.5));
+    // Match strike: a short scratch, then the flare of the head catching.
+    B('strike', 0.7, (t, i, r) => (t < 0.12 ? (r() - 0.5) * (0.6 + 0.4 * Math.sin(TAU * 60 * t)) : 0) + (t > 0.08 ? (r() - 0.5) * 0.7 * env(t - 0.08, 0.02, 0.18) : 0));
+    B('hiss', 0.6, (t, i, r) => (r() - 0.5) * 0.5 * env(t, 0.01, 0.18) * (0.6 + 0.4 * Math.sin(TAU * 900 * t)));
+    B('lid', 0.3, (t, i, r) => (Math.sin(TAU * 70 * t) * 0.7 + (r() - 0.5) * 0.3) * env(t, 0.002, 0.05));
     B('tick', 0.03, (t) => Math.sin(TAU * 2600 * t) * env(t, 0.0005, 0.004) * 0.5);
 
     // Loops (1–2 s, seamless enough with fade-free noise)

@@ -2,12 +2,14 @@ import './style.css';
 import * as THREE from 'three';
 import { App } from './app/App.js';
 import { Mixture } from './chem/Mixture.js';
+import { SUBSTANCES } from './chem/substances.js';
 
 // Handy for debugging from the console (and used by the automated tests).
 window.THREE = THREE;
 window.THREE_V = THREE.Vector3;
 window.THREE_Q = THREE.Quaternion;
 window.LabMixture = Mixture;
+window.labSubstances = SUBSTANCES;
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
