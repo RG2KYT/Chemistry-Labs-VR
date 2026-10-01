@@ -54,21 +54,23 @@ Open the `https://<your-computer-ip>:5173/` address it prints in the Quest Brows
 ### The lab layout
 - **Right:** the full **periodic table** with all 118 elements. Tap an element to see its details: mass, electron configuration, electronegativity, melting and boiling points, density, valences, and a Bohr shell diagram when the screen is in portrait. Tap **+ atom** (or tap a selected element a second time) to spawn an atom. Hydrogen, nitrogen, oxygen and the halogens can also spawn as their natural diatomic molecules (H₂, O₂, N₂…).
 - **Left:** the **Molecular Synthesizer**. Its top part is the reactor, where molecules go in. Its bottom part is the bay, where you dock a container and the product comes out.
-- **Middle:** your workbench (in the Virtual Lab), with the **equipment list** floating beyond it: 27 items, including beakers, flasks, test tubes, a graduated cylinder, petri dish, watch glass, evaporating dish, crucible, mortar, reagent bottle, funnel, Bunsen burner, tripod and gauze, hot plate, thermometer, pH meter, digital balance, dropper, wash bottle, stirring rod, spatula, tongs and a test-tube rack.
+- **Middle:** your workbench (in the Virtual Lab), with the **equipment list** floating beyond it: 30 items, including beakers, flasks, test tubes, a graduated cylinder, petri dish, watch glass, evaporating dish, crucible, mortar, reagent bottle, funnel, Bunsen burner, tripod and gauze, hot plate, **portable freezer**, **matchbox and matchsticks**, thermometer, pH meter, digital balance, dropper, wash bottle, stirring rod, spatula, tongs and a test-tube rack.
 
 ### Building molecules
 - Atoms show their **open bonds** as small glowing dots. Hold an atom or molecule and bring it close to another atom that has a free bond: a dashed preview appears, and the two **snap together**. A red line means one of the atoms has no free bonds.
 - To **break a bond**, hold two atoms of the same molecule, one in each hand, and pull them apart.
 - Molecules take their **real shape** (VSEPR): water is bent at 104.5°, ammonia is a pyramid, methane is a tetrahedron, CO₂ is linear and benzene is a flat ring.
 - Bond orders are worked out automatically: O=O, N≡N, O=C=O, H–C≡N, ethene's C=C, Kekulé benzene, hypervalent sulfur in H₂SO₄ and so on.
-- The label above each molecule shows its formula and name, or how many bonds are still open. The game recognises more than 120 compounds and tells isomers apart, for example ethanol and dimethyl ether.
+- The label above each molecule shows its formula, or how many bonds are still open. The game tells isomers apart, for example ethanol and dimethyl ether.
+- **Real names for (almost) everything.** About 500 real compounds are built in, with data from [PubChem](https://pubchem.ncbi.nlm.nih.gov/): salts, acids, solvents, sugars, amino acids, drugs and explosives, each with its real name, look, melting and boiling point. Build anything else and the game looks it up live in PubChem's 100+ million known compounds. It is called **"Undiscovered compound"** only if nobody has ever recorded that exact molecule. Without internet it says "Unidentified compound" and tries again later.
 
 **Example: making water.** Spawn **H₂** and an **O** atom. Grab both hydrogens and pull them apart. Bring each hydrogen to the oxygen to make H₂O. Put a beaker in the synthesizer's bay and drop the molecule into the reactor. The water runs down the glass tube and pours from the nozzle into your beaker.
 
 ### The synthesizer
 - It scans the molecule. Unstable fragments (such as a lone O atom or CH₃) are **rejected and spat back out**, with an explanation.
 - Choose the amount on its touch screen: 25, 50, 100 or 250 mL (grams for solids). **Make again** repeats the last product.
-- Products look like the real thing. Water is clear. Bromine is a dark red-brown liquid. Mercury is a liquid metal. Gold, copper and sodium are shiny metals. Sulfur is a yellow powder and table salt forms cubic crystals. Copper sulfate is off-white and turns blue in water. Chlorine is a yellow-green gas and NO₂ is a brown gas.
+- Choose the **form**: **Natural** (how it is at room temperature), **Solid**, **Liquid** or **Gas**. Water comes out as **ice** or **steam**, nitrogen as **liquid nitrogen**, CO₂ as **dry ice**, iron as **molten iron**. Every substance with a known melting or boiling point has all its states, and the product is delivered at the right temperature. Then nature takes over: ice melts, liquid nitrogen boils away, steam condenses and molten metal freezes. The screen warns you when something is too hot for glass; use a crucible. Things that break down before they melt or boil, like sugar, stay in their natural form.
+- Products look like the real thing, using PubChem's descriptions ("orange-red triclinic crystals", "white needles", "yellowish oily liquid"…). Water is clear. Bromine is a dark red-brown liquid. Mercury is a liquid metal. Gold, copper and sodium are shiny metals. Sulfur is a yellow powder and table salt forms cubic crystals. Copper sulfate is off-white and turns blue in water. Chlorine is a yellow-green gas and NO₂ is a brown gas.
 
 ### Physical form ⇄ atoms
 - **Atoms → substance:** drop a molecule into the reactor on top of the synthesizer and the real substance pours into the container docked below.
@@ -96,10 +98,13 @@ Every action can be undone with the **↶ Undo** button on the periodic table an
   - the hydrogen pop test
   - **flame tests**: hold a scoop of salt in the Bunsen flame (Na yellow, K lilac, Li red, Cu green…)
   - dissolving solids, which is faster when you stir
-- **Heating:** use the Bunsen burner (press its red valve) with the tripod, or the hot plate. Liquids boil, and boiling salt water away leaves salt crystals behind.
+- **Heating:** use the Bunsen burner (press its red valve) with the tripod, or the hot plate. Liquids boil, and boiling salt water away leaves salt crystals behind. Glass cracks above about 600 °C, so use the porcelain crucible for molten metals. Very hot substances glow red, then orange, then white.
+- **Freezing:** put a container in the **portable freezer** (−30 °C, fan-forced) and close the lid (blue button). Water turns to ice in about 20 seconds, and the ice floats. The display shows the inside temperature, cold mist spills out when the lid is open, and the green button switches it on and off. Pick the freezer up and everything inside comes with it.
+- **Fire:** take a match from the matchbox (press its red dot). Strike it by rubbing the head quickly along the table or any surface, or pull the trigger. The match lights flammable liquids, pops hydrogen, lights other matches, warms what it is held under and shows on the thermometer. It goes out in water, when you flick it hard, or by itself after about 25 seconds.
+- **States of matter:** everything melts, freezes, boils, condenses or sublimes at its real temperature, and the temperature pauses while it changes state, as it really does.
 - **Measuring:** the thermometer, the pH meter (dip its probe), the balance (with tare) and graduated glassware.
 - **Acid:** pour an acid onto something and it dissolves with a sizzling green edge, then **re-forms 3–10 seconds later** exactly as it was. Hydrofluoric acid slowly etches glass, so keep it in the plastic beaker.
-- **Physics:** everything can be picked up, thrown and stacked. Glassware that hits the floor too hard **shatters and disappears**. The tables and the machine are anchored.
+- **Physics:** everything can be picked up, thrown and stacked. Glassware is hollow, so you can put a thermometer, stirring rod or match inside. Glassware that hits the floor too hard **shatters and disappears**. Carry the test-tube rack or the freezer and their contents come along. The tables and the machine are anchored.
 
 ### The floating screens ("lists")
 - Each screen has **handle bars on its top and bottom**. Grab one bar to carry the screen. Grab both to turn it in any direction or to resize it.
@@ -140,7 +145,8 @@ src/
   audio/Sound.js        procedurally synthesised, spatial sound effects
 ```
 
-- `npm test` runs the chemistry unit tests, the headless-browser scenario tests and the emulated-Quest-3 XR tests. The last two run against a production build served on port 4173: `npm run build && npx vite preview --port 4173`.
+- `npm test` runs the chemistry unit tests, the headless-browser scenario tests (including `tests/run-states-tests.mjs`: states of matter, freezer, matches, rack carrying, live PubChem naming) and the emulated-Quest-3 XR tests.
+- `node scripts/build-chem-data.mjs` rebuilds the offline compound library (`src/chem/data/pubchem-data.json`) from PubChem. It takes about 20 minutes and can be resumed if interrupted. The last two run against a production build served on port 4173: `npm run build && npx vite preview --port 4173`.
 - Adding `?emulate=1` to the URL loads Meta's Immersive Web Emulation Runtime, which emulates a Quest 3 on a desktop browser. Use `?emulate=1&room=living_room` to add a synthetic room for the mixed-reality modes.
 
 Built with [three.js](https://threejs.org/) and the [Rapier](https://rapier.rs/) physics engine.

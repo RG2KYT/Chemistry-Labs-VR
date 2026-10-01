@@ -1,5 +1,6 @@
 // Pure chemistry tests (no browser): bonding rules, identification, mixtures, reactions.
 import assert from 'node:assert/strict';
+globalThis.CHEMLAB_NO_LOOKUP = true; // keep these tests offline and deterministic
 import { BY_SYMBOL, ELEMENTS } from '../src/chem/elements.js';
 import { addBond, removeBond, bondsToSeparate, components, formulaString, canAcceptBond, vsepr } from '../src/chem/graph.js';
 import { identify, knownCompoundCount } from '../src/chem/compounds.js';

@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import { parseSmiles } from '../src/chem/smiles.js';
 import { toSmiles } from '../src/chem/smilesWriter.js';
 import { SUBSTANCES } from '../src/chem/substances.js';
-import { lookupMolecule } from '../src/chem/pubchem.js';
+import { lookupCid, lookupFormula } from '../src/chem/pubchem.js';
 import { signature } from '../src/chem/graph.js';
 
 const API = 'https://pubchem.ncbi.nlm.nih.gov/rest';
@@ -72,32 +72,57 @@ calcium oxide, calcium hydroxide, sodium carbonate, sodium bicarbonate, glucose,
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function getJson(url) {
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 5; attempt++) {
     try {
       const res = await fetch(url);
-      if (res.status === 404) return null;
+      if (res.status === 404 || res.status === 400) return null;
       if (res.status === 503 || res.status === 429) { await sleep(2000 * (attempt + 1)); continue; }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return await res.json();
     } catch (e) {
-      if (attempt === 3) throw e;
+      if (attempt === 4) throw e;
       await sleep(1500);
     }
   }
   return null;
 }
 
+/** Element counts from a Hill formula ("C2H6O" → {C:2,H:6,O:1}); charges ignored. */
+function countsOfFormula(f) {
+  const out = {};
+  for (const [, el, n] of f.replace(/[+-]\d*$/, '').matchAll(/([A-Z][a-z]?)(\d*)/g)) out[el] = (out[el] || 0) + (n ? Number(n) : 1);
+  return out;
+}
+function countsOfGraph(g) {
+  const out = {};
+  for (const a of g.atoms) out[a.el.symbol] = (out[a.el.symbol] || 0) + 1;
+  return out;
+}
+const sameCounts = (a, b, ignoreH = false) => {
+  const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+  for (const k of keys) if (!(ignoreH && k === 'H') && (a[k] || 0) !== (b[k] || 0)) return false;
+  return true;
+};
+function hill(counts) {
+  const els = Object.keys(counts);
+  const order = counts.C ? ['C', 'H', ...els.filter((e) => e !== 'C' && e !== 'H').sort()] : els.sort();
+  return order.filter((e) => counts[e]).map((e) => e + (counts[e] > 1 ? counts[e] : '')).join('');
+}
+
 function ourSmiles(pubchemSmiles) {
   const g = parseSmiles(pubchemSmiles);
-  return { smiles: toSmiles(g.atoms, g.bonds), sig: signature(g.atoms, g.bonds), heavy: g.atoms.filter((a) => a.el.symbol !== 'H').length };
+  return { smiles: toSmiles(g.atoms, g.bonds), sig: signature(g.atoms, g.bonds), heavy: g.atoms.filter((a) => a.el.symbol !== 'H').length, g };
 }
+
+const titleCaseQuery = (q) => q.charAt(0).toUpperCase() + q.slice(1);
 
 // Resumable: progress is saved after every compound, so an interrupted run continues.
 let result = { generated: new Date().toISOString(), enrich: {}, compounds: [], done: [] };
 try {
-  result = { ...result, ...JSON.parse(fs.readFileSync(OUT, 'utf8')) };
-  result.done = result.done || [];
+  const old = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+  if (old.version === 2) result = { ...result, ...old, done: old.done || [] };
 } catch { /* fresh run */ }
+result.version = 2;
 const done = new Set(result.done);
 const knownSigs = new Map();
 fs.mkdirSync(new URL('../src/chem/data/', import.meta.url), { recursive: true });
@@ -106,23 +131,38 @@ for (const c of result.compounds) {
   try { knownSigs.set(ourSmiles(c.smiles).sig, c.query); } catch { /* ignore */ }
 }
 
-// (1) existing database entries
+// (1) existing database entries: found by their name, checked against their formula.
 const existing = Object.values(SUBSTANCES).filter((s) => s.smiles);
 console.log('enriching', existing.length, 'existing compounds');
 for (const s of existing) {
   const g = parseSmiles(s.smiles);
-  const smi = toSmiles(g.atoms, g.bonds);
   knownSigs.set(signature(g.atoms, g.bonds), s.id);
   if (done.has('id:' + s.id)) continue;
-  const r = await lookupMolecule(smi, { metal: g.atoms.some((a) => a.el.isMetal) });
-  if (r.status === 'found') {
-    result.enrich[s.id] = { cid: r.cid, pubchemName: r.name, mp: r.mp, bp: r.bp, density: r.density, info: r.info, describe: r.describe, look: r.look };
-    process.stdout.write('.');
-  } else {
-    process.stdout.write(r.status === 'none' ? 'x' : 'E');
+  let ok = true;
+  try {
+    const counts = countsOfGraph(g);
+    const name = s.name.replace(/ solution$/i, '');
+    let cid = null;
+    const p = await getJson(`${API}/pug/compound/name/${encodeURIComponent(name)}/property/MolecularFormula/JSON`);
+    for (const prop of p?.PropertyTable?.Properties || []) {
+      if (sameCounts(countsOfFormula(prop.MolecularFormula), counts, true)) { cid = prop.CID; break; }
+    }
+    let r = null;
+    if (cid) r = await lookupCid(cid);
+    else r = await lookupFormula(hill(counts));
+    if (r && r.status === 'found') {
+      result.enrich[s.id] = { cid: r.cid, pubchemName: r.name, mp: r.mp, bp: r.bp, density: r.density, info: r.info, describe: r.describe, look: r.look, byName: !!cid };
+      process.stdout.write(cid ? '.' : 'f');
+    } else {
+      if (r && r.status === 'error') ok = false;
+      process.stdout.write(r && r.status === 'error' ? 'E' : 'x');
+    }
+  } catch {
+    ok = false;
+    process.stdout.write('E');
   }
-  if (r.status !== 'error') { result.done.push('id:' + s.id); save(); }
-  await sleep(250);
+  if (ok) { result.done.push('id:' + s.id); save(); }
+  await sleep(200);
 }
 
 // (2) extra compounds by name
@@ -142,12 +182,12 @@ for (const name of EXTRA) {
       continue;
     }
     if (knownSigs.has(parsed.sig) || parsed.heavy > 40) { process.stdout.write('='); continue; }
-    const r = await lookupMolecule(parsed.smiles);
+    const r = await lookupCid(prop.CID);
     if (r.status !== 'found') { if (r.status === 'error') ok = false; process.stdout.write(r.status === 'error' ? 'E' : 'x'); continue; }
     knownSigs.set(parsed.sig, name);
     result.compounds.push({
-      name: r.name, query: name, smiles: parsed.smiles, formula: prop.MolecularFormula, cid: r.cid,
-      mp: r.mp, bp: r.bp, density: r.density, info: r.info, describe: r.describe, look: r.look,
+      name: titleCaseQuery(name), query: name, smiles: parsed.smiles, pubchemSmiles: prop.ConnectivitySMILES, formula: prop.MolecularFormula, cid: r.cid,
+      mp: r.mp, bp: r.bp, density: r.density, info: r.info, describe: r.describe, look: r.look, experimental: r.experimental,
     });
     process.stdout.write('+');
   } catch (e) {
@@ -156,7 +196,7 @@ for (const name of EXTRA) {
   } finally {
     if (ok) { result.done.push('name:' + name); save(); }
   }
-  await sleep(250);
+  await sleep(200);
 }
 
 delete result.done;

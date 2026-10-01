@@ -79,7 +79,9 @@ await test('grab with the mouse hand and bond by proximity', async () => {
     const hand = app.input.desktop.hand;
     const grab = app.grab;
     const results = [];
-    for (const h of hs) {
+    // Fixed approach directions from above (a random one could come up through the bench)
+    const dirs = [[1, 0.6, 0.2], [-1, 0.6, -0.2], [0.2, 0.7, 1], [-0.2, 1, -0.6]].map((d) => new THREE_V(...d).normalize());
+    for (const [hi, h] of hs.entries()) {
       hand.gripPosition.copy(h.object.position);
       hand.gripQuaternion.identity();
       hand.setButtons(true, true);
@@ -87,7 +89,7 @@ await test('grab with the mouse hand and bond by proximity', async () => {
       const cm = ms.molecules.find((m) => m.atoms.includes(c0));
       const cPos = cm.atomWorldPosition(c0);
       // Approach the carbon from a free direction
-      const dir = new THREE_V(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+      const dir = dirs[hi];
       for (let k = 0; k < 40; k++) {
         const target = cPos.clone().addScaledVector(dir, 0.3 - k * 0.006);
         hand.gripPosition.copy(target);

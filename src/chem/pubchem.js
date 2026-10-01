@@ -79,8 +79,60 @@ function firstTemp(list) {
   return null;
 }
 
+/** "Sodium azide, BioXtra" → "Sodium azide"; "CID 1234" / "Compound NaCl" → null. */
+export function cleanName(title) {
+  if (!title || /^CID \d+/.test(title) || /^Compound [A-Z]/.test(title)) return null;
+  let n = title.replace(/,\s*(BioXtra|BioUltra|BioReagent|ACS reagent.*|for cell culture.*|anhydrous.*|puriss.*|reagent.*|technical.*|.*grade.*|with .*)$/i, '');
+  n = n.replace(/\s*\((reagent|anhydrous|calcite|technical)\)$/i, '');
+  if (n.includes(';')) return null; // ionic "Calcium;dihydroxide"-style machine names
+  return n.trim() || null;
+}
+
+async function details(cid, title, formula, metal) {
+  const [colorForm, physical, melt, boil, dens, descJson] = await Promise.all([
+    heading(cid, 'Color/Form'),
+    heading(cid, 'Physical Description'),
+    heading(cid, 'Melting Point'),
+    heading(cid, 'Boiling Point'),
+    heading(cid, 'Density'),
+    getJson(`${API}/pug/compound/cid/${cid}/description/JSON`).catch(() => null),
+  ]);
+  const descs = (descJson?.InformationList?.Information || []).map((i) => i.Description).filter(Boolean);
+  const mp = firstTemp(melt);
+  const bp = firstTemp(boil);
+  let density = null;
+  for (const d of dens) { density = parseDensity(d); if (density) break; }
+  const look = appearanceFrom({ colorForm, description: physical, mp, bp, metal });
+  const name = cleanName(title) || 'Compound ' + formula;
+  const experimental = colorForm.length || physical.length || mp !== null || bp !== null || descs.length;
+  let info = descs.length ? shorten(descs[0]) : '';
+  if (!experimental) info = 'Listed in PubChem, but nobody has reported measuring it — it may never have been made in a real lab. Its look is estimated.';
+  return {
+    status: 'found', cid, name: titleCase(name), info, mp, bp, density, look,
+    describe: colorForm[0] || physical[0] || '', experimental: !!experimental,
+  };
+}
+
+/** Full record for a known PubChem compound id. */
+export async function lookupCid(cid, { metal = false } = {}) {
+  const c = loadCache();
+  const key = 'cid:' + cid;
+  if (c[key]) return c[key];
+  try {
+    const p = await getJson(`${API}/pug/compound/cid/${cid}/property/Title,MolecularFormula/JSON`);
+    const prop = p?.PropertyTable?.Properties?.[0];
+    if (!prop) return { status: 'none' };
+    const r = await details(cid, prop.Title, prop.MolecularFormula, metal);
+    c[key] = r;
+    saveCache();
+    return r;
+  } catch (e) {
+    return { status: 'error', message: e.message };
+  }
+}
+
 /**
- * Look up a structure. Returns
+ * Look up an exact structure. Returns
  *   { status: 'found', cid, name, info, mp, bp, density, look }   or
  *   { status: 'none' }  (PubChem has never recorded this molecule)   or
  *   { status: 'error' } (offline / timeout — try again later)
@@ -97,31 +149,44 @@ export async function lookupMolecule(smiles, { metal = false } = {}) {
       saveCache();
       return r;
     }
-    const cid = prop.CID;
-    const [colorForm, physical, melt, boil, dens, descJson] = await Promise.all([
-      heading(cid, 'Color/Form'),
-      heading(cid, 'Physical Description'),
-      heading(cid, 'Melting Point'),
-      heading(cid, 'Boiling Point'),
-      heading(cid, 'Density'),
-      getJson(`${API}/pug/compound/cid/${cid}/description/JSON`).catch(() => null),
-    ]);
-    const descs = (descJson?.InformationList?.Information || []).map((i) => i.Description).filter(Boolean);
-    const mp = firstTemp(melt);
-    const bp = firstTemp(boil);
-    let density = null;
-    for (const s of dens) { density = parseDensity(s); if (density) break; }
-    const look = appearanceFrom({ colorForm, description: physical, mp, bp, metal });
-    let name = prop.Title && !/^CID \d+/.test(prop.Title) ? prop.Title : null;
-    if (!name) name = 'Compound ' + prop.MolecularFormula;
-    const experimental = colorForm.length || physical.length || mp !== null || bp !== null || descs.length;
-    let info = descs.length ? shorten(descs[0]) : '';
-    if (!experimental) info = 'Listed in PubChem, but nobody has reported measuring it — it may never have been made in a real lab. Its look is estimated.';
-    const r = {
-      status: 'found', cid, name: titleCase(name), info, mp, bp, density, look,
-      describe: colorForm[0] || physical[0] || '', experimental: !!experimental,
-    };
+    const r = await details(prop.CID, prop.Title, prop.MolecularFormula, metal);
     c[smiles] = r;
+    saveCache();
+    return r;
+  } catch (e) {
+    return { status: 'error', message: e.message };
+  }
+}
+
+/**
+ * Look up by molecular formula (used for metal compounds, whose bonding the lab models
+ * covalently while real salts are ionic). The lowest-numbered properly named record is
+ * almost always the classic compound (Na2CO3 → sodium carbonate, CID 10340).
+ */
+export async function lookupFormula(formula, { metal = false } = {}) {
+  const c = loadCache();
+  const key = 'formula:' + formula;
+  if (c[key]) return c[key];
+  try {
+    const j = await getJson(`${API}/pug/compound/fastformula/${encodeURIComponent(formula)}/cids/JSON?MaxRecords=60`);
+    const cids = (j?.IdentifierList?.CID || []).sort((a, b) => a - b).slice(0, 8);
+    if (!cids.length) {
+      const r = { status: 'none' };
+      c[key] = r;
+      saveCache();
+      return r;
+    }
+    const t = await getJson(`${API}/pug/compound/cid/${cids.join(',')}/property/Title,MolecularFormula,Charge/JSON`);
+    const props = (t?.PropertyTable?.Properties || []).filter((x) => !x.Charge && cleanName(x.Title) && !/\d{2,}[A-Z][a-z]?\b|-\d+[A-Z]|atom %/.test(x.Title));
+    if (!props.length) {
+      const r = { status: 'none' };
+      c[key] = r;
+      saveCache();
+      return r;
+    }
+    const best = props.sort((a, b) => a.CID - b.CID)[0];
+    const r = await details(best.CID, best.Title, best.MolecularFormula, metal);
+    c[key] = r;
     saveCache();
     return r;
   } catch (e) {

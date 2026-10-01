@@ -127,34 +127,45 @@ function kekulize(atoms, bonds) {
 }
 
 function joinIons(atoms, bonds) {
-  const cations = [];
-  const anions = [];
-  for (const a of atoms) {
-    for (let k = 0; k < Math.abs(a.charge || 0); k++) (a.charge > 0 ? cations : anions).push(a);
-  }
-  if (!cations.length || !anions.length) return;
-  // Only join atoms that are in different fragments (true ionic salts).
+  if (!atoms.some((a) => a.charge)) return;
+  // Fragments ('.'-separated pieces)
   const comp = new Map();
-  let id = 0;
+  const frags = [];
   for (const a of atoms) {
     if (comp.has(a)) continue;
+    const f = [];
     const q = [a];
-    comp.set(a, id);
+    comp.set(a, frags.length);
     while (q.length) {
       const x = q.pop();
+      f.push(x);
       for (const b of bonds) {
         const y = b.a === x ? b.b : b.b === x ? b.a : null;
-        if (y && !comp.has(y)) { comp.set(y, id); q.push(y); }
+        if (y && !comp.has(y)) { comp.set(y, frags.length); q.push(y); }
       }
     }
-    id++;
+    frags.push(f);
   }
-  const usedAn = new Set();
+  // Only a fragment's net charge takes part in ionic bonding: nitrate [N+](=O)([O-])[O-]
+  // offers one O⁻, not three charged atoms.
+  const cations = [];
+  const anions = [];
+  for (const f of frags) {
+    const net = f.reduce((q, a) => q + (a.charge || 0), 0);
+    if (!net) continue;
+    const pool = f.filter((a) => Math.sign(a.charge || 0) === Math.sign(net));
+    const list = net > 0 ? cations : anions;
+    let left = Math.abs(net);
+    for (const a of pool) {
+      for (let k = 0; k < Math.abs(a.charge) && left > 0; k++, left--) list.push(a);
+    }
+  }
+  const used = new Set();
   for (const c of cations) {
-    let idx = anions.findIndex((an, i) => !usedAn.has(i) && comp.get(an) !== comp.get(c) && !bonds.some((b) => (b.a === c && b.b === an) || (b.a === an && b.b === c)));
-    if (idx < 0) idx = anions.findIndex((an, i) => !usedAn.has(i) && comp.get(an) !== comp.get(c));
+    let idx = anions.findIndex((an, i) => !used.has(i) && comp.get(an) !== comp.get(c) && !bonds.some((b) => (b.a === c && b.b === an) || (b.a === an && b.b === c)));
+    if (idx < 0) idx = anions.findIndex((an, i) => !used.has(i) && comp.get(an) !== comp.get(c));
     if (idx < 0) continue;
-    usedAn.add(idx);
+    used.add(idx);
     bonds.push({ a: c, b: anions[idx], order: 1 });
   }
 }

@@ -17,6 +17,7 @@ import { RoomScan } from '../ar/RoomScan.js';
 import { Toasts } from '../ui/Toasts.js';
 import { History } from '../lab/History.js';
 import { Combiner } from '../lab/Combiner.js';
+import { onSubstanceUpdate } from '../chem/compounds.js';
 
 class Events {
   constructor() {
@@ -150,6 +151,8 @@ export class App {
       if ((e.ctrlKey || e.metaKey) && e.code === 'KeyZ') { e.preventDefault(); this.history.undo(); }
     });
     this.events.on('historychange', () => { this.periodicPanel.dirty = true; this.equipmentPanel.dirty = true; });
+    // A molecule identified online (PubChem): refresh everything that shows its name.
+    onSubstanceUpdate((sub) => this.onSubstanceIdentified(sub));
     this.ready = true;
     onProgress('Ready');
   }
@@ -554,6 +557,22 @@ export class App {
     safe('toasts', () => this.toasts.update(dt));
     safe('audio', () => this.audio.updateListener(this.camera));
     if (this.renderEnabled !== false) this.renderer.render(this.scene, this.camera);
+  }
+
+  onSubstanceIdentified(sub) {
+    if (this.machine) this.machine.screen.dirty = true;
+    for (const e of this.entities) {
+      if (e.isContainer && (e.contents.items.has(sub.id) || e.contents.suspended.has(sub.id))) {
+        e.contents.version++;
+        e.labelT = Math.max(e.labelT || 0, 3);
+      }
+    }
+    for (const m of this.molecules.molecules) if (m.identity?.substance === sub) m.drawLabel();
+    if (sub.pending || sub.offline) return;
+    const text = sub.undiscovered
+      ? `${sub.formula}: no one has ever recorded this molecule. You may have invented it!`
+      : `${sub.formula} is ${sub.name}`;
+    try { this.toasts.show(text, sub.undiscovered ? '#c69bff' : '#8ff0c2', 3.5); } catch { /* ignore */ }
   }
 
   reportError(where, err) {

@@ -10,6 +10,16 @@ const only = process.argv[2] || '';
 
 const browser = await launch();
 const { page, errors } = await openLab(browser, '?desktop', { width: 1100, height: 700 });
+// Relay PubChem requests through Node's fetch (which trusts this machine's CA setup, e.g.
+// behind a TLS-inspecting proxy that headless Chromium does not know about).
+await page.route('https://pubchem.ncbi.nlm.nih.gov/**', async (route) => {
+  try {
+    const res = await fetch(route.request().url());
+    await route.fulfill({ status: res.status, headers: { 'content-type': res.headers.get('content-type') || 'application/json', 'access-control-allow-origin': '*' }, body: Buffer.from(await res.arrayBuffer()) });
+  } catch {
+    await route.abort();
+  }
+});
 let passed = 0;
 
 async function test(name, fn) {
@@ -206,7 +216,9 @@ await test('strike a match on the table and light ethanol with it', async () => 
     let lit = -1;
     for (let i = 0; i < 120 && lit < 0; i++) {
       const head = match.headPoint(new THREE_V());
-      hand.gripPosition.y += table + 0.003 - head.y;
+      // follow whatever surface is under the head (table, or anything lying on it)
+      const under = app.physics.raycast(new THREE_V(head.x, 1.3, head.z), new THREE_V(0, -1, 0), 1, match.body)?.point.y ?? table;
+      hand.gripPosition.y += under + 0.003 - head.y;
       hand.gripPosition.x = -0.15 + (i % 30) * 0.012;
       app.renderEnabled = false;
       app.loop(performance.now(), null);
@@ -314,6 +326,55 @@ await test('equipment list shows the freezer and matches', async () => {
   });
   await step(page, 0.05);
   await shot('23-equipment-list');
+});
+
+await test('molecules not in the library are named live from PubChem', async () => {
+  const online = await page.evaluate(() => fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/962/property/Title/JSON').then((r) => r.ok).catch(() => false));
+  if (!online) { console.log('    (offline — skipped)'); return; }
+  const r = await page.evaluate(async () => {
+    const app = window.lab;
+    const VAL = { C: 4, O: 2, F: 1, N: 3 };
+    const make = (heavy, links, pos) => {
+      const symbols = heavy.slice();
+      const bonds = links.map(([i, j]) => [i, j, 1]);
+      const deg = heavy.map((_, i) => links.filter(([a, b]) => a === i || b === i).length);
+      heavy.forEach((sym, i) => { for (let k = deg[i]; k < VAL[sym]; k++) { symbols.push('H'); bonds.push([i, symbols.length - 1, 1]); } });
+      return app.molecules.spawnMolecule({ symbols, bonds }, pos, { stasis: true });
+    };
+    // 1-heptanol: C7H16O (not in the offline library)
+    const hept = make(['C', 'C', 'C', 'C', 'C', 'C', 'C', 'O'], [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]], new THREE_V(-0.3, 1.3, -0.6));
+    // C(OONH2)4: every bond valid, but nobody has ever recorded it (F–O6–F, oddly, is in PubChem)
+    const weird = make(['C', 'O', 'O', 'N', 'O', 'O', 'N', 'O', 'O', 'N', 'O', 'O', 'N'], [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [5, 6], [0, 7], [7, 8], [8, 9], [0, 10], [10, 11], [11, 12]], new THREE_V(0.3, 1.3, -0.6));
+    const first = hept.identity.substance.name;
+    const t0 = performance.now();
+    while ((hept.identity.substance.pending || weird.identity.substance.pending) && performance.now() - t0 < 30000) await new Promise((res) => setTimeout(res, 200));
+    const h = hept.identity.substance, w = weird.identity.substance;
+    return { first, hept: [h.name, h.phase, h.bp, h.cid], weird: [w.name, w.undiscovered], label: hept.displayFormula };
+  });
+  assert.equal(r.first, 'Identifying…');
+  assert.match(r.hept[0], /heptan/i, 'heptanol named: ' + JSON.stringify(r));
+  assert.equal(r.hept[1], 'liquid');
+  assert.ok(r.hept[2] > 150 && r.hept[2] < 200, 'real boiling point ' + r.hept[2]);
+  assert.equal(r.weird[0], 'Undiscovered compound');
+  assert.ok(r.weird[1]);
+});
+
+await test('offline library: real compounds identified without internet', async () => {
+  const r = await page.evaluate(() => {
+    const S = window.labSubstances;
+    const lib = Object.values(S).filter((s) => s.pubchem);
+    const pick = (q) => lib.find((s) => s.name.toLowerCase() === q);
+    return {
+      count: lib.length,
+      caffeine: pick('caffeine') && [pick('caffeine').phase, pick('caffeine').formula],
+      kmno4: S.kmno4 ? null : null,
+      citric: pick('citric acid') && [pick('citric acid').phase, pick('citric acid').form, pick('citric acid').mp],
+      acetone: Object.values(S).find((s) => s.name === 'Acetone')?.bp,
+    };
+  });
+  assert.ok(r.count > 250, 'library size ' + r.count);
+  assert.deepEqual(r.caffeine, ['solid', 'C8H10N4O2']);
+  assert.equal(r.citric[0], 'solid');
 });
 
 const fatal = errors.filter((e) => e.startsWith('[pageerror]') || (e.startsWith('[error]') && !e.includes('favicon')));
