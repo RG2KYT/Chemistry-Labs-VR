@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="#16314d"/><stop offset="1" stop-color="#0b1220"/></radialGradient>
+    <linearGradient id="glass" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bff3ff"/><stop offset="1" stop-color="#2f8fd8"/></linearGradient>
+    <linearGradient id="liq" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fe0ff"/><stop offset="1" stop-color="#1f86d6"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <path d="M206 92h100v26h-18v96l92 148c18 30-3 66-38 66H170c-35 0-56-36-38-66l92-148v-96h-18z" fill="none" stroke="url(#glass)" stroke-width="22" stroke-linejoin="round"/>
+  <path d="M150 352h212l18 30c8 14-2 30-18 30H150c-16 0-26-16-18-30z" fill="url(#liq)"/>
+  <circle cx="222" cy="318" r="14" fill="#bff3ff"/>
+  <circle cx="276" cy="290" r="10" fill="#bff3ff"/>
+  <circle cx="300" cy="330" r="7" fill="#bff3ff"/>
+  <g transform="translate(330 120)">
+    <line x1="0" y1="0" x2="58" y2="-34" stroke="#d8e6f2" stroke-width="10"/>
+    <line x1="0" y1="0" x2="58" y2="34" stroke="#d8e6f2" stroke-width="10"/>
+    <circle cx="0" cy="0" r="30" fill="#ff3b3b"/>
+    <circle cx="58" cy="-34" r="20" fill="#ffffff"/>
+    <circle cx="58" cy="34" r="20" fill="#ffffff"/>
+  </g>
+</svg>

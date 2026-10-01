@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1220" />
+    <meta name="description" content="Chemistry Labs VR — a WebXR chemistry lab for Meta Quest 3. Build molecules atom by atom, synthesize real substances and experiment with lab equipment." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>Chemistry Labs VR</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <div id="overlay">
+      <div class="card">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="56" height="56"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7fe3ff"/><stop offset="1" stop-color="#2f8fd8"/></linearGradient></defs><path d="M24 6h16v4h-3v14l15 24a6 6 0 0 1-5 9H17a6 6 0 0 1-5-9l15-24V10h-3z" fill="none" stroke="url(#g)" stroke-width="3.5" stroke-linejoin="round"/><path d="M17 44h30l4 7a2.5 2.5 0 0 1-2 3.5H15a2.5 2.5 0 0 1-2-3.5z" fill="#2fbfff" opacity=".8"/><circle cx="27" cy="38" r="2.4" fill="#bff3ff"/><circle cx="35" cy="33" r="1.7" fill="#bff3ff"/></svg>
+          </div>
+          <div>
+            <h1>Chemistry Labs VR</h1>
+            <p class="tag">Build molecules atom by atom. Turn them into real substances. Experiment.</p>
+          </div>
+        </div>
+
+        <div id="loading" class="loading"><span class="spinner"></span><span id="loading-text">Loading…</span></div>
+
+        <div id="modes" class="modes hidden">
+          <button class="mode" data-mode="lab">
+            <span class="mode-title">Virtual Lab</span>
+            <span class="mode-sub">A full chemistry lab in VR</span>
+          </button>
+          <button class="mode" data-mode="room">
+            <span class="mode-title">Your Room</span>
+            <span class="mode-sub">Mixed reality — the lab tools appear in your real room</span>
+          </button>
+          <button class="mode" data-mode="digital">
+            <span class="mode-title">Scanned Room</span>
+            <span class="mode-sub">A digital copy of your room from the Quest room scan</span>
+          </button>
+        </div>
+        <p id="xr-status" class="status"></p>
+        <div class="row">
+          <button id="desktop-btn" class="ghost hidden">Explore on this screen</button>
+          <button id="help-btn" class="ghost">How to play</button>
+        </div>
+
+        <div id="help" class="help hidden">
+          <h2>In VR (controllers or hand tracking)</h2>
+          <ul>
+            <li><b>Grab</b>: squeeze the grip button / pinch your fingers (or make a fist) near an object. Point at far objects and grab to pull them to you.</li>
+            <li><b>Tap screens</b>: touch them with your finger or controller tip, or point the laser and pull the trigger / pinch.</li>
+            <li><b>Move screens</b>: grab the handle bar above or below a screen. Grab both bars to turn or resize it. Turn it 90° for portrait.</li>
+            <li><b>Build molecules</b>: tap an element, tap <i>+ atom</i>, then bring atoms close together while holding one — they snap into bonds.</li>
+            <li><b>Break bonds</b>: hold two atoms of the same molecule (one in each hand) and pull them apart.</li>
+            <li><b>Synthesize</b>: put a beaker in the bay of the machine, drop your molecule into the reactor on top — the real substance pours out of the tube.</li>
+            <li><b>Pour</b>: tilt a container. Acids dissolve what they land on (it reforms a few seconds later).</li>
+            <li><b>Reset</b>: hold the red button on the synthesizer for 2 seconds.</li>
+            <li>Controllers: left stick moves, right stick snap-turns (virtual lab only).</li>
+          </ul>
+          <h2>On a computer</h2>
+          <ul>
+            <li>Left-drag: grab / tap · mouse wheel: hold distance · Q/E and R/F: tilt what you hold (pour)</li>
+            <li>Shift + drag an atom: pull it out of its molecule · Right-drag or arrow keys: look · WASD: walk · Space: use tool</li>
+          </ul>
+        </div>
+        <p class="foot">Made for <b>Meta Quest 3</b> — open this page in the Meta Quest Browser and pick a mode.</p>
+      </div>
+    </div>
+
+    <div id="desk-hud" class="hidden">
+      <span>Left-drag grab/tap · Wheel distance · Q/E R/F tilt · Shift+drag pull atom · Right-drag look · WASD walk</span>
+      <button id="menu-btn">Menu</button>
+    </div>
+    <div id="error" class="hidden"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
