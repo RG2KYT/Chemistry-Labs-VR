@@ -72,6 +72,11 @@ Open the `https://<your-computer-ip>:5173/` address it prints in the Quest Brows
 - Choose the **form**: **Natural** (how it is at room temperature), **Solid**, **Liquid** or **Gas**. Water comes out as **ice** or **steam**, nitrogen as **liquid nitrogen**, CO₂ as **dry ice**, iron as **molten iron**. Every substance with a known melting or boiling point has all its states, and the product is delivered at the right temperature. Then nature takes over: ice melts, liquid nitrogen boils away, steam condenses and molten metal freezes. The screen warns you when something is too hot for glass; use a crucible. A form is offered only when the substance's melting or boiling point is known.
 - Products look like the real thing, using PubChem's descriptions ("orange-red triclinic crystals", "white needles", "yellowish oily liquid"…). Water is clear. Bromine is a dark red-brown liquid. Mercury is a liquid metal. Gold, copper and sodium are shiny metals. Sulfur is a yellow powder and table salt forms cubic crystals. Copper sulfate is off-white and turns blue in water. Chlorine is a yellow-green gas and NO₂ is a brown gas.
 
+### Solids are solid
+- **Solids need no container.** Make a solid with no beaker in the dock and it drops onto the tray as a real piece you can pick up. Metals come out as an ingot, water as ice cubes, salt as intergrown cubes, quartz as a crystal cluster, resorcinol as needles, graphite as a rock and sulfur as a powder heap.
+- Pieces behave like the real thing. An ice cube melts into a puddle, dry ice fogs away, and a red-hot ingot glows and cools down. Liquid poured onto a piece can react with it (acid on a metal fizzes). Drop a piece into a container and it becomes part of the contents; an ice cube floats in water.
+- **In a container, a solid looks and behaves like a solid**, not a liquid: grainy, heaped up, with crystals or lumps on top. A liquid stays transparent with a level surface. A powder only pours out once you tilt past its angle of repose, and a full beaker spills sooner than a nearly empty one. Lumps tumble out as pieces, and powder poured onto the bench piles up into a heap.
+
 ### Physical form ⇄ atoms
 - **Atoms → substance:** drop a molecule into the reactor on top of the synthesizer and the real substance pours into the container docked below.
 - **Substance → atoms:** set a container with something in it **on top of the reactor**. The machine sucks the substance out, breaks it down and the **atoms come out of the bay below** — e.g. a beaker of water gives you an H₂O molecule, salt water gives NaCl + H₂O (up to three kinds of molecule at once).
@@ -101,7 +106,23 @@ Every action can be undone with the **↶ Undo** button on the periodic table an
 - **Heating:** use the Bunsen burner (press its red valve) with the tripod, or the hot plate. Liquids boil, and boiling salt water away leaves salt crystals behind. Glass cracks above about 600 °C, so use the porcelain crucible for molten metals. Very hot substances glow red, then orange, then white.
 - **Freezing:** put a container in the **portable freezer** (−30 °C, fan-forced) and close the lid (blue button). Water turns to ice in about 20 seconds, and the ice floats. The display shows the inside temperature, cold mist spills out when the lid is open, and the green button switches it on and off. Pick the freezer up and everything inside comes with it.
 - **Fire:** take a match from the matchbox (press its red dot). Strike it by rubbing the head quickly along the table or any surface, or pull the trigger. The match lights flammable liquids, pops hydrogen, lights other matches, warms what it is held under and shows on the thermometer. It goes out in water, when you flick it hard, or by itself after about 25 seconds.
-- **States of matter:** everything melts, freezes, boils, condenses or sublimes at its real temperature, and the temperature pauses while it changes state, as it really does.
+- **States of matter:** everything melts, freezes, boils, condenses or sublimes at its real temperature, and the temperature pauses while it changes state, as it really does. Heat can only flow so fast, so an ice cube floats in warm water for a while before it is gone.
+- **Real reactions for the whole library.** Every salt is split into its ions, and school solubility rules decide what dissolves and what precipitates. Any combination gets its real name and formula (iron(III) phosphate, FePO₄), never "unnamed". Solutions take the real colour of their ions: Cu²⁺ blue, Ni²⁺ green, Co²⁺ pink, Fe³⁺ orange-brown, chromate yellow, dichromate orange, permanganate purple. Things to try:
+  - precipitates: silver chromate (brick red), lead iodide (yellow), copper hydroxide (blue), iron(III) hydroxide (rust brown), barium sulfate (white)
+  - black copper oxide dissolving in sulfuric acid to a blue solution
+  - copper in nitric acid, giving brown NO₂ gas
+  - ammonia turning copper solutions deep royal blue
+  - chlorine freeing orange bromine from potassium bromide
+  - dry citric acid and baking soda doing nothing until you add water
+  - sodium hydride, calcium carbide and sodium peroxide reacting with water
+  - TiCl₄ and other covalent chlorides fuming in water
+  - **heating:** blue copper hydroxide turning to black CuO, green copper carbonate giving off CO₂, nitrates giving brown NO₂, mercury oxide releasing oxygen (as Priestley found in 1774), the ammonium dichromate "volcano", sugar charring
+  - **burning:** magnesium's blinding white flame, sulfur's blue flame, sodium, potassium and lithium, sugar and wax
+- **Colours you would really see.** Where PubChem's text gives no colour, the game works it out from the chemistry: the metal ion, coloured anions, dark heavy-metal sulfides and oxides, coloured iodides, and known minerals like pyrite (gold cubes), cinnabar (red) and galena (grey metallic cubes).
+- **Drinking.** Bring a container's rim to your mouth and tip it. What happens is based on real data: PubChem's GHS hazard statements, the liquid's pH, its temperature and how much you swallowed.
+  - Water is just a gulp, salt water is salty, a sugar solution is sweet, and vinegar-strength acid is sour.
+  - Ethanol makes you tipsy (too much is alcohol poisoning). Hot liquids scald and mercury makes you sick.
+  - Concentrated acids and alkalis, methanol, antifreeze, bromine, cyanide, liquid nitrogen and molten metal mean a **blackout** or **"You died"**. The screen explains why, then the whole lab resets.
 - **Measuring:** the thermometer, the pH meter (dip its probe), the balance (with tare) and graduated glassware.
 - **Acid:** pour an acid onto something and it dissolves with a sizzling green edge, then **re-forms 3–10 seconds later** exactly as it was. Hydrofluoric acid slowly etches glass, so keep it in the plastic beaker.
 - **Physics:** everything can be picked up, thrown and stacked. Glassware is hollow, so you can put a thermometer, stirring rod or match inside. Glassware that hits the floor too hard **shatters and disappears**. Carry the test-tube rack or the freezer and their contents come along. The tables and the machine are anchored.
@@ -145,8 +166,8 @@ src/
   audio/Sound.js        procedurally synthesised, spatial sound effects
 ```
 
-- `npm test` runs the chemistry unit tests, the headless-browser scenario tests (including `tests/run-states-tests.mjs`: states of matter, freezer, matches, rack carrying, live PubChem naming) and the emulated-Quest-3 XR tests.
-- `node scripts/build-chem-data.mjs` rebuilds the offline compound library (`src/chem/data/pubchem-data.json`) from PubChem. It takes about 20 minutes and can be resumed if interrupted. The last two run against a production build served on port 4173: `npm run build && npx vite preview --port 4173`.
+- `npm test` runs the chemistry unit tests, the headless-browser scenario tests (including `tests/run-states-tests.mjs`: states of matter, freezer, matches, rack carrying, live PubChem naming; and `tests/run-realism-tests.mjs`: solid pieces, angle of repose, ion reactions and colours, drinking) and the emulated-Quest-3 XR tests.
+- `node scripts/build-chem-data.mjs` rebuilds the offline compound library (`src/chem/data/pubchem-data.json`) from PubChem. It takes about 20 minutes and can be resumed if interrupted. Afterwards, `node scripts/add-ghs.mjs` adds the GHS hazard statements (about 5 minutes). The last two run against a production build served on port 4173: `npm run build && npx vite preview --port 4173`.
 - Adding `?emulate=1` to the URL loads Meta's Immersive Web Emulation Runtime, which emulates a Quest 3 on a desktop browser. Use `?emulate=1&room=living_room` to add a synthetic room for the mixed-reality modes.
 
 Built with [three.js](https://threejs.org/) and the [Rapier](https://rapier.rs/) physics engine.
