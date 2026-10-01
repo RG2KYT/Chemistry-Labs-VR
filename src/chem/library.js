@@ -10,6 +10,7 @@ import data from './data/pubchem-data.json' with { type: 'json' };
 import { SUBSTANCES } from './substances.js';
 import { parseSmiles } from './smiles.js';
 import { molarMass } from './graph.js';
+import { inferredSolidLook, mentionsColour, knownLook, countsOf } from './ionColors.js';
 
 const ROOM = 22;
 
@@ -51,10 +52,42 @@ const OXO_METALS = new Set(['Cr', 'Mn', 'Mo', 'W', 'V', 'Re', 'Tc', 'Ru', 'Os'])
  * treated as ionic; each piece is written conventionally, cations first.
  */
 export function displayFormula(atoms, bonds) {
+  const fr = ionicFragments(atoms, bonds);
+  if (!fr) return conventionalFormula(atoms);
+  const group = (list) => {
+    const m = new Map();
+    for (const f of list) { const t = fragmentText(f); m.set(t, (m.get(t) || 0) + 1); }
+    return [...m].map(([t, n]) => {
+      if (n === 1) return t;
+      const poly = /[A-Z].*[A-Z]|\d/.test(t) && !/^[A-Z][a-z]?$/.test(t);
+      return poly ? `(${t})${n}` : t + n;
+    }).join('');
+  };
+  return group(fr.cations) + group(fr.anions);
+}
+
+/** Conventional text of one ion: OH, NO3, HCO3, Cr2O7, NH4 … */
+export function fragmentText(f) {
+  const syms = f.map((a) => a.el.symbol).sort().join('');
+  if (syms === 'HO') return 'OH';
+  let t = conventionalFormula(f);
+  // Acid anions are written hydrogen first: HCO3, HSO4, H2PO4
+  if (f.length > 2 && f.some((a) => a.el.symbol === 'H') && f.some((a) => a.el.symbol === 'O') && !f.some((a) => a.el.isMetal)) {
+    const h = f.filter((a) => a.el.symbol === 'H').length;
+    t = 'H' + (h > 1 ? h : '') + conventionalFormula(f.filter((a) => a.el.symbol !== 'H'));
+  }
+  return t;
+}
+
+/**
+ * Split a salt into its ions. Bonds between a metal (or an ammonium nitrogen) and the rest
+ * are ionic; metals at the centre of an oxo-anion (CrO4, MnO4 …) stay with it.
+ * Returns { cations: [atoms[]], anions: [atoms[]] } or null for a covalent molecule.
+ */
+export function ionicFragments(atoms, bonds) {
   const isMetal = (a) => a.el.isMetal;
   const nH = (a) => bonds.filter((b) => (b.a === a && b.b.el.symbol === 'H') || (b.b === a && b.a.el.symbol === 'H')).length;
   const ammonium = (a) => a.el.symbol === 'N' && nH(a) === 4;
-  // Metals at the centre of an oxo-anion (CrO4, Cr2O7, MnO4, MoO4, WO4, VO3 …) stay bonded to it.
   const oxoCentre = (a) => OXO_METALS.has(a.el.symbol) && bonds.filter((b) => (b.a === a && b.b.el.symbol === 'O') || (b.b === a && b.a.el.symbol === 'O')).length >= 3;
   const ionic = (b) => {
     const [x, y] = [b.a, b.b];
@@ -64,8 +97,7 @@ export function displayFormula(atoms, bonds) {
     return false;
   };
   const covalent = bonds.filter((b) => !ionic(b));
-  if (covalent.length === bonds.length) return conventionalFormula(atoms);
-  // Fragments over covalent bonds
+  if (covalent.length === bonds.length) return null;
   const comp = new Map();
   const frags = [];
   for (const a of atoms) {
@@ -83,32 +115,13 @@ export function displayFormula(atoms, bonds) {
     }
     frags.push(f);
   }
-  const text = (f) => {
-    const syms = f.map((a) => a.el.symbol).sort().join('');
-    if (syms === 'HO') return 'OH';
-    let t = conventionalFormula(f);
-    // Acid anions are written hydrogen first: HCO3, HSO4, H2PO4
-    if (f.length > 2 && f.some((a) => a.el.symbol === 'H') && f.some((a) => a.el.symbol === 'O') && !f.some((a) => a.el.isMetal)) {
-      const h = f.filter((a) => a.el.symbol === 'H').length;
-      t = 'H' + (h > 1 ? h : '') + conventionalFormula(f.filter((a) => a.el.symbol !== 'H'));
-    }
-    return t;
-  };
   const cationic = (f) => f.some(ammonium) || (f.some(isMetal) && !f.some(oxoCentre));
-  const group = (list) => {
-    const m = new Map();
-    for (const f of list) { const t = text(f); m.set(t, (m.get(t) || 0) + 1); }
-    return [...m].map(([t, n]) => {
-      if (n === 1) return t;
-      const poly = /[A-Z].*[A-Z]|\d/.test(t) && !/^[A-Z][a-z]?$/.test(t);
-      return poly ? `(${t})${n}` : t + n;
-    }).join('');
-  };
   // Cations: ammonium and the s-block metals first (NH4, Na, Ca …), then the others.
   const rank = (f) => (f.some(ammonium) ? 0.85 : f[0].el.electronegativity || 0);
-  const cats = frags.filter(cationic).sort((a, b) => rank(a) - rank(b));
-  const ans = frags.filter((f) => !cationic(f));
-  return group(cats) + group(ans);
+  return {
+    cations: frags.filter(cationic).sort((a, b) => rank(a) - rank(b)),
+    anions: frags.filter((f) => !cationic(f)),
+  };
 }
 
 function phaseAtRoom(mp, bp, fallback) {
@@ -144,6 +157,7 @@ for (const [id, e] of Object.entries(data.enrich || {})) {
   const s = SUBSTANCES[id];
   if (!s) continue;
   s.cid = e.cid;
+  if (e.ghs) s.ghs = e.ghs; // GHS hazard statements (H300 fatal if swallowed, H314 corrosive …)
   // Only trust values that describe the same state of matter as our entry (our "hydrochloric
   // acid" is the solution; PubChem's is hydrogen chloride gas).
   const theirPhase = phaseAtRoom(e.mp, e.bp, e.look?.phase || s.phase);
@@ -176,6 +190,12 @@ for (const c of data.compounds || []) {
   if (hasMetal && !known(c.mp) && phase === 'liquid') phase = 'solid';
   const look = lookFields(c.look || {}, phase);
   if (phase === 'solid' && look.color === '#d6ecff') look.color = '#f4f4f1'; // "colourless liquid" tint on a solid
+  // No colour in PubChem's text ("Dry Powder")? Work it out from the chemistry instead.
+  const mineral = phase === 'solid' ? knownLook(countsOf(g.atoms)) : null;
+  if (phase === 'solid' && (mineral || !mentionsColour(c.describe))) {
+    const inf = mineral || inferredSolidLook(g.atoms);
+    if (inf) Object.assign(look, { color: inf.color, metalness: inf.metalness ?? look.metalness, roughness: inf.roughness ?? look.roughness, translucent: false, form: inf.form || look.form });
+  }
   const halogens = g.atoms.filter((a) => ['F', 'Cl', 'Br', 'I'].includes(a.el.symbol)).length;
   SUBSTANCES[id] = {
     id,
@@ -199,11 +219,18 @@ for (const c of data.compounds || []) {
     flammable: hasC && !hasMetal && halogens < 2 && phase !== 'solid',
     molarMass: molarMass(g.atoms),
     cid: c.cid,
+    ghs: c.ghs || [],
     pubchem: true,
     heavy: phase === 'gas' ? molarMass(g.atoms) > 29 : false,
     light: phase === 'gas' ? molarMass(g.atoms) < 20 : false,
   };
   added++;
+}
+
+// 3) Hazard statements for the elements
+for (const [sym, e] of Object.entries(data.elements || {})) {
+  const s = SUBSTANCES['elem:' + sym];
+  if (s && e.ghs) { s.ghs = e.ghs; if (e.cid) s.cid = e.cid; }
 }
 
 export const LIBRARY_STATS = { enriched, added, generated: data.generated };

@@ -6,6 +6,8 @@ import { SUBSTANCES } from '../chem/substances.js';
 import { glowFor } from '../chem/phases.js';
 import { cavityFillGeometry, volumeTable, radiusAt } from './materials.js';
 import { font, roundRect } from '../ui/canvasUtil.js';
+import { grainMap, grainBump } from './grain.js';
+import { spawnSolid, pieceForm } from './SolidPiece.js';
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -25,6 +27,42 @@ const CRYSTAL_GEOS = {
   glassy: new THREE.DodecahedronGeometry(0.6, 0),
 };
 const THERMAL_LIMIT = { glass: 600, plastic: 160, porcelain: 1650 };
+
+// A heaped, uneven top for solids in a vessel (unit radius, unit height): powders pile up,
+// they do not lie flat like a liquid surface.
+const MOUND = (() => {
+  const rings = 10, segs = 40;
+  const pos = [0, 1, 0];
+  const uv = [0.5, 0.5];
+  const idx = [];
+  const n = (a, b) => Math.sin(a * 3.1 + b * 7.3) * 0.5 + Math.sin(a * 7.7 - b * 4.1) * 0.3 + Math.sin(a * 13.3 + b * 2.9) * 0.2;
+  for (let i = 1; i <= rings; i++) {
+    const t = i / rings;
+    for (let j = 0; j < segs; j++) {
+      const th = (j / segs) * Math.PI * 2;
+      const y = i === rings ? 0 : (1 - t * t) * (0.75 + 0.25 * (n(th, t) * 0.5 + 0.5));
+      pos.push(Math.cos(th) * t, y, Math.sin(th) * t);
+      uv.push(0.5 + Math.cos(th) * t * 0.5, 0.5 + Math.sin(th) * t * 0.5);
+    }
+  }
+  for (let j = 0; j < segs; j++) idx.push(0, 1 + ((j + 1) % segs), 1 + j);
+  for (let i = 1; i < rings; i++) {
+    for (let j = 0; j < segs; j++) {
+      const a0 = 1 + (i - 1) * segs + j, a1 = 1 + (i - 1) * segs + ((j + 1) % segs);
+      const b0 = 1 + i * segs + j, b1 = 1 + i * segs + ((j + 1) % segs);
+      idx.push(a0, a1, b0, a1, b1, b0);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+})();
+const moundHeight = (t) => 1 - t * t; // average profile of MOUND at radius fraction t
+const LUMPS = new Set(['metal', 'chunk', 'glassy', 'waxy']);
+const SMALL_CRYSTALS = new Set(['crystals', 'cubic', 'needles', 'flakes', 'pellets']);
 
 /**
  * Glassware that holds substances. Liquids are rendered with a world-space clipping plane
@@ -77,13 +115,19 @@ export class Container extends Equipment {
 
     // Solids: cavity solid clipped by a plane that moves with the vessel.
     this.solidPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
-    this.solidMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, clippingPlanes: [this.solidPlane] });
+    const gm = grainMap(), gb = grainBump();
+    const sideMap = gm ? gm.clone() : null;
+    if (sideMap) { sideMap.repeat.set(10, 3); sideMap.needsUpdate = true; }
+    const topMap = gm ? gm.clone() : null;
+    if (topMap) { topMap.repeat.set(3, 3); topMap.needsUpdate = true; }
+    this.grainMaps = { side: sideMap, top: topMap, bump: gb };
+    this.solidMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, clippingPlanes: [this.solidPlane], map: sideMap, bumpMap: gb, bumpScale: 1 });
     this.solid = new THREE.Mesh(cavityFillGeometry(this.cavity, 0.0009, 36), this.solidMat);
     this.solid.userData.noPick = true;
     this.solid.userData.noHighlight = true;
     this.solid.visible = false;
-    this.solidTopMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9 });
-    this.solidTop = new THREE.Mesh(DISC, this.solidTopMat);
+    this.solidTopMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, map: topMap, bumpMap: gb, bumpScale: 1.4 });
+    this.solidTop = new THREE.Mesh(MOUND, this.solidTopMat);
     this.solidTop.userData.noPick = true;
     this.solidTop.userData.noHighlight = true;
     this.solidTop.visible = false;
@@ -424,7 +468,10 @@ export class Container extends Equipment {
         lip = lowest;
       }
     }
-    if (rate > 0 && lip) {
+    if (rate > 0 && lip && this.app.drinking?.intercept(this, lip, dt)) {
+      // Poured into your mouth: you drink it (see Drinking.js).
+      if (this.pouring) { this.app.fluids.stop(this.pouring); this.pouring = null; }
+    } else if (rate > 0 && lip) {
       if (!this.pouring) this.app.history?.record('Pour', { debounce: 4 });
       const ml = Math.min(lv, rate * dt);
       const portion = c.takeLiquid(ml);
@@ -444,13 +491,34 @@ export class Container extends Equipment {
       this.pouring = null;
     }
 
-    // Solids slide out when the vessel is turned past horizontal.
+    // Solids slide out once the tilt passes their angle of repose (~35° for a powder): a
+    // full vessel spills sooner than a nearly empty one. Lumps (ingots, ice cubes, rocks)
+    // tumble out as real pieces; powders and small crystals pour as a stream of grains.
     const sv = c.solidVolume;
-    if (sv > 0.02 && up.y < -0.15) {
-      const srate = 25 * Math.min(1, -up.y * 2);
-      const portion = c.takeSolid(Math.min(sv, srate * dt));
-      const origin = rim.center.clone().addScaledVector(dperp, rim.radius * 0.6);
-      this.solidPouring = this.app.fluids.pour(this, this.solidPouring, origin, new THREE.Vector3(0, -0.2, 0), portion, srate, true);
+    const tilt = Math.acos(THREE.MathUtils.clamp(up.y, -1, 1));
+    const fill = THREE.MathUtils.clamp((this.levels().hs - this.bottomY) / Math.max(1e-3, this.rimY - this.bottomY), 0, 1);
+    const s0 = sv > 0.02 ? c.dominant('solid') : null;
+    const form = s0 ? pieceForm(s0) : null;
+    const lumpy = form === 'metal' || form === 'ice' || form === 'chunk' || form === 'glassy' || form === 'waxy';
+    const critical = THREE.MathUtils.degToRad((lumpy ? 60 : 35) + (1 - fill) * (lumpy ? 50 : 65));
+    if (s0 && tilt > critical && !(this.floatingIce && lv > 0.5 && tilt < 1.9)) {
+      if (lumpy) {
+        this.lumpT = (this.lumpT || 0) + dt;
+        if (this.lumpT > 0.35) {
+          this.lumpT = 0;
+          const take = c.takeSolid(Math.min(sv, Math.max(2, sv / 3)));
+          const at = rim.center.clone().addScaledVector(dperp, rim.radius * 0.5).addScaledVector(up, 0.01);
+          const vel = dperp.clone().multiplyScalar(0.3);
+          for (const [id, ml] of take.items) spawnSolid(this.app, id, ml, take.temperature, at, { scatter: 0.005, velocity: vel });
+          this.app.audio?.play(form === 'metal' ? 'clink' : 'thud', { position: at, volume: 0.4 });
+        }
+        if (this.solidPouring) { this.app.fluids.stop(this.solidPouring); this.solidPouring = null; }
+      } else {
+        const srate = 30 * Math.min(1, 0.25 + (tilt - critical) * 2);
+        const portion = c.takeSolid(Math.min(sv, srate * dt));
+        const origin = rim.center.clone().addScaledVector(dperp, rim.radius * 0.8);
+        this.solidPouring = this.app.fluids.pour(this, this.solidPouring, origin, dperp.clone().multiplyScalar(0.12).add(new THREE.Vector3(0, -0.15, 0)), portion, srate, true);
+      }
     } else if (this.solidPouring) {
       this.app.fluids.stop(this.solidPouring);
       this.solidPouring = null;
@@ -477,9 +545,17 @@ export class Container extends Equipment {
     this.solid.visible = this.solidTop.visible = showSolid;
     if (showSolid) {
       const s = c.dominant('solid');
+      const form = pieceForm(s);
+      const grainy = form !== 'ice' && form !== 'metal' && form !== 'glassy';
+      if ((this.solidMat.map !== null) !== grainy) {
+        this.solidMat.map = grainy ? this.grainMaps.side : null;
+        this.solidTopMat.map = grainy ? this.grainMaps.top : null;
+        this.solidMat.bumpMap = this.solidTopMat.bumpMap = grainy ? this.grainMaps.bump : null;
+        this.solidMat.needsUpdate = this.solidTopMat.needsUpdate = true;
+      }
       this.solidMat.color.set(s.color);
       this.solidMat.metalness = s.metalness || 0;
-      this.solidMat.roughness = s.form === 'powder' ? Math.max(0.6, s.roughness) : s.roughness;
+      this.solidMat.roughness = grainy ? Math.max(0.75, s.roughness ?? 0.8) : s.roughness;
       this.solidTopMat.color.copy(this.solidMat.color);
       this.solidTopMat.metalness = this.solidMat.metalness;
       this.solidTopMat.roughness = this.solidMat.roughness;
@@ -507,9 +583,13 @@ export class Container extends Equipment {
       this.solidPlane.normal.copy(up).negate();
       this.solidPlane.constant = -this.solidPlane.normal.dot(p);
       const rTop = radiusAt(this.cavity, hs) - 0.0009;
-      this.solidTop.position.set(0, hs, 0);
-      this.solidTop.scale.set(rTop, 1, rTop);
-      this.updateCrystals(s, this.floatingIce ? hl - 0.004 : hs, this.floatingIce ? radiusAt(this.cavity, Math.min(hl, this.rimY)) - 0.002 : rTop, sv, glow);
+      // Powders heap up in the middle; lumps and crystals lie in an uneven layer.
+      const depth = Math.max(0.0005, hs - this.bottomY);
+      const heap = form === 'powder' ? Math.min(rTop * 0.32, depth * 0.9 + 0.002) : Math.min(rTop * 0.12, depth * 0.6 + 0.0015);
+      this.moundH = heap;
+      this.solidTop.position.set(0, hs - heap * 0.45, 0);
+      this.solidTop.scale.set(rTop, heap, rTop);
+      this.updateCrystals(s, this.floatingIce ? hl - 0.004 : hs - heap * 0.45, this.floatingIce ? radiusAt(this.cavity, Math.min(hl, this.rimY)) - 0.002 : rTop, sv, glow, this.floatingIce ? 0 : heap);
     } else if (this.crystals) {
       this.crystals.visible = false;
     }
@@ -587,8 +667,8 @@ export class Container extends Equipment {
     }
   }
 
-  updateCrystals(s, hs, rTop, sv, glow = null) {
-    const kind = s.cubic ? 'cubic' : s.form;
+  updateCrystals(s, hs, rTop, sv, glow = null, heap = 0) {
+    const kind = s.cubic ? 'cubic' : s.form === 'metal' && s.id === 'copper_deposit' ? 'chunk' : s.form;
     const geo = CRYSTAL_GEOS[kind];
     if (!geo) {
       if (this.crystals) this.crystals.visible = false;
@@ -597,13 +677,13 @@ export class Container extends Equipment {
     if (!this.crystals || this.crystals.userData.kind !== kind) {
       if (this.crystals) this.object.remove(this.crystals);
       const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0, clearcoat: 0.6 });
-      this.crystals = new THREE.InstancedMesh(geo, mat, 14);
+      this.crystals = new THREE.InstancedMesh(geo, mat, 48);
       this.crystals.userData.kind = kind;
       this.crystals.userData.noPick = true;
       this.crystals.userData.noHighlight = true;
       this.crystals.castShadow = true;
       this.object.add(this.crystals);
-      this.crystalSeeds = Array.from({ length: 14 }, () => [Math.random(), Math.random(), Math.random(), Math.random()]);
+      this.crystalSeeds = Array.from({ length: 48 }, () => [Math.random(), Math.random(), Math.random(), Math.random()]);
     }
     this.crystals.visible = true;
     const mat = this.crystals.material;
@@ -613,16 +693,22 @@ export class Container extends Equipment {
     if (mat.transparent !== !!s.translucent) { mat.transparent = !!s.translucent; mat.needsUpdate = true; }
     mat.opacity = s.translucent ? 0.8 : 1;
     if (glow) { mat.emissive.setRGB(glow.r, glow.g, glow.b); mat.emissiveIntensity = glow.intensity; } else mat.emissive.setHex(0);
-    const n = kind === 'ice' ? Math.max(1, Math.min(8, Math.round(sv / 3))) : Math.max(3, Math.min(14, Math.round(sv * 1.5)));
+    const lump = LUMPS.has(kind);
+    const n = kind === 'ice' ? Math.max(1, Math.min(8, Math.round(sv / 3)))
+      : lump ? Math.max(2, Math.min(7, Math.round(sv / 2)))
+        : SMALL_CRYSTALS.has(kind) ? Math.max(6, Math.min(48, Math.round(sv * 3))) : Math.max(3, Math.min(10, Math.round(sv)));
     this.crystals.count = n;
-    const size = kind === 'ice' ? Math.min(0.016, rTop * 0.55) : Math.min(0.006, rTop * 0.22) * (kind === 'metal' || kind === 'chunk' ? 1.6 : kind === 'needles' ? 1.3 : 1);
+    const size = kind === 'ice' ? Math.min(0.016, rTop * 0.55)
+      : lump ? Math.min(0.012, rTop * 0.42)
+        : Math.min(0.0045, rTop * 0.16) * (kind === 'needles' ? 1.4 : kind === 'pellets' ? 0.8 : 1);
     const m = new THREE.Matrix4();
     for (let i = 0; i < n; i++) {
       const [a, b, c2, d] = this.crystalSeeds[i];
       const rr = Math.sqrt(a) * rTop * 0.8;
       const ang = b * Math.PI * 2;
       _q.setFromEuler(new THREE.Euler(c2 * 6, d * 6, a * 6));
-      m.compose(new THREE.Vector3(Math.cos(ang) * rr, hs + size * 0.25, Math.sin(ang) * rr), _q, new THREE.Vector3(size, size, size).multiplyScalar(0.7 + d * 0.6));
+      const y = hs + heap * 0.45 + heap * moundHeight(rr / Math.max(1e-4, rTop)) * 0.85 + size * (lump ? 0.1 : 0.25) - (lump ? heap * 0.6 : 0);
+      m.compose(new THREE.Vector3(Math.cos(ang) * rr, y, Math.sin(ang) * rr), _q, new THREE.Vector3(size, size, size).multiplyScalar(0.7 + d * 0.6));
       this.crystals.setMatrixAt(i, m);
     }
     this.crystals.instanceMatrix.needsUpdate = true;

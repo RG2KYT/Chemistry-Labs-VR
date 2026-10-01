@@ -155,7 +155,7 @@ for (const el of ELEMENTS) {
     if (['Ra', 'Ac'].includes(el.symbol)) { s.emissive = '#7fd8ff'; s.emissiveIntensity = 0.35; }
     if (['Li', 'Na', 'K', 'Rb', 'Cs', 'Fr'].includes(el.symbol)) s.reactsWithWater = el.symbol;
     if (['Ca', 'Sr', 'Ba'].includes(el.symbol)) s.reactsWithWater = el.symbol;
-    if (['Mg', 'Zn', 'Fe', 'Al', 'Sn', 'Ni', 'Ca'].includes(el.symbol)) s.reactsWithAcid = el.symbol;
+    if (['Mg', 'Zn', 'Fe', 'Al', 'Sn', 'Ni', 'Ca', 'Mn', 'Cr', 'Co', 'Cd', 'Pb', 'Be', 'Sr', 'Ba', 'Ga', 'In', 'Ti'].includes(el.symbol)) s.reactsWithAcid = el.symbol;
   }
 }
 

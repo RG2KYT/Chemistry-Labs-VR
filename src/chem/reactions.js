@@ -5,6 +5,7 @@
 import { SUBSTANCES, findSalt, FLAME_COLORS } from './substances.js';
 import { AMBIENT } from './Mixture.js';
 import { baseOf, phaseAt, variantId, latentHeat } from './phases.js';
+import { findOrMakeSalt, solutionFor, isSoluble } from './ions.js';
 
 const ACTIVITY = ['Cs', 'Rb', 'K', 'Na', 'Li', 'Ba', 'Sr', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Pb', 'H', 'Cu', 'Ag', 'Hg', 'Pt', 'Au'];
 const WATER_RATE = { Li: 0.35, Na: 1.1, K: 2.4, Rb: 5, Cs: 8, Fr: 8, Ca: 0.25, Sr: 0.4, Ba: 0.6 };
@@ -20,13 +21,14 @@ function solutionOf(salt) {
   return null;
 }
 
-/** Find the dissolved form of the salt made of a cation and an anion. */
-function productFor(cation, anion) {
-  const salt = findSalt(cation, anion);
+/** The product salt of a cation and an anion: its solution, or a precipitate if insoluble. */
+function productFor(cation, anion, charge = null) {
+  const salt = findOrMakeSalt(cation, anion, charge);
   if (!salt) return { id: 'generic_salt_aq', precipitate: false };
-  if (salt.phase === 'solid' && !salt.soluble) return { id: salt.id, precipitate: true };
-  return { id: solutionOf(salt) || salt.id, precipitate: false };
+  if (!isSoluble(cation, anion, charge ?? salt.ions?.charge)) return { id: salt.id, precipitate: true };
+  return { id: solutionFor(salt) || solutionOf(salt) || salt.id, precipitate: false };
 }
+void findSalt;
 
 /**
  * Advance the chemistry of a mixture.
@@ -111,7 +113,7 @@ export function react(mix, dt, env = {}) {
   for (const [mid, mml, ms] of entries()) {
     if (!ms.reactsWithAcid || mml <= 0) continue;
     for (const [aid, aml, as] of entries()) {
-      if (!as.acid || aml <= 0) continue;
+      if (!as.acid || aml <= 0 || as.ions?.anion === 'NO3') continue; // nitric acid gives NO₂ instead (below)
       const r = Math.min(mix.amount(mid), mix.amount(aid) / 4, (as.weakAcid ? 0.08 : 0.35) * dt);
       if (r <= 0) continue;
       mix.remove(mid, r);
@@ -151,14 +153,16 @@ export function react(mix, dt, env = {}) {
       for (const [A, B] of [[ionic[i], ionic[j]], [ionic[j], ionic[i]]]) {
         const sa = A[2], sb = B[2];
         if (sa.ions.cation === 'H' && sb.ions.anion === 'OH') continue;
-        const ppt = findSalt(sa.ions.cation, sb.ions.anion);
-        if (!ppt || ppt.soluble || ppt.phase !== 'solid') continue;
+        if (sa.ions.cation === sb.ions.cation || sa.ions.anion === sb.ions.anion) continue;
+        if (isSoluble(sa.ions.cation, sb.ions.anion, sa.ions.charge)) continue;
+        const ppt = findOrMakeSalt(sa.ions.cation, sb.ions.anion, sa.ions.charge);
+        if (!ppt || ppt.phase !== 'solid') continue;
         const r = Math.min(mix.amount(A[0]), mix.amount(B[0]), 20 * dt);
         if (r <= 0) continue;
         mix.remove(A[0], r);
         mix.remove(B[0], r);
         mix.addSuspended(ppt.id, r * 0.3);
-        const other = productFor(sb.ions.cation, sa.ions.anion);
+        const other = productFor(sb.ions.cation, sa.ions.anion, sb.ions.charge);
         if (other.precipitate) mix.addSuspended(other.id, r * 0.3);
         else mix.add(other.id, r * 1.7);
         ev.push({ type: 'precipitate', color: ppt.color, intensity: 1 });
@@ -182,7 +186,7 @@ export function react(mix, dt, env = {}) {
       const p = productFor(ms.element, ss.ions.anion);
       if (p.precipitate) mix.addSuspended(p.id, r);
       else mix.add(p.id, r * 6);
-      mix.add(ss.ions.cation === 'Cu' ? 'copper_deposit' : 'elem:' + ss.ions.cation, r * 0.8);
+      mix.add(ss.ions.cation === 'Cu' ? 'copper_deposit' : SUBSTANCES['elem:' + ss.ions.cation] ? 'elem:' + ss.ions.cation : 'copper_deposit', r * 0.8);
       ev.push({ type: 'deposit', intensity: 0.3 });
     }
   }
@@ -284,6 +288,8 @@ export function react(mix, dt, env = {}) {
       }
     }
   }
+
+  realWorldReactions(mix, dt, env, ev, entries, heat, vol);
 
   // --- Temperature & changes of state -------------------------------------------------
   phaseChanges(mix, dt, env, ev);
@@ -390,6 +396,9 @@ function transitionsAt(mix, heating) {
     const s = SUBSTANCES[id];
     const base = baseOf(s);
     if (heating) {
+      // Things that fall apart at their "melting point" decompose instead of melting.
+      const dec = s.phase === 'solid' ? decompositionOf(s) : null;
+      if (dec && base.mp !== null && base.mp !== undefined && dec.t <= base.mp + 20) continue;
       if (s.phase === 'solid' && base.mp !== null && base.mp !== undefined) {
         const sublimes = base.bp !== null && base.bp !== undefined && base.bp <= base.mp;
         list.push({ id, s, base, t: sublimes ? base.bp : base.mp, to: sublimes ? 'gas' : 'liquid' });
@@ -436,15 +445,21 @@ export function phaseChanges(mix, dt, env, ev) {
   let T = mix.temperature;
   let T1 = T + q * dt;
   if (!Number.isFinite(T1)) T1 = AMBIENT;
-  const heating = T1 > T;
-  const trs = transitionsAt(mix, heating).filter((tr) => (heating ? tr.t <= T1 && T <= tr.t + 0.5 : tr.t >= T1 && T >= tr.t - 0.5));
-  if (trs.length) {
-    trs.sort((a, b) => (heating ? a.t - b.t : b.t - a.t));
-    const tr = trs[0];
-    const energy = Math.abs(T1 - (heating ? Math.max(T, tr.t) : Math.min(T, tr.t))) * V; // °C·mL
+  // Anything in the wrong state for the temperature changes state (ice in warm water melts,
+  // a liquid colder than its freezing point freezes …). The heat for it comes from the rest
+  // of the mixture, but only as fast as heat can flow — so an ice cube floats for a while.
+  const up = transitionsAt(mix, true).filter((tr) => tr.t < T1 - 0.01).sort((a, b) => a.t - b.t);
+  const down = transitionsAt(mix, false).filter((tr) => tr.t > T1 + 0.01).sort((a, b) => b.t - a.t);
+  const tr = up[0] || down[0];
+  if (tr) {
+    const heating = tr === up[0];
+    const crossing = heating ? T <= tr.t + 0.5 : T >= tr.t - 0.5; // just reached the transition
+    const gap = Math.abs(T1 - tr.t);
+    const flow = crossing ? gap : Math.min(gap, (0.6 + Math.abs(q)) * dt + gap * Math.min(1, dt * 0.04));
     const L = latentHeat(tr.base, (tr.s.phase === 'gas' || tr.to === 'gas') ? 'vaporisation' : 'fusion');
-    convert(mix, tr, energy / L + (Math.abs(T - tr.t) < 1 ? 0.002 * dt : 0), ev);
-    T = tr.t;
+    const done = convert(mix, tr, (flow * V) / L + (gap < 1 ? 0.002 * dt : 0), ev);
+    const used = (done * L) / V; // °C of the whole mixture spent on the change of state
+    T = heating ? Math.max(tr.t, T1 - used) : Math.min(tr.t, T1 + used);
   } else {
     T = T1;
   }
@@ -465,4 +480,248 @@ export function phaseChanges(mix, dt, env, ev) {
 /** Is a substance in the state it naturally has at this temperature? */
 export function stableAt(s, T) {
   return phaseAt(baseOf(s), T) === s.phase;
+}
+
+// ---------------------------------------------------------------------------------------
+// Real-world chemistry for the whole library (driven by the ion model in ions.js).
+
+const GROUP12 = new Set(['Li', 'Na', 'K', 'Rb', 'Cs', 'Ca', 'Sr', 'Ba']);
+const NOBLE_ISH = new Set(['Cu', 'Ag', 'Hg', 'Bi', 'Pb', 'Sn', 'Zn', 'Ni', 'Co', 'Fe', 'Mg', 'Cd', 'Mn', 'Al']);
+
+/** A substance created when first needed (bromine water, deep-blue copper ammine …). */
+function ensure(id, props) {
+  if (!SUBSTANCES[id]) {
+    SUBSTANCES[id] = {
+      id, phase: 'liquid', form: 'liquid', opacity: 0.3, metalness: 0, roughness: 0.05, emissive: null, emissiveIntensity: 0,
+      pH: 7, density: 1.02, mp: -2, bp: 101, soluble: false, aq: null, hazards: [], ions: null, flame: null, solution: true, ...props,
+    };
+  }
+  return id;
+}
+
+const oxideOf = (cation, charge) => {
+  if (cation === 'Ag' || cation === 'Hg' || cation === 'Au' || cation === 'Pt') return 'elem:' + cation;
+  const s = findOrMakeSalt(cation, 'O', charge);
+  return s ? s.id : null;
+};
+
+/** When (and into what) a solid falls apart on heating. Cached on the substance. */
+function decompositionOf(s) {
+  if (s._decomp !== undefined) return s._decomp;
+  let r = null;
+  const ions = s.ions;
+  if (ions && s.phase === 'solid') {
+    const { cation, anion, charge } = ions;
+    const T = (tab, def) => tab[cation] ?? def;
+    if (anion === 'CO3' && !['Na', 'K', 'Rb', 'Cs', 'NH4'].includes(cation)) {
+      r = { t: T({ Mg: 350, Ca: 825, Sr: 1100, Ba: 1360, Zn: 300, Cu: 290, Pb: 315, Fe: 400, Mn: 350, Ni: 350, Co: 350, Cd: 350, Ag: 220, Li: 1300 }, 400),
+        solid: [[oxideOf(cation, charge), 0.6]], gas: [['carbon_dioxide', 15]], note: 'carbonate' };
+    } else if (anion === 'HCO3') {
+      r = { t: 80, solid: [[findOrMakeSalt(cation, 'CO3')?.id, 0.6]], gas: [['carbon_dioxide', 10], ['steam', 5]] };
+    } else if (anion === 'NO3') {
+      if (['Na', 'K', 'Rb', 'Cs'].includes(cation)) r = { t: 500, solid: [[findOrMakeSalt(cation, 'NO2')?.id, 0.8]], gas: [['elem:O', 8]] };
+      else if (cation !== 'NH4') {
+        r = { t: T({ Cu: 170, Pb: 470, Zn: 300, Mg: 330, Ca: 500, Ag: 440, Fe: 150, Al: 150, Ba: 590, Sr: 570, Ni: 200, Co: 200, Mn: 200, Hg: 400, Li: 600 }, 300),
+          solid: [[oxideOf(cation, charge), 0.4]], gas: [['nitrogen_dioxide', 15], ['elem:O', 4]] };
+      }
+    } else if (anion === 'OH' && !['Na', 'K', 'Rb', 'Cs', 'Li'].includes(cation)) {
+      r = { t: T({ Cu: 80, Zn: 125, Fe: 200, Mg: 350, Ca: 580, Al: 300, Ni: 230, Co: 168, Pb: 145, Cd: 130, Mn: 200, Ba: 800, Sr: 710, Cr: 250 }, 250),
+        solid: [[oxideOf(cation, charge), 0.6]], gas: [['steam', 10]] };
+    } else if (anion === 'ClO3' || anion === 'ClO4') {
+      r = { t: anion === 'ClO3' ? 400 : 550, solid: [[findOrMakeSalt(cation, 'Cl')?.id, 0.6]], gas: [['elem:O', 20]], catalysed: anion === 'ClO3' ? 250 : null };
+    } else if (anion === 'O' && ['Hg', 'Ag', 'Au'].includes(cation)) {
+      r = { t: T({ Hg: 500, Ag: 300, Au: 160 }, 400), solid: [['elem:' + cation, 0.5]], gas: [['elem:O', 15]], note: 'Priestley discovered oxygen this way (1774)' };
+    } else if (cation === 'NH4') {
+      if (anion === 'Cl') r = { t: 338, solid: [], gas: [['nh4cl_smoke', 20]] };
+      else if (anion === 'Cr2O7') r = { t: 180, solid: [['cr2o3', 1.6]], gas: [['elem:N', 10], ['steam', 10]], sparks: '#ff9a3a', note: 'the "ammonium dichromate volcano"' };
+      else if (anion === 'NO3') r = { t: 210, solid: [], gas: [['nitrous_oxide', 15], ['steam', 10]] };
+      else if (anion === 'CO3' || anion === 'HCO3') r = { t: 58, solid: [], gas: [['carbon_dioxide', 10], ['steam', 6]] };
+    } else if (cation === 'K' && anion === 'MnO4') {
+      r = { t: 240, solid: [['mno2', 0.4]], gas: [['elem:O', 10]] };
+    }
+  }
+  // Sugars and other carbohydrates caramelise and char instead of boiling.
+  if (!r && s.phase === 'solid' && s.carbohydrate) r = { t: Math.max(190, (s.mp ?? 150) + 30), solid: [['elem:C', 0.4]], gas: [['steam', 12]], smoke: '#6a5a4a' };
+  s._decomp = r;
+  return r;
+}
+
+const COMBUSTION = {
+  Mg: { color: '#ffffff', flash: true, t: 470 }, Na: { color: FLAME_COLORS.Na, t: 300 }, K: { color: FLAME_COLORS.K, t: 300 },
+  Li: { color: FLAME_COLORS.Li, t: 350 }, Ca: { color: FLAME_COLORS.Ca, t: 500 }, Sr: { color: FLAME_COLORS.Sr, t: 500 },
+  Ba: { color: FLAME_COLORS.Ba, t: 500 }, S: { color: '#3a5fff', gas: 'sulfur_dioxide', t: 232 }, P: { color: '#fff8e8', smoke: '#ffffff', t: 260 },
+  C: { color: '#ff6a1a', gas: 'carbon_dioxide', t: 700, glow: true }, Fe: { color: '#ffb347', sparks: true, t: 900, needsFlame: true },
+  Al: { color: '#ffffff', sparks: true, t: 900, needsFlame: true }, Zn: { color: '#b8ffd8', t: 900, needsFlame: true },
+  Ti: { color: '#ffffff', sparks: true, t: 1200, needsFlame: true },
+};
+
+export function realWorldReactions(mix, dt, env, ev, entries, heat, vol) {
+  const water = mix.amount('water') + mix.volumeOf('liquid') * 0.3;
+  const T = mix.temperature;
+
+  for (const [id, ml, s] of entries()) {
+    if (ml <= 0.001) continue;
+
+    // --- Compounds that react with water --------------------------------------------
+    if (s.phase === 'solid' && s.ions && mix.amount('water') > 0.2) {
+      const { cation, anion } = s.ions;
+      let done = false;
+      const r = Math.min(ml, 0.8 * dt, mix.amount('water') / 3);
+      const hydroxide = () => productFor(cation, 'OH');
+      if (anion === 'H') { // hydrides → hydroxide + hydrogen
+        mix.remove(id, r); mix.remove('water', r);
+        const p = hydroxide(); p.precipitate ? mix.addSuspended(p.id, r) : mix.add(p.id, r * 2);
+        mix.add('elem:H', r * 30); heat((40 * r) / vol() * 4);
+        ev.push({ type: 'fizz', intensity: Math.min(1, 0.4 + r * 20) });
+        done = true;
+      } else if (anion === 'C2') { // calcium carbide → acetylene
+        mix.remove(id, r); mix.remove('water', r * 2);
+        const p = hydroxide(); p.precipitate ? mix.addSuspended(p.id, r) : mix.add(p.id, r);
+        mix.add('ethyne', r * 30); heat((20 * r) / vol() * 4);
+        ev.push({ type: 'fizz', intensity: Math.min(1, 0.5 + r * 20) });
+        done = true;
+      } else if (anion === 'O2') { // peroxides → hydroxide + oxygen
+        mix.remove(id, r); mix.remove('water', r);
+        const p = hydroxide(); p.precipitate ? mix.addSuspended(p.id, r) : mix.add(p.id, r * 2);
+        mix.add('elem:O', r * 15); heat((30 * r) / vol() * 4);
+        ev.push({ type: 'fizz', intensity: 0.7 });
+        done = true;
+      } else if (anion === 'N' || anion === 'P') { // nitrides → ammonia, phosphides → phosphine
+        mix.remove(id, r); mix.remove('water', r * 2);
+        const p = hydroxide(); p.precipitate ? mix.addSuspended(p.id, r) : mix.add(p.id, r);
+        mix.add(anion === 'N' ? 'ammonia' : 'phosphine', anion === 'N' ? r : r * 20);
+        ev.push({ type: 'fizz', intensity: 0.5 });
+        done = true;
+      } else if (anion === 'O' && GROUP12.has(cation) && !SLAKE[id]) { // basic oxides slake
+        mix.remove(id, r); mix.remove('water', r);
+        const p = hydroxide(); p.precipitate ? mix.addSuspended(p.id, r * 1.2) : mix.add(p.id, r * 2.5);
+        heat((35 * r) / vol() * 4);
+        ev.push({ type: 'steam', intensity: Math.min(1, r * 6) });
+        done = true;
+      }
+      if (done) continue;
+    }
+    // Covalent chlorides fume and hydrolyse in water (TiCl₄, SiCl₄, PCl₃, SOCl₂, acetyl chloride …)
+    if (s.fuming && water > 0.2) {
+      const r = Math.min(ml, 1.5 * dt, water / 2);
+      mix.remove(id, r); mix.remove('water', Math.min(mix.amount('water'), r));
+      mix.add('hydrochloric_acid', r * 2);
+      const other = s.hydrolyses;
+      if (other) {
+        const sub = SUBSTANCES[other];
+        if (sub && sub.phase === 'solid') mix.addSuspended(other, r * 0.5);
+        else if (sub) mix.add(other, sub.phase === 'gas' ? r * 15 : r);
+      }
+      heat((25 * r) / vol() * 4);
+      ev.push({ type: 'smoke', color: '#f4f4f4', intensity: 1 });
+      ev.push({ type: 'fizz', intensity: 0.6 });
+      continue;
+    }
+
+    // --- Metal oxides, hydroxides and carbonates dissolve in acids --------------------
+    if (s.basicSolid && s.ions) {
+      for (const [aid, aml, as] of entries()) {
+        if (!as.acid || aml <= 0 || as.phase !== 'liquid' || as.ions?.cation !== 'H') continue;
+        const rate = 0.35 * (1 + Math.max(0, T - AMBIENT) / 25) * (1 + 2 * (env.stirring || 0));
+        const r = Math.min(mix.amount(id), mix.amount(aid) / 3, rate * dt);
+        if (r <= 0) continue;
+        mix.remove(id, r); mix.remove(aid, r * 3);
+        const p = productFor(s.ions.cation, as.ions.anion, s.ions.charge);
+        if (p.precipitate) mix.addSuspended(p.id, r); else mix.add(p.id, r * 3);
+        mix.add('water', r);
+        if (s.ions.anion === 'CO3') { mix.add('carbon_dioxide', r * 18); ev.push({ type: 'fizz', intensity: Math.min(1, r * 6) }); }
+        heat((10 * r) / vol() * 3);
+        ev.push({ type: 'dissolve', intensity: Math.min(1, r * 10) });
+      }
+    }
+
+    // --- Nitric acid attacks even copper and silver: brown NO₂ ------------------------
+    if (s.element && s.phase === 'solid' && (s.metalness || 0) > 0.5 && NOBLE_ISH.has(s.element) && mix.amount('nitric_acid') > 0.1) {
+      const r = Math.min(ml, mix.amount('nitric_acid') / 4, 0.25 * dt * (1 + Math.max(0, T - AMBIENT) / 30));
+      mix.remove(id, r); mix.remove('nitric_acid', r * 4);
+      const p = productFor(s.element, 'NO3', ['Fe', 'Al'].includes(s.element) ? 3 : null);
+      if (p.precipitate) mix.addSuspended(p.id, r); else mix.add(p.id, r * 4);
+      mix.add('nitrogen_dioxide', r * 40);
+      heat((30 * r) / vol() * 4);
+      ev.push({ type: 'fizz', intensity: Math.min(1, 0.4 + r * 15) });
+    }
+    // Hot concentrated sulfuric acid dissolves copper with SO₂
+    if (s.element === 'Cu' && s.phase === 'solid' && mix.amount('sulfuric_acid') > 0.1 && T > 100) {
+      const r = Math.min(ml, mix.amount('sulfuric_acid') / 2, 0.15 * dt);
+      mix.remove(id, r); mix.remove('sulfuric_acid', r * 2);
+      mix.add(solutionFor(findOrMakeSalt('Cu', 'SO4')) || 'cuso4_aq', r * 2);
+      mix.add('sulfur_dioxide', r * 25);
+      ev.push({ type: 'fizz', intensity: 0.5 });
+    }
+
+    // --- Thermal decomposition ---------------------------------------------------------
+    const d = s.phase === 'solid' ? decompositionOf(s) : null;
+    if (d) {
+      const catalysed = d.catalysed && entries().some(([, m2, s2]) => s2.catalystH2O2 && m2 > 0.01);
+      const tDec = catalysed ? d.catalysed : d.t;
+      if (T >= tDec) {
+        const r = Math.min(ml, (0.25 + (T - tDec) / 200) * dt);
+        mix.remove(id, r);
+        for (const [pid, k] of d.solid) if (pid && SUBSTANCES[pid]) mix.add(pid, r * k);
+        for (const [gid, k] of d.gas) if (SUBSTANCES[gid]) mix.add(gid, r * k);
+        heat(-(5 * r) / vol()); // decomposition takes heat
+        ev.push({ type: 'smoke', color: d.smoke || (d.gas.some(([g]) => g === 'nitrogen_dioxide') ? '#9a3c12' : '#e8e8e8'), intensity: Math.min(1, 0.3 + r * 8) });
+        if (d.sparks) ev.push({ type: 'sparks', color: d.sparks, intensity: 1 });
+      }
+    }
+
+    // --- Burning solids (magnesium, sulfur, sugar, wax …) -------------------------------
+    const comb = s.phase === 'solid' && (s.element ? COMBUSTION[s.element] : s.combustible ? { color: '#ffb25a', gas: 'carbon_dioxide', smoke: '#555555', t: 350, organic: true } : null);
+    if (comb && (env.flame || T > comb.t) && (s.element ? (s.metalness || 0) > 0.3 || !s.metalness : true)) {
+      const lit = env.flame || !comb.needsFlame;
+      if (lit) {
+        const r = Math.min(ml, (comb.flash ? 0.6 : 0.3) * dt);
+        mix.remove(id, r);
+        if (comb.gas) mix.add(comb.gas, r * 20);
+        if (comb.organic) mix.add('steam', r * 15);
+        else if (!comb.gas && !comb.smoke) { const ox = oxideOf(s.element); if (ox) mix.add(ox, r * 1.4); }
+        heat((comb.flash ? 60 : 30) * r / vol() * 4);
+        ev.push({ type: 'burning', color: comb.color });
+        if (comb.flash) ev.push({ type: 'flash', color: '#ffffff', intensity: 1 });
+        if (comb.sparks) ev.push({ type: 'sparks', color: comb.color, intensity: 1 });
+        if (comb.smoke) ev.push({ type: 'smoke', color: comb.smoke, intensity: 0.6 });
+      }
+    }
+  }
+
+  // --- Copper(II) + ammonia → deep royal-blue tetraamminecopper(II) ---------------------
+  const nh3 = mix.amount('ammonia');
+  if (nh3 > 0.5) {
+    for (const [id, ml, s] of entries()) {
+      if (!(s.ions && s.ions.cation === 'Cu' && (s.solution || s.id === 'cuoh2' || s.ions.anion === 'OH')) || ml <= 0) continue;
+      const r = Math.min(ml, mix.amount('ammonia') / 2, 3 * dt);
+      mix.remove(id, r); mix.remove('ammonia', r * 2);
+      mix.add(ensure('cu_ammine_aq', { name: 'Tetraamminecopper(II) solution', formula: '[Cu(NH3)4]2+(aq)', color: '#1d2fc8', opacity: 0.85, pH: 10.5,
+        info: 'The deep royal blue that appears when ammonia is added to copper(II) ions — a classic test for Cu²⁺.' }), r * 3);
+      ev.push({ type: 'precipitate', color: '#1d2fc8', intensity: 0.5 });
+    }
+  }
+
+  // --- Halogen displacement: Cl₂ frees bromine and iodine; Br₂ frees iodine -------------
+  const HAL = [['elem:Cl', 'Cl', ['Br', 'I']], ['elem:Br', 'Br', ['I']]];
+  for (const [hid, hx, weaker] of HAL) {
+    const have = mix.amount(hid) / (SUBSTANCES[hid].phase === 'gas' ? 20 : 1) + (hx === 'Br' ? mix.amount('bromine_water') * 0.2 : 0);
+    if (have <= 0.01) continue;
+    for (const [id, ml, s] of entries()) {
+      if (!s.solution || !s.ions || !weaker.includes(s.ions.anion) || ml <= 0) continue;
+      const r = Math.min(ml, have * 4, 4 * dt);
+      mix.remove(id, r);
+      const used = r / 4;
+      if (mix.amount(hid) > 0) mix.remove(hid, SUBSTANCES[hid].phase === 'gas' ? used * 20 : used); else mix.remove('bromine_water', used * 5);
+      const p = productFor(s.ions.cation, hx, s.ions.charge);
+      if (p.precipitate) mix.addSuspended(p.id, r * 0.3); else mix.add(p.id, r);
+      const freed = s.ions.anion === 'Br'
+        ? ensure('bromine_water', { name: 'Bromine water', formula: 'Br2(aq)', color: '#e0861a', opacity: 0.55, pH: 4, hazards: ['toxic'],
+          info: 'Bromine dissolved in water — orange-brown. Decolourises when shaken with an alkene.' })
+        : ensure('iodine_solution', { name: 'Iodine solution', formula: 'I2(aq)', color: '#8a3c0e', opacity: 0.75, pH: 6,
+          info: 'Iodine freed from iodide ions — brown in water (it turns blue-black with starch).' });
+      mix.add(freed, r * 0.6);
+      ev.push({ type: 'precipitate', color: SUBSTANCES[freed].color, intensity: 0.6 });
+    }
+  }
 }

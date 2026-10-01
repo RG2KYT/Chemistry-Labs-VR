@@ -6,6 +6,7 @@ import { displayFormula } from './library.js'; // also merges the PubChem librar
 import { signature, formulaString, molarMass, unsatisfiedAtoms, bondSum } from './graph.js';
 import { toSmiles } from './smilesWriter.js';
 import { lookupMolecule, lookupFormula } from './pubchem.js';
+import { inferredSolidLook, mentionsColour, knownLook, countsOf } from './ionColors.js';
 
 const INDEX = new Map();
 
@@ -42,10 +43,11 @@ function hash(str) {
 /** A first guess at the look until (or unless) the real data arrives. */
 const METAL_COLORS = { Cu: '#3d8fd6', Fe: '#b5562a', Co: '#d96a9a', Ni: '#5fae6a', Cr: '#4e8f3a', Mn: '#e7a6b8', V: '#4a6fc4', Ag: '#d8d4cc', Au: '#d8b13a', Pb: '#f2f0e6' };
 function estimatedLook(atoms, phase) {
-  const metal = atoms.find((a) => METAL_COLORS[a.el.symbol]);
   if (phase === 'gas') return { form: 'gas', color: '#ffffff', opacity: 0.05 };
   if (phase === 'liquid') return { form: 'liquid', color: '#e2eeff', opacity: 0.2 };
-  return { form: metal ? 'crystals' : 'powder', color: metal ? METAL_COLORS[metal.el.symbol] : '#f1f0ea', opacity: 1, roughness: metal ? 0.35 : 0.8 };
+  const inf = inferredSolidLook(atoms);
+  const metal = atoms.some((a) => METAL_COLORS[a.el.symbol]);
+  return { form: metal ? 'crystals' : 'powder', color: inf ? inf.color : '#f1f0ea', opacity: 1, roughness: metal ? 0.35 : 0.8, metalness: inf?.metalness };
 }
 
 function customSubstance(atoms, bonds) {
@@ -66,7 +68,7 @@ function customSubstance(atoms, bonds) {
     form: look.form,
     color: look.color,
     opacity: look.opacity,
-    metalness: 0,
+    metalness: look.metalness ?? 0,
     roughness: look.roughness ?? 0.8,
     emissive: null,
     emissiveIntensity: 0,
@@ -94,12 +96,12 @@ function customSubstance(atoms, bonds) {
   CUSTOM.set(sig, s);
   let smiles = null;
   try { smiles = toSmiles(atoms, bonds); } catch { /* lookup by formula only */ }
-  identifyOnline(s, { smiles, formula: formulaString(atoms), hasMetal });
+  identifyOnline(s, { smiles, formula: formulaString(atoms), hasMetal, atoms: atoms.map((a) => ({ el: a.el })) });
   return s;
 }
 
 const ROOM = 22;
-function applyLookup(s, r) {
+function applyLookup(s, r, atoms = null) {
   s.name = r.name;
   s.cid = r.cid;
   s.pending = false;
@@ -122,6 +124,13 @@ function applyLookup(s, r) {
   s.roughness = look.roughness ?? 0.6;
   s.translucent = !!look.translucent;
   if (phase === 'gas') s.density = 0.002;
+  // PubChem without a colour ("Dry Powder")? Work the colour out from the chemistry.
+  const mineral = atoms && phase === 'solid' ? knownLook(countsOf(atoms)) : null;
+  if (atoms && phase === 'solid' && (mineral || !mentionsColour(r.describe))) {
+    const inf = mineral || inferredSolidLook(atoms);
+    if (inf) { s.color = inf.color; s.metalness = inf.metalness ?? s.metalness; s.translucent = false; }
+  }
+  if (r.ghs) s.ghs = r.ghs;
 }
 
 const RETRY_S = [8, 20, 45, 90, 180];
@@ -130,7 +139,7 @@ function identifyOnline(s, query, attempt = 0) {
   const p = query.hasMetal || !query.smiles ? lookupFormula(query.formula) : lookupMolecule(query.smiles);
   p.then((r) => {
     if (r.status === 'found') {
-      applyLookup(s, r);
+      applyLookup(s, r, query.atoms);
     } else if (r.status === 'none' && query.hasMetal && query.smiles) {
       // Not found by formula — try the exact structure before giving up.
       identifyOnline(s, { ...query, hasMetal: false }, attempt);

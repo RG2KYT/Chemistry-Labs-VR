@@ -15,7 +15,12 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   "hydrogen_peroxide": {
    "cid": 784,
@@ -31,7 +36,27 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H271",
+    "H302",
+    "H311",
+    "H313",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H332",
+    "H335",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H402",
+    "H412"
+   ]
   },
   "hydrochloric_acid": {
    "cid": 313,
@@ -47,7 +72,20 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H301",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H334",
+    "H335",
+    "H370",
+    "H372",
+    "H400"
+   ]
   },
   "hydrofluoric_acid": {
    "cid": 14917,
@@ -63,7 +101,23 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H290",
+    "H300",
+    "H310",
+    "H311",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H331",
+    "H341",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   "hydrobromic_acid": {
    "cid": 260,
@@ -79,7 +133,16 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H314",
+    "H318",
+    "H331",
+    "H335",
+    "H370",
+    "H372"
+   ]
   },
   "hydroiodic_acid": {
    "cid": 24841,
@@ -95,7 +158,14 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H314",
+    "H318",
+    "H370",
+    "H372"
+   ]
   },
   "sulfuric_acid": {
    "cid": 1118,
@@ -111,7 +181,18 @@
     "color": "#d6ecff",
     "opacity": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H290",
+    "H303",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372",
+    "H402",
+    "H410"
+   ]
   },
   "nitric_acid": {
    "cid": 944,
@@ -127,7 +208,20 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H290",
+    "H302",
+    "H304",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   "phosphoric_acid": {
    "cid": 1004,
@@ -144,7 +238,18 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H313",
+    "H314",
+    "H318",
+    "H331",
+    "H332",
+    "H335",
+    "H370",
+    "H402"
+   ]
   },
   "carbonic_acid": {
    "cid": 767,
@@ -161,7 +266,15 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H312",
+    "H315",
+    "H319",
+    "H332",
+    "H335"
+   ]
   },
   "acetic_acid": {
    "cid": 176,
@@ -177,7 +290,17 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H226",
+    "H303",
+    "H312",
+    "H314",
+    "H318",
+    "H334",
+    "H370",
+    "H371"
+   ]
   },
   "formic_acid": {
    "cid": 284,
@@ -193,7 +316,22 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H226",
+    "H290",
+    "H302",
+    "H314",
+    "H318",
+    "H331",
+    "H332",
+    "H335",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H402"
+   ]
   },
   "hydrogen_cyanide": {
    "cid": 768,
@@ -209,7 +347,18 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H224",
+    "H300",
+    "H310",
+    "H319",
+    "H330",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "ammonia": {
    "cid": 222,
@@ -225,7 +374,26 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H221",
+    "H280",
+    "H302",
+    "H314",
+    "H318",
+    "H331",
+    "H332",
+    "H334",
+    "H341",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H402",
+    "H410",
+    "H411"
+   ]
   },
   "hydrazine": {
    "cid": 9321,
@@ -241,7 +409,28 @@
     "color": "#d6ecff",
     "opacity": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H226",
+    "H301",
+    "H310",
+    "H311",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H331",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "methanol": {
    "cid": 887,
@@ -257,7 +446,21 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H301",
+    "H302",
+    "H303",
+    "H311",
+    "H319",
+    "H331",
+    "H335",
+    "H336",
+    "H360",
+    "H370",
+    "H372"
+   ]
   },
   "ethanol": {
    "cid": 702,
@@ -273,7 +476,21 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H340",
+    "H350",
+    "H360",
+    "H372",
+    "H373",
+    "H412"
+   ]
   },
   "propanol": {
    "cid": 1031,
@@ -289,7 +506,20 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H303",
+    "H305",
+    "H313",
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H336",
+    "H351",
+    "H361"
+   ]
   },
   "isopropanol": {
    "cid": 3776,
@@ -305,7 +535,23 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H303",
+    "H305",
+    "H313",
+    "H318",
+    "H319",
+    "H335",
+    "H336",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "acetone": {
    "cid": 180,
@@ -321,7 +567,18 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H305",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H361",
+    "H372",
+    "H373"
+   ]
   },
   "acetaldehyde": {
    "cid": 177,
@@ -337,7 +594,26 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H224",
+    "H302",
+    "H311",
+    "H315",
+    "H317",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   "formaldehyde": {
    "cid": 712,
@@ -353,7 +629,32 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H227",
+    "H280",
+    "H301",
+    "H302",
+    "H311",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H334",
+    "H341",
+    "H350",
+    "H350i",
+    "H351",
+    "H370",
+    "H372",
+    "H401",
+    "H402",
+    "H412"
+   ]
   },
   "benzene": {
    "cid": 241,
@@ -369,7 +670,25 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H302",
+    "H304",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H340",
+    "H341",
+    "H350",
+    "H361",
+    "H370",
+    "H372",
+    "H401",
+    "H411"
+   ]
   },
   "toluene": {
    "cid": 1140,
@@ -385,7 +704,26 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H303",
+    "H304",
+    "H315",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H360",
+    "H361",
+    "H361d",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H412"
+   ]
   },
   "phenol": {
    "cid": 996,
@@ -402,7 +740,24 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H302",
+    "H311",
+    "H314",
+    "H318",
+    "H331",
+    "H340",
+    "H341",
+    "H360",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   "cyclohexane": {
    "cid": 8078,
@@ -418,7 +773,23 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H304",
+    "H305",
+    "H315",
+    "H319",
+    "H335",
+    "H336",
+    "H361",
+    "H371",
+    "H400",
+    "H401",
+    "H410",
+    "H411",
+    "H412"
+   ]
   },
   "pentane": {
    "cid": 8003,
@@ -434,7 +805,16 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H304",
+    "H320",
+    "H335",
+    "H336",
+    "H401",
+    "H411"
+   ]
   },
   "hexane": {
    "cid": 8058,
@@ -450,7 +830,23 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H304",
+    "H315",
+    "H317",
+    "H319",
+    "H335",
+    "H336",
+    "H361",
+    "H361f",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   "octane": {
    "cid": 356,
@@ -466,7 +862,19 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H304",
+    "H315",
+    "H319",
+    "H335",
+    "H336",
+    "H370",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   "diethyl_ether": {
    "cid": 3283,
@@ -482,7 +890,18 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H224",
+    "H302",
+    "H305",
+    "H316",
+    "H320",
+    "H335",
+    "H336",
+    "H361",
+    "H372"
+   ]
   },
   "dimethyl_ether": {
    "cid": 8254,
@@ -498,7 +917,12 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H336"
+   ]
   },
   "ethyl_acetate": {
    "cid": 8857,
@@ -514,7 +938,16 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H225",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H370"
+   ]
   },
   "chloroform": {
    "cid": 6212,
@@ -530,7 +963,26 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H331",
+    "H332",
+    "H336",
+    "H341",
+    "H351",
+    "H361",
+    "H361d",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H410"
+   ]
   },
   "dichloromethane": {
    "cid": 6344,
@@ -546,7 +998,23 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H350",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   "carbon_tetrachloride": {
    "cid": 5943,
@@ -562,7 +1030,29 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H303",
+    "H311",
+    "H315",
+    "H317",
+    "H319",
+    "H331",
+    "H332",
+    "H350",
+    "H351",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H402",
+    "H411",
+    "H412",
+    "H420"
+   ]
   },
   "carbon_disulfide": {
    "cid": 6348,
@@ -578,7 +1068,29 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H224",
+    "H225",
+    "H303",
+    "H305",
+    "H315",
+    "H319",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H360",
+    "H361",
+    "H361fd",
+    "H362",
+    "H370",
+    "H371",
+    "H372",
+    "H401",
+    "H411"
+   ]
   },
   "ethylene_glycol": {
    "cid": 174,
@@ -594,7 +1106,20 @@
     "color": "#d6ecff",
     "opacity": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H303",
+    "H315",
+    "H316",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H360",
+    "H370",
+    "H372"
+   ]
   },
   "glycerol": {
    "cid": 753,
@@ -610,7 +1135,8 @@
     "color": "#d6ecff",
     "opacity": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "nitromethane": {
    "cid": 6375,
@@ -626,7 +1152,22 @@
     "color": "#d6ecff",
     "opacity": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H226",
+    "H302",
+    "H316",
+    "H319",
+    "H335",
+    "H336",
+    "H351",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   "sulfur_trioxide": {
    "cid": 24682,
@@ -642,7 +1183,12 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H314",
+    "H318",
+    "H335"
+   ]
   },
   "bleach": {
    "cid": 23665760,
@@ -658,7 +1204,17 @@
     "color": "#d2e04a",
     "opacity": 0.35
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H290",
+    "H314",
+    "H318",
+    "H335",
+    "H371",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "carbon_dioxide": {
    "cid": 280,
@@ -674,7 +1230,11 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H336"
+   ]
   },
   "carbon_monoxide": {
    "cid": 281,
@@ -690,7 +1250,17 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H331",
+    "H360",
+    "H360D",
+    "H370",
+    "H372",
+    "H373"
+   ]
   },
   "methane": {
    "cid": 297,
@@ -706,7 +1276,12 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H281"
+   ]
   },
   "ethane": {
    "cid": 6324,
@@ -722,7 +1297,13 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H281",
+    "H336"
+   ]
   },
   "propane": {
    "cid": 6334,
@@ -738,7 +1319,12 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H336"
+   ]
   },
   "butane": {
    "cid": 7843,
@@ -754,7 +1340,15 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H336",
+    "H340",
+    "H350",
+    "H372"
+   ]
   },
   "ethene": {
    "cid": 6325,
@@ -770,7 +1364,15 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H281",
+    "H336",
+    "H402",
+    "H412"
+   ]
   },
   "ethyne": {
    "cid": 6326,
@@ -786,7 +1388,12 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H336"
+   ]
   },
   "hydrogen_sulfide": {
    "cid": 402,
@@ -802,7 +1409,15 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H319",
+    "H330",
+    "H370",
+    "H400"
+   ]
   },
   "sulfur_dioxide": {
    "cid": 1119,
@@ -818,7 +1433,16 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H314",
+    "H318",
+    "H319",
+    "H331",
+    "H370",
+    "H372"
+   ]
   },
   "nitric_oxide": {
    "cid": 145068,
@@ -834,7 +1458,17 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H370",
+    "H373"
+   ]
   },
   "nitrogen_dioxide": {
    "cid": 3032552,
@@ -850,7 +1484,20 @@
     "color": "#c0281e",
     "opacity": 0.32
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H336",
+    "H361",
+    "H370",
+    "H372"
+   ]
   },
   "nitrous_oxide": {
    "cid": 948,
@@ -866,7 +1513,15 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H270",
+    "H280",
+    "H281",
+    "H336",
+    "H360",
+    "H372"
+   ]
   },
   "chloromethane": {
    "cid": 6327,
@@ -882,7 +1537,23 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H302",
+    "H332",
+    "H336",
+    "H340",
+    "H341",
+    "H351",
+    "H360",
+    "H361",
+    "H370",
+    "H371",
+    "H372",
+    "H373"
+   ]
   },
   "silane": {
    "cid": 23953,
@@ -898,7 +1569,16 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H319",
+    "H333",
+    "H335",
+    "H373"
+   ]
   },
   "phosphine": {
    "cid": 24404,
@@ -914,7 +1594,16 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H220",
+    "H280",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H400"
+   ]
   },
   "sulfur_hexafluoride": {
    "cid": 17358,
@@ -930,7 +1619,11 @@
     "color": "#ffffff",
     "opacity": 0.05
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H280",
+    "H336"
+   ]
   },
   "nacl": {
    "cid": 5234,
@@ -947,7 +1640,11 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H318",
+    "H412"
+   ]
   },
   "kcl": {
    "cid": 4873,
@@ -963,7 +1660,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "licl": {
    "cid": 433294,
@@ -979,7 +1677,21 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H336",
+    "H360",
+    "H361",
+    "H362",
+    "H370",
+    "H371",
+    "H372",
+    "H373"
+   ]
   },
   "naf": {
    "cid": 5235,
@@ -996,7 +1708,20 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H341",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H402"
+   ]
   },
   "nabr": {
    "cid": 253881,
@@ -1012,7 +1737,10 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H360"
+   ]
   },
   "nai": {
    "cid": 5238,
@@ -1029,7 +1757,13 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315",
+    "H319",
+    "H372",
+    "H400"
+   ]
   },
   "kbr": {
    "cid": 253877,
@@ -1046,7 +1780,10 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H319"
+   ]
   },
   "ki": {
    "cid": 4875,
@@ -1063,7 +1800,16 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H319",
+    "H320",
+    "H360",
+    "H361",
+    "H362",
+    "H370",
+    "H372"
+   ]
   },
   "naoh": {
    "cid": 14798,
@@ -1079,7 +1825,16 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H290",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H370"
+   ]
   },
   "koh": {
    "cid": 14797,
@@ -1095,7 +1850,18 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H290",
+    "H301",
+    "H302",
+    "H304",
+    "H314",
+    "H318",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   "lioh": {
    "cid": 3939,
@@ -1112,7 +1878,19 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H302",
+    "H314",
+    "H318",
+    "H331",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H372"
+   ]
   },
   "nahco3": {
    "cid": 516892,
@@ -1128,7 +1906,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "na2co3": {
    "cid": 10340,
@@ -1144,7 +1923,16 @@
     "color": "#e2e2de",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H304",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H370"
+   ]
   },
   "caco3": {
    "cid": 10112,
@@ -1160,7 +1948,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "cao": {
    "cid": 14778,
@@ -1176,7 +1965,18 @@
     "color": "#9a9ea4",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H303",
+    "H304",
+    "H314",
+    "H315",
+    "H318",
+    "H335",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   "caoh2": {
    "cid": 6093208,
@@ -1193,7 +1993,15 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315",
+    "H318",
+    "H335",
+    "H370",
+    "H373",
+    "H402"
+   ]
   },
   "cacl2": {
    "cid": 5284359,
@@ -1209,7 +2017,14 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H318",
+    "H319",
+    "H335",
+    "H373"
+   ]
   },
   "caf2": {
    "cid": 84512,
@@ -1225,7 +2040,12 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   "caso4": {
    "cid": 24497,
@@ -1242,7 +2062,10 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H335"
+   ]
   },
   "mgo": {
    "cid": 14792,
@@ -1258,7 +2081,11 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H319",
+    "H335"
+   ]
   },
   "mgoh2": {
    "cid": 73981,
@@ -1274,7 +2101,8 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "mgcl2": {
    "cid": 5360315,
@@ -1290,7 +2118,10 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315"
+   ]
   },
   "mgso4": {
    "cid": 24083,
@@ -1307,7 +2138,12 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H312",
+    "H332"
+   ]
   },
   "na2so4": {
    "cid": 24436,
@@ -1323,7 +2159,11 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H320",
+    "H370"
+   ]
   },
   "na2o": {
    "cid": 73971,
@@ -1339,7 +2179,11 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H314",
+    "H318"
+   ]
   },
   "k2o": {
    "cid": 9989219,
@@ -1355,7 +2199,11 @@
     "color": "#f4f4f1",
     "opacity": 0.6
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H314",
+    "H318"
+   ]
   },
   "kno3": {
    "cid": 24434,
@@ -1372,7 +2220,19 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H303",
+    "H315",
+    "H319",
+    "H335",
+    "H361",
+    "H370",
+    "H371",
+    "H372",
+    "H373"
+   ]
   },
   "nano3": {
    "cid": 24268,
@@ -1389,7 +2249,18 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H319",
+    "H320",
+    "H341",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   "nh4cl": {
    "cid": 25517,
@@ -1406,7 +2277,20 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H316",
+    "H319",
+    "H320",
+    "H335",
+    "H361",
+    "H371",
+    "H372",
+    "H401",
+    "H402",
+    "H411"
+   ]
   },
   "agcl": {
    "cid": 24561,
@@ -1422,7 +2306,11 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H400",
+    "H410"
+   ]
   },
   "agbr": {
    "cid": 66199,
@@ -1438,7 +2326,11 @@
     "color": "#f2d33a",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H400",
+    "H410"
+   ]
   },
   "agi": {
    "cid": 24563,
@@ -1454,7 +2346,13 @@
     "color": "#f5eba8",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H360",
+    "H362",
+    "H372",
+    "H410"
+   ]
   },
   "agno3": {
    "cid": 24470,
@@ -1471,7 +2369,21 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H300",
+    "H302",
+    "H314",
+    "H318",
+    "H335",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "kmno4": {
    "cid": 516875,
@@ -1487,7 +2399,22 @@
     "color": "#3a1450",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H302",
+    "H314",
+    "H318",
+    "H335",
+    "H341",
+    "H361",
+    "H361d",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "k2cr2o7": {
    "cid": 24502,
@@ -1503,7 +2430,28 @@
     "color": "#e04a1e",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H300",
+    "H301",
+    "H310",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H334",
+    "H340",
+    "H350",
+    "H360",
+    "H360FD",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "cuso4": {
    "cid": 24462,
@@ -1519,7 +2467,24 @@
     "color": "#e2e2de",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H335",
+    "H341",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "cuo": {
    "cid": 164827,
@@ -1535,7 +2500,14 @@
     "color": "#1d1d1f",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H317",
+    "H335",
+    "H370",
+    "H400",
+    "H410"
+   ]
   },
   "cu2o": {
    "cid": 18346908,
@@ -1551,7 +2523,17 @@
     "color": "#7a2e12",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H370",
+    "H400",
+    "H410"
+   ]
   },
   "cucl2": {
    "cid": 24014,
@@ -1567,7 +2549,21 @@
     "color": "#f2d33a",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H335",
+    "H361",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   "cuoh2": {
    "cid": 164826,
@@ -1583,7 +2579,14 @@
     "color": "#2f6fd0",
     "roughness": 0.6
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H318",
+    "H330",
+    "H400",
+    "H410"
+   ]
   },
   "fe2o3": {
    "cid": 14833,
@@ -1599,7 +2602,8 @@
     "color": "#1d1d1f",
     "roughness": 0.3
    },
-   "byName": false
+   "byName": false,
+   "ghs": []
   },
   "feo": {
    "cid": 449809,
@@ -1615,7 +2619,8 @@
     "color": "#1d1d1f",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "fecl3": {
    "cid": 24380,
@@ -1631,7 +2636,19 @@
     "color": "#c0281e",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H304",
+    "H314",
+    "H318",
+    "H335",
+    "H341",
+    "H370",
+    "H371",
+    "H402",
+    "H412"
+   ]
   },
   "fecl2": {
    "cid": 24458,
@@ -1647,7 +2664,15 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H290",
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H412"
+   ]
   },
   "feso4": {
    "cid": 24393,
@@ -1663,7 +2688,12 @@
     "color": "#f4f4f1",
     "opacity": 0.6
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H315",
+    "H319"
+   ]
   },
   "feoh3": {
    "cid": 73964,
@@ -1680,7 +2710,12 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": false
+   "byName": false,
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   "zno": {
    "cid": 3007857,
@@ -1696,7 +2731,15 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H333",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "zncl2": {
    "cid": 5727,
@@ -1712,7 +2755,22 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H310",
+    "H314",
+    "H318",
+    "H330",
+    "H332",
+    "H335",
+    "H341",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "zns": {
    "cid": 9833931,
@@ -1728,7 +2786,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "znso4": {
    "cid": 24424,
@@ -1745,7 +2804,16 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H318",
+    "H361",
+    "H371",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   "al2o3": {
    "cid": 9989226,
@@ -1761,7 +2829,11 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H335",
+    "H372"
+   ]
   },
   "alcl3": {
    "cid": 24012,
@@ -1777,7 +2849,17 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H341",
+    "H361",
+    "H373"
+   ]
   },
   "pbno32": {
    "cid": 24924,
@@ -1793,7 +2875,27 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "pbi2": {
    "cid": 24931,
@@ -1809,7 +2911,18 @@
     "color": "#f2d33a",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H332",
+    "H351",
+    "H360",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "baso4": {
    "cid": 24414,
@@ -1825,7 +2938,12 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H372",
+    "H402",
+    "H412"
+   ]
   },
   "bacl2": {
    "cid": 25204,
@@ -1841,7 +2959,21 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   "srcl2": {
    "cid": 5362485,
@@ -1858,7 +2990,11 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H318",
+    "H341"
+   ]
   },
   "cocl2": {
    "cid": 24288,
@@ -1875,7 +3011,8 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": false
+   "byName": false,
+   "ghs": []
   },
   "nicl2": {
    "cid": 24385,
@@ -1891,7 +3028,28 @@
     "color": "#f2d33a",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H301",
+    "H302",
+    "H315",
+    "H317",
+    "H330",
+    "H331",
+    "H334",
+    "H341",
+    "H350",
+    "H350i",
+    "H360",
+    "H360D",
+    "H361",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   "cr2o3": {
    "cid": 517277,
@@ -1907,7 +3065,12 @@
     "color": "#245a2c",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H317",
+    "H334",
+    "H372"
+   ]
   },
   "mno2": {
    "cid": 14801,
@@ -1923,7 +3086,13 @@
     "color": "#8a9098",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H332",
+    "H370",
+    "H372"
+   ]
   },
   "tio2": {
    "cid": 26042,
@@ -1939,7 +3108,15 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H319",
+    "H320",
+    "H335",
+    "H351",
+    "H372",
+    "H413"
+   ]
   },
   "sio2": {
    "cid": 24261,
@@ -1956,7 +3133,17 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H341",
+    "H350",
+    "H350i",
+    "H372"
+   ]
   },
   "naac": {
    "cid": 31372,
@@ -1973,7 +3160,8 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "li2co3": {
    "cid": 11125,
@@ -1989,7 +3177,22 @@
     "color": "#f4f4f1",
     "roughness": 0.9
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H372",
+    "H402",
+    "H412"
+   ]
   },
   "glucose": {
    "cid": 5793,
@@ -2005,7 +3208,8 @@
     "color": "#d6ecff",
     "opacity": 0.16
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "urea": {
    "cid": 1176,
@@ -2021,7 +3225,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "glycine": {
    "cid": 750,
@@ -2037,7 +3242,8 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": []
   },
   "aspirin": {
    "cid": 2244,
@@ -2054,7 +3260,19 @@
     "roughness": 0.12,
     "translucent": true
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H302",
+    "H316",
+    "H319",
+    "H334",
+    "H360",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H412"
+   ]
   },
   "naphthalene": {
    "cid": 931,
@@ -2070,7 +3288,22 @@
     "color": "#f4f4f1",
     "roughness": 0.3
    },
-   "byName": true
+   "byName": true,
+   "ghs": [
+    "H228",
+    "H302",
+    "H316",
+    "H317",
+    "H320",
+    "H335",
+    "H351",
+    "H370",
+    "H371",
+    "H372",
+    "H400",
+    "H410",
+    "H411"
+   ]
   }
  },
  "compounds": [
@@ -2092,7 +3325,18 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[NH4+].[N+](=O)([O-])[O-]"
+   "pubchemSmiles": "[NH4+].[N+](=O)([O-])[O-]",
+   "ghs": [
+    "H272",
+    "H303",
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Ammonium sulfate",
@@ -2112,7 +3356,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[NH4+].[NH4+].[O-]S(=O)(=O)[O-]"
+   "pubchemSmiles": "[NH4+].[NH4+].[O-]S(=O)(=O)[O-]",
+   "ghs": [
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Ammonium carbonate",
@@ -2133,7 +3381,10 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[NH4+].[NH4+]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[NH4+].[NH4+]",
+   "ghs": [
+    "H302"
+   ]
   },
   {
    "name": "Ammonium bicarbonate",
@@ -2154,7 +3405,10 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(O)[O-].[NH4+]"
+   "pubchemSmiles": "C(=O)(O)[O-].[NH4+]",
+   "ghs": [
+    "H302"
+   ]
   },
   {
    "name": "Ammonium phosphate",
@@ -2174,7 +3428,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[NH4+].[NH4+].OP(=O)([O-])[O-]"
+   "pubchemSmiles": "[NH4+].[NH4+].OP(=O)([O-])[O-]",
+   "ghs": []
   },
   {
    "name": "Ammonium dichromate",
@@ -2194,7 +3449,28 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[NH4+].[NH4+].[O-][Cr](=O)(=O)O[Cr](=O)(=O)[O-]"
+   "pubchemSmiles": "[NH4+].[NH4+].[O-][Cr](=O)(=O)O[Cr](=O)(=O)[O-]",
+   "ghs": [
+    "H272",
+    "H300",
+    "H301",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H334",
+    "H340",
+    "H341",
+    "H350",
+    "H360",
+    "H360FD",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Sodium sulfite",
@@ -2214,7 +3490,12 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)[O-].[Na+].[Na+]"
+   "pubchemSmiles": "[O-]S(=O)[O-].[Na+].[Na+]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Sodium thiosulfate",
@@ -2235,7 +3516,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=S)[O-].[Na+].[Na+]"
+   "pubchemSmiles": "[O-]S(=O)(=S)[O-].[Na+].[Na+]",
+   "ghs": []
   },
   {
    "name": "Trisodium phosphate",
@@ -2256,7 +3538,14 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]P(=O)([O-])[O-].[Na+].[Na+].[Na+]"
+   "pubchemSmiles": "[O-]P(=O)([O-])[O-].[Na+].[Na+].[Na+]",
+   "ghs": [
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Sodium silicate",
@@ -2277,7 +3566,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][Si](=O)[O-].[Na+].[Na+]"
+   "pubchemSmiles": "[O-][Si](=O)[O-].[Na+].[Na+]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H335",
+    "H371"
+   ]
   },
   {
    "name": "Sodium peroxide",
@@ -2297,7 +3594,13 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][O-].[Na+].[Na+]"
+   "pubchemSmiles": "[O-][O-].[Na+].[Na+]",
+   "ghs": [
+    "H271",
+    "H314",
+    "H318",
+    "H335"
+   ]
   },
   {
    "name": "Sodium hydride",
@@ -2318,7 +3621,8 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "[H-].[Na+]"
+   "pubchemSmiles": "[H-].[Na+]",
+   "ghs": []
   },
   {
    "name": "Sodium azide",
@@ -2339,7 +3643,18 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[N-]=[N+]=[N-].[Na+]"
+   "pubchemSmiles": "[N-]=[N+]=[N-].[Na+]",
+   "ghs": [
+    "H300",
+    "H310",
+    "H314",
+    "H318",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Sodium nitrite",
@@ -2359,7 +3674,21 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "N(=O)[O-].[Na+]"
+   "pubchemSmiles": "N(=O)[O-].[Na+]",
+   "ghs": [
+    "H272",
+    "H301",
+    "H319",
+    "H330",
+    "H341",
+    "H361",
+    "H362",
+    "H370",
+    "H371",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Sodium chlorate",
@@ -2380,7 +3709,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Cl(=O)=O.[Na+]"
+   "pubchemSmiles": "[O-]Cl(=O)=O.[Na+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H301",
+    "H302",
+    "H332",
+    "H411"
+   ]
   },
   {
    "name": "Sodium perchlorate",
@@ -2400,7 +3737,17 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Cl(=O)(=O)=O.[Na+]"
+   "pubchemSmiles": "[O-]Cl(=O)(=O)=O.[Na+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H302",
+    "H303",
+    "H315",
+    "H319",
+    "H335",
+    "H373"
+   ]
   },
   {
    "name": "Sodium bromate",
@@ -2420,7 +3767,26 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Br(=O)=O.[Na+]"
+   "pubchemSmiles": "[O-]Br(=O)=O.[Na+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H301",
+    "H302",
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Sodium iodate",
@@ -2440,7 +3806,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]I(=O)=O.[Na+]"
+   "pubchemSmiles": "[O-]I(=O)=O.[Na+]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H317",
+    "H334",
+    "H371"
+   ]
   },
   {
    "name": "Sodium sulfide",
@@ -2460,7 +3833,19 @@
     "opacity": 0.32
    },
    "experimental": true,
-   "pubchemSmiles": "[Na+].[Na+].[SH-]"
+   "pubchemSmiles": "[Na+].[Na+].[SH-]",
+   "ghs": [
+    "H251",
+    "H301",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H318",
+    "H335",
+    "H371",
+    "H400"
+   ]
   },
   {
    "name": "Sodium bisulfate",
@@ -2480,7 +3865,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "OS(=O)(=O)[O-].[Na+]"
+   "pubchemSmiles": "OS(=O)(=O)[O-].[Na+]",
+   "ghs": [
+    "H318",
+    "H319"
+   ]
   },
   {
    "name": "Potassium chlorate",
@@ -2501,7 +3890,20 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Cl(=O)=O.[K+]"
+   "pubchemSmiles": "[O-]Cl(=O)=O.[K+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H301",
+    "H302",
+    "H316",
+    "H320",
+    "H332",
+    "H335",
+    "H371",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Potassium perchlorate",
@@ -2522,7 +3924,16 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Cl(=O)(=O)=O.[K+]"
+   "pubchemSmiles": "[O-]Cl(=O)(=O)=O.[K+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H373"
+   ]
   },
   {
    "name": "Potassium carbonate",
@@ -2543,7 +3954,16 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[K+].[K+]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[K+].[K+]",
+   "ghs": [
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Potassium bicarbonate",
@@ -2563,7 +3983,8 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(O)[O-].[K+]"
+   "pubchemSmiles": "C(=O)(O)[O-].[K+]",
+   "ghs": []
   },
   {
    "name": "Potassium sulfate",
@@ -2584,7 +4005,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[K+].[K+]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[K+].[K+]",
+   "ghs": []
   },
   {
    "name": "Potassium chromate",
@@ -2604,7 +4026,29 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][Cr](=O)(=O)[O-].[K+].[K+]"
+   "pubchemSmiles": "[O-][Cr](=O)(=O)[O-].[K+].[K+]",
+   "ghs": [
+    "H301",
+    "H312",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H330",
+    "H334",
+    "H335",
+    "H340",
+    "H341",
+    "H350",
+    "H350i",
+    "H360",
+    "H360FD",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Potassium cyanide",
@@ -2624,7 +4068,23 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[C-]#N.[K+]"
+   "pubchemSmiles": "[C-]#N.[K+]",
+   "ghs": [
+    "H300",
+    "H310",
+    "H315",
+    "H316",
+    "H319",
+    "H330",
+    "H335",
+    "H361",
+    "H370",
+    "H371",
+    "H372",
+    "H400",
+    "H410",
+    "H412"
+   ]
   },
   {
    "name": "Sodium cyanide",
@@ -2644,7 +4104,21 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[C-]#N.[Na+]"
+   "pubchemSmiles": "[C-]#N.[Na+]",
+   "ghs": [
+    "H290",
+    "H300",
+    "H310",
+    "H315",
+    "H316",
+    "H318",
+    "H319",
+    "H330",
+    "H361",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Potassium fluoride",
@@ -2664,7 +4138,13 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[F-].[K+]"
+   "pubchemSmiles": "[F-].[K+]",
+   "ghs": [
+    "H301",
+    "H311",
+    "H318",
+    "H331"
+   ]
   },
   {
    "name": "Potassium iodate",
@@ -2684,7 +4164,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]I(=O)=O.[K+]"
+   "pubchemSmiles": "[O-]I(=O)=O.[K+]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H371"
+   ]
   },
   {
    "name": "Potassium bromate",
@@ -2704,7 +4192,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Br(=O)=O.[K+]"
+   "pubchemSmiles": "[O-]Br(=O)=O.[K+]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H301",
+    "H302",
+    "H316",
+    "H319",
+    "H320",
+    "H335",
+    "H341",
+    "H350",
+    "H351",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Potassium nitrite",
@@ -2724,7 +4227,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "N(=O)[O-].[K+]"
+   "pubchemSmiles": "N(=O)[O-].[K+]",
+   "ghs": [
+    "H272",
+    "H301",
+    "H315",
+    "H320",
+    "H333",
+    "H335",
+    "H361",
+    "H362",
+    "H370",
+    "H371",
+    "H400",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Potassium sulfide",
@@ -2744,7 +4262,17 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[S-2].[K+].[K+]"
+   "pubchemSmiles": "[S-2].[K+].[K+]",
+   "ghs": [
+    "H251",
+    "H300",
+    "H301",
+    "H312",
+    "H314",
+    "H318",
+    "H371",
+    "H400"
+   ]
   },
   {
    "name": "Lithium fluoride",
@@ -2764,7 +4292,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[F-]"
+   "pubchemSmiles": "[Li+].[F-]",
+   "ghs": [
+    "H301",
+    "H302",
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Lithium bromide",
@@ -2784,7 +4319,22 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[Br-]"
+   "pubchemSmiles": "[Li+].[Br-]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H371",
+    "H372",
+    "H373"
+   ]
   },
   {
    "name": "Lithium iodide",
@@ -2804,7 +4354,13 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[I-]"
+   "pubchemSmiles": "[Li+].[I-]",
+   "ghs": [
+    "H315",
+    "H319",
+    "H335",
+    "H400"
+   ]
   },
   {
    "name": "Lithium nitrate",
@@ -2824,7 +4380,18 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[N+](=O)([O-])[O-]"
+   "pubchemSmiles": "[Li+].[N+](=O)([O-])[O-]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H319",
+    "H320",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Lithium sulfate",
@@ -2845,7 +4412,17 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[Li+].[O-]S(=O)(=O)[O-]"
+   "pubchemSmiles": "[Li+].[Li+].[O-]S(=O)(=O)[O-]",
+   "ghs": [
+    "H302",
+    "H319",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H372",
+    "H412"
+   ]
   },
   {
    "name": "Lithium oxide",
@@ -2865,7 +4442,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Li+].[Li+].[O-2]"
+   "pubchemSmiles": "[Li+].[Li+].[O-2]",
+   "ghs": [
+    "H314"
+   ]
   },
   {
    "name": "Lithium hydride",
@@ -2885,7 +4465,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[H-].[Li+]"
+   "pubchemSmiles": "[H-].[Li+]",
+   "ghs": [
+    "H228",
+    "H260",
+    "H301",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H336",
+    "H360",
+    "H362",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Magnesium carbonate",
@@ -2905,7 +4500,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Mg+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Mg+2]",
+   "ghs": []
   },
   {
    "name": "Magnesium nitrate",
@@ -2925,7 +4521,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Mg+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Mg+2]",
+   "ghs": [
+    "H272",
+    "H315",
+    "H319",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Magnesium sulfide",
@@ -2945,7 +4549,14 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[Mg]=S"
+   "pubchemSmiles": "[Mg]=S",
+   "ghs": [
+    "H252",
+    "H302",
+    "H311",
+    "H314",
+    "H400"
+   ]
   },
   {
    "name": "Magnesium fluoride",
@@ -2966,7 +4577,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[F-].[F-].[Mg+2]"
+   "pubchemSmiles": "[F-].[F-].[Mg+2]",
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Magnesium bromide",
@@ -2987,7 +4603,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[Mg+2].[Br-].[Br-]"
+   "pubchemSmiles": "[Mg+2].[Br-].[Br-]",
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Calcium nitrate",
@@ -3007,7 +4628,16 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ca+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ca+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Calcium phosphate",
@@ -3027,7 +4657,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]P(=O)([O-])[O-].[O-]P(=O)([O-])[O-].[Ca+2].[Ca+2].[Ca+2]"
+   "pubchemSmiles": "[O-]P(=O)([O-])[O-].[O-]P(=O)([O-])[O-].[Ca+2].[Ca+2].[Ca+2]",
+   "ghs": []
   },
   {
    "name": "Calcium sulfide",
@@ -3047,7 +4678,17 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[S-2].[Ca+2]"
+   "pubchemSmiles": "[S-2].[Ca+2]",
+   "ghs": [
+    "H228",
+    "H301",
+    "H312",
+    "H314",
+    "H315",
+    "H319",
+    "H335",
+    "H400"
+   ]
   },
   {
    "name": "Calcium hydride",
@@ -3067,7 +4708,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[H-].[H-].[Ca+2]"
+   "pubchemSmiles": "[H-].[H-].[Ca+2]",
+   "ghs": [
+    "H260"
+   ]
   },
   {
    "name": "Calcium bromide",
@@ -3088,7 +4732,10 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[Ca+2].[Br-].[Br-]"
+   "pubchemSmiles": "[Ca+2].[Br-].[Br-]",
+   "ghs": [
+    "H318"
+   ]
   },
   {
    "name": "Calcium iodide",
@@ -3109,7 +4756,11 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[Ca+2].[I-].[I-]"
+   "pubchemSmiles": "[Ca+2].[I-].[I-]",
+   "ghs": [
+    "H315",
+    "H319"
+   ]
   },
   {
    "name": "Calcium hypochlorite",
@@ -3129,7 +4780,20 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]Cl.[O-]Cl.[Ca+2]"
+   "pubchemSmiles": "[O-]Cl.[O-]Cl.[Ca+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H313",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H335",
+    "H371",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Strontium nitrate",
@@ -3149,7 +4813,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Sr+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Sr+2]",
+   "ghs": [
+    "H271",
+    "H272",
+    "H315",
+    "H318",
+    "H320"
+   ]
   },
   {
    "name": "Strontium carbonate",
@@ -3169,7 +4840,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Sr+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Sr+2]",
+   "ghs": []
   },
   {
    "name": "Strontium oxide",
@@ -3189,7 +4861,11 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[Sr+2]"
+   "pubchemSmiles": "[O-2].[Sr+2]",
+   "ghs": [
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Strontium hydroxide",
@@ -3210,7 +4886,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[OH-].[OH-].[Sr+2]"
+   "pubchemSmiles": "[OH-].[OH-].[Sr+2]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Barium nitrate",
@@ -3230,7 +4911,19 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ba+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ba+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H316",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Barium carbonate",
@@ -3250,7 +4943,15 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Ba+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Ba+2]",
+   "ghs": [
+    "H301",
+    "H302",
+    "H335",
+    "H361",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Barium hydroxide",
@@ -3270,7 +4971,19 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[OH-].[OH-].[Ba+2]"
+   "pubchemSmiles": "[OH-].[OH-].[Ba+2]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Barium peroxide",
@@ -3290,7 +5003,22 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][O-].[Ba+2]"
+   "pubchemSmiles": "[O-][O-].[Ba+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H314",
+    "H315",
+    "H316",
+    "H318",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Barium oxide",
@@ -3310,7 +5038,23 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Ba]"
+   "pubchemSmiles": "O=[Ba]",
+   "ghs": [
+    "H271",
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H316",
+    "H318",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Aluminium hydroxide",
@@ -3330,7 +5074,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[OH-].[OH-].[OH-].[Al+3]"
+   "pubchemSmiles": "[OH-].[OH-].[OH-].[Al+3]",
+   "ghs": []
   },
   {
    "name": "Aluminium sulfate",
@@ -3350,7 +5095,12 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[Al+3].[Al+3]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[Al+3].[Al+3]",
+   "ghs": [
+    "H290",
+    "H318",
+    "H319"
+   ]
   },
   {
    "name": "Aluminium nitrate",
@@ -3370,7 +5120,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Al+3]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Al+3]",
+   "ghs": [
+    "H318",
+    "H361"
+   ]
   },
   {
    "name": "Aluminium fluoride",
@@ -3390,7 +5144,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "F[Al](F)F"
+   "pubchemSmiles": "F[Al](F)F",
+   "ghs": [
+    "H301",
+    "H319",
+    "H335",
+    "H361",
+    "H372"
+   ]
   },
   {
    "name": "Aluminium bromide",
@@ -3410,7 +5171,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Al](Br)(Br)Br"
+   "pubchemSmiles": "[Al](Br)(Br)Br",
+   "ghs": [
+    "H302",
+    "H314"
+   ]
   },
   {
    "name": "Boric acid",
@@ -3431,7 +5196,18 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "B(O)(O)O"
+   "pubchemSmiles": "B(O)(O)O",
+   "ghs": [
+    "H303",
+    "H315",
+    "H319",
+    "H335",
+    "H360",
+    "H360FD",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Boron trioxide",
@@ -3452,7 +5228,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "B(=O)OB=O"
+   "pubchemSmiles": "B(=O)OB=O",
+   "ghs": []
   },
   {
    "name": "Boron trifluoride",
@@ -3472,7 +5249,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "B(F)(F)F"
+   "pubchemSmiles": "B(F)(F)F",
+   "ghs": [
+    "H280",
+    "H314",
+    "H318",
+    "H330",
+    "H335",
+    "H336",
+    "H371",
+    "H372",
+    "H373"
+   ]
   },
   {
    "name": "Boron trichloride",
@@ -3492,7 +5280,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "B(Cl)(Cl)Cl"
+   "pubchemSmiles": "B(Cl)(Cl)Cl",
+   "ghs": [
+    "H280",
+    "H300",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H360",
+    "H370",
+    "H371"
+   ]
   },
   {
    "name": "Diborane",
@@ -3513,7 +5312,8 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "B.B"
+   "pubchemSmiles": "B.B",
+   "ghs": []
   },
   {
    "name": "Silicon tetrachloride",
@@ -3533,7 +5333,18 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "[Si](Cl)(Cl)(Cl)Cl"
+   "pubchemSmiles": "[Si](Cl)(Cl)(Cl)Cl",
+   "ghs": [
+    "H301",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H331",
+    "H335",
+    "H370",
+    "H371"
+   ]
   },
   {
    "name": "Silicon tetrafluoride",
@@ -3553,7 +5364,12 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "F[Si](F)(F)F"
+   "pubchemSmiles": "F[Si](F)(F)F",
+   "ghs": [
+    "H280",
+    "H314",
+    "H330"
+   ]
   },
   {
    "name": "Silicon carbide",
@@ -3573,7 +5389,19 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[C-]#[Si+]"
+   "pubchemSmiles": "[C-]#[Si+]",
+   "ghs": [
+    "H225",
+    "H315",
+    "H319",
+    "H335",
+    "H336",
+    "H350",
+    "H350i",
+    "H351",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Titanium tetrachloride",
@@ -3593,7 +5421,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Ti](Cl)(Cl)Cl"
+   "pubchemSmiles": "Cl[Ti](Cl)(Cl)Cl",
+   "ghs": [
+    "H301",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Vanadium pentoxide",
@@ -3613,7 +5449,30 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[V](=O)O[V](=O)=O"
+   "pubchemSmiles": "O=[V](=O)O[V](=O)=O",
+   "ghs": [
+    "H300",
+    "H301",
+    "H302",
+    "H318",
+    "H319",
+    "H330",
+    "H332",
+    "H335",
+    "H340",
+    "H341",
+    "H350",
+    "H351",
+    "H361",
+    "H361fd",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Chromium trioxide",
@@ -3633,7 +5492,31 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Cr](=O)=O"
+   "pubchemSmiles": "O=[Cr](=O)=O",
+   "ghs": [
+    "H271",
+    "H272",
+    "H290",
+    "H301",
+    "H310",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H334",
+    "H335",
+    "H340",
+    "H341",
+    "H350",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Chromium(III) chloride",
@@ -3654,7 +5537,18 @@
     "color": "#6b2f9f"
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Cr](Cl)Cl"
+   "pubchemSmiles": "Cl[Cr](Cl)Cl",
+   "ghs": [
+    "H302",
+    "H314",
+    "H317",
+    "H318",
+    "H334",
+    "H401",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Manganese(II) sulfate",
@@ -3674,7 +5568,20 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Mn+2]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Mn+2]",
+   "ghs": [
+    "H302",
+    "H318",
+    "H341",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Manganese(II) oxide",
@@ -3694,7 +5601,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Mn]"
+   "pubchemSmiles": "O=[Mn]",
+   "ghs": [
+    "H372"
+   ]
   },
   {
    "name": "Iron(II) sulfide",
@@ -3715,7 +5625,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "S=[Fe]"
+   "pubchemSmiles": "S=[Fe]",
+   "ghs": []
   },
   {
    "name": "Iron disulfide",
@@ -3736,7 +5647,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "S=[Fe]=S"
+   "pubchemSmiles": "S=[Fe]=S",
+   "ghs": []
   },
   {
    "name": "Iron(III) nitrate",
@@ -3756,7 +5668,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Fe+3]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Fe+3]",
+   "ghs": [
+    "H315",
+    "H319"
+   ]
   },
   {
    "name": "Iron(III) sulfate",
@@ -3776,7 +5692,13 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[Fe+3].[Fe+3]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[O-]S(=O)(=O)[O-].[Fe+3].[Fe+3]",
+   "ghs": [
+    "H290",
+    "H302",
+    "H315",
+    "H318"
+   ]
   },
   {
    "name": "Iron(II",
@@ -3797,7 +5719,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "O[Fe]=O.O[Fe]=O.[Fe]"
+   "pubchemSmiles": "O[Fe]=O.O[Fe]=O.[Fe]",
+   "ghs": []
   },
   {
    "name": "Iron(II) hydroxide",
@@ -3817,7 +5740,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[OH-].[OH-].[Fe+2]"
+   "pubchemSmiles": "[OH-].[OH-].[Fe+2]",
+   "ghs": []
   },
   {
    "name": "Cobalt(II) nitrate",
@@ -3837,7 +5761,28 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Co+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Co+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H314",
+    "H317",
+    "H318",
+    "H334",
+    "H335",
+    "H341",
+    "H350",
+    "H350i",
+    "H351",
+    "H360",
+    "H360F",
+    "H360Fd",
+    "H371",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Cobalt(II) oxide",
@@ -3857,7 +5802,20 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Co]"
+   "pubchemSmiles": "O=[Co]",
+   "ghs": [
+    "H301",
+    "H317",
+    "H330",
+    "H334",
+    "H351",
+    "H360F",
+    "H370",
+    "H371",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Cobalt(II) sulfate",
@@ -3877,7 +5835,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Co+2]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Co+2]",
+   "ghs": [
+    "H302",
+    "H317",
+    "H319",
+    "H334",
+    "H341",
+    "H350",
+    "H350i",
+    "H351",
+    "H360",
+    "H360F",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Nickel(II) sulfate",
@@ -3897,7 +5870,28 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Ni+2]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Ni+2]",
+   "ghs": [
+    "H301",
+    "H302",
+    "H315",
+    "H317",
+    "H332",
+    "H334",
+    "H341",
+    "H350",
+    "H350i",
+    "H360",
+    "H360D",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H401",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Nickel(II) oxide",
@@ -3917,7 +5911,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[Ni+2]"
+   "pubchemSmiles": "[O-2].[Ni+2]",
+   "ghs": [
+    "H317",
+    "H334",
+    "H350",
+    "H350i",
+    "H372",
+    "H413"
+   ]
   },
   {
    "name": "Nickel(II) nitrate",
@@ -3937,7 +5939,24 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ni+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Ni+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H317",
+    "H318",
+    "H332",
+    "H334",
+    "H341",
+    "H350",
+    "H350i",
+    "H360",
+    "H360D",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Copper(I) chloride",
@@ -3957,7 +5976,16 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Cu]"
+   "pubchemSmiles": "Cl[Cu]",
+   "ghs": [
+    "H301",
+    "H302",
+    "H317",
+    "H331",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Copper(II) nitrate",
@@ -3977,7 +6005,18 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Cu+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Cu+2]",
+   "ghs": [
+    "H272",
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H400",
+    "H411"
+   ]
   },
   {
    "name": "Copper(II) carbonate",
@@ -3997,7 +6036,15 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Cu+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Cu+2]",
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Copper(II) sulfide",
@@ -4017,7 +6064,8 @@
     "opacity": 0.92
    },
    "experimental": true,
-   "pubchemSmiles": "[S-2].[Cu+2]"
+   "pubchemSmiles": "[S-2].[Cu+2]",
+   "ghs": []
   },
   {
    "name": "Copper(I) iodide",
@@ -4037,7 +6085,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[Cu+].[I-]"
+   "pubchemSmiles": "[Cu+].[I-]",
+   "ghs": []
   },
   {
    "name": "Copper(II) bromide",
@@ -4057,7 +6106,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Cu](Br)Br"
+   "pubchemSmiles": "[Cu](Br)Br",
+   "ghs": [
+    "H302",
+    "H314",
+    "H318",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Zinc nitrate",
@@ -4077,7 +6133,20 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Zn+2]"
+   "pubchemSmiles": "[N+](=O)([O-])[O-].[N+](=O)([O-])[O-].[Zn+2]",
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H320",
+    "H335",
+    "H400",
+    "H401",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Zinc carbonate",
@@ -4097,7 +6166,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Zn+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Zn+2]",
+   "ghs": [
+    "H400",
+    "H411"
+   ]
   },
   {
    "name": "Zinc bromide",
@@ -4117,7 +6190,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Zn+2].[Br-].[Br-]"
+   "pubchemSmiles": "[Zn+2].[Br-].[Br-]",
+   "ghs": [
+    "H302",
+    "H314",
+    "H317",
+    "H318",
+    "H400",
+    "H411"
+   ]
   },
   {
    "name": "Zinc iodide",
@@ -4137,7 +6218,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Zn](I)I"
+   "pubchemSmiles": "[Zn](I)I",
+   "ghs": [
+    "H314"
+   ]
   },
   {
    "name": "Silver sulfide",
@@ -4158,7 +6242,8 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "[S-2].[Ag+].[Ag+]"
+   "pubchemSmiles": "[S-2].[Ag+].[Ag+]",
+   "ghs": []
   },
   {
    "name": "Silver fluoride",
@@ -4178,7 +6263,10 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "[F-].[Ag+]"
+   "pubchemSmiles": "[F-].[Ag+]",
+   "ghs": [
+    "H314"
+   ]
   },
   {
    "name": "Silver chromate",
@@ -4199,7 +6287,8 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "[O-][Cr](=O)(=O)[O-].[Ag+].[Ag+]"
+   "pubchemSmiles": "[O-][Cr](=O)(=O)[O-].[Ag+].[Ag+]",
+   "ghs": []
   },
   {
    "name": "Cadmium sulfide",
@@ -4219,7 +6308,21 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "S=[Cd]"
+   "pubchemSmiles": "S=[Cd]",
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H341",
+    "H350",
+    "H361",
+    "H361fd",
+    "H370",
+    "H371",
+    "H372",
+    "H400",
+    "H413"
+   ]
   },
   {
    "name": "Cadmium chloride",
@@ -4239,7 +6342,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Cd]Cl"
+   "pubchemSmiles": "Cl[Cd]Cl",
+   "ghs": [
+    "H301",
+    "H312",
+    "H315",
+    "H330",
+    "H340",
+    "H350",
+    "H360",
+    "H360FD",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Mercury(II) chloride",
@@ -4260,7 +6378,24 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Hg]Cl"
+   "pubchemSmiles": "Cl[Hg]Cl",
+   "ghs": [
+    "H300",
+    "H310",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H341",
+    "H360",
+    "H361",
+    "H361f",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Mercury(I) chloride",
@@ -4281,7 +6416,23 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Hg].Cl[Hg]"
+   "pubchemSmiles": "Cl[Hg].Cl[Hg]",
+   "ghs": [
+    "H301",
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H319",
+    "H320",
+    "H335",
+    "H341",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Mercury(II) oxide",
@@ -4301,7 +6452,23 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Hg]"
+   "pubchemSmiles": "O=[Hg]",
+   "ghs": [
+    "H300",
+    "H310",
+    "H311",
+    "H315",
+    "H317",
+    "H319",
+    "H330",
+    "H335",
+    "H360",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Mercury(II) sulfide",
@@ -4321,7 +6488,14 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "S=[Hg]"
+   "pubchemSmiles": "S=[Hg]",
+   "ghs": [
+    "H317",
+    "H360",
+    "H370",
+    "H372",
+    "H413"
+   ]
   },
   {
    "name": "Lead(II) oxide",
@@ -4341,7 +6515,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Pb]"
+   "pubchemSmiles": "O=[Pb]",
+   "ghs": [
+    "H302",
+    "H316",
+    "H332",
+    "H341",
+    "H351",
+    "H360",
+    "H360Df",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Lead(IV) oxide",
@@ -4361,7 +6550,24 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Pb]=O"
+   "pubchemSmiles": "O=[Pb]=O",
+   "ghs": [
+    "H272",
+    "H302",
+    "H315",
+    "H319",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Lead(II) chloride",
@@ -4381,7 +6587,23 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Pb]Cl"
+   "pubchemSmiles": "Cl[Pb]Cl",
+   "ghs": [
+    "H302",
+    "H318",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Lead(II) sulfide",
@@ -4401,7 +6623,19 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[S-2].[Pb+2]"
+   "pubchemSmiles": "[S-2].[Pb+2]",
+   "ghs": [
+    "H302",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Lead(II) sulfate",
@@ -4421,7 +6655,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Pb+2]"
+   "pubchemSmiles": "[O-]S(=O)(=O)[O-].[Pb+2]",
+   "ghs": [
+    "H302",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Lead(II) carbonate",
@@ -4442,7 +6691,21 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)([O-])[O-].[Pb+2]"
+   "pubchemSmiles": "C(=O)([O-])[O-].[Pb+2]",
+   "ghs": [
+    "H302",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H360Df",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Tin(II) chloride",
@@ -4462,7 +6725,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Sn]Cl"
+   "pubchemSmiles": "Cl[Sn]Cl",
+   "ghs": [
+    "H290",
+    "H302",
+    "H303",
+    "H314",
+    "H317",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Tin(IV) chloride",
@@ -4482,7 +6760,17 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Sn](Cl)(Cl)Cl"
+   "pubchemSmiles": "Cl[Sn](Cl)(Cl)Cl",
+   "ghs": [
+    "H290",
+    "H314",
+    "H318",
+    "H330",
+    "H335",
+    "H372",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Tin(IV) oxide",
@@ -4502,7 +6790,12 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[Sn+4]"
+   "pubchemSmiles": "[O-2].[O-2].[Sn+4]",
+   "ghs": [
+    "H335",
+    "H372",
+    "H413"
+   ]
   },
   {
    "name": "Antimony trioxide",
@@ -4523,7 +6816,22 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[O-2].[Sb+3].[Sb+3]"
+   "pubchemSmiles": "[O-2].[O-2].[O-2].[Sb+3].[Sb+3]",
+   "ghs": [
+    "H302",
+    "H303",
+    "H320",
+    "H350",
+    "H351",
+    "H360",
+    "H370",
+    "H371",
+    "H372",
+    "H401",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Antimony trichloride",
@@ -4544,7 +6852,23 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "Cl[Sb](Cl)Cl"
+   "pubchemSmiles": "Cl[Sb](Cl)Cl",
+   "ghs": [
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H341",
+    "H350",
+    "H361",
+    "H371",
+    "H372",
+    "H401",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Arsenic trioxide",
@@ -4564,7 +6888,21 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[O-2].[As+3].[As+3]"
+   "pubchemSmiles": "[O-2].[O-2].[O-2].[As+3].[As+3]",
+   "ghs": [
+    "H300",
+    "H314",
+    "H315",
+    "H318",
+    "H331",
+    "H341",
+    "H350",
+    "H360",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Selenium dioxide",
@@ -4584,7 +6922,19 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Se]=O"
+   "pubchemSmiles": "O=[Se]=O",
+   "ghs": [
+    "H300",
+    "H301",
+    "H319",
+    "H331",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Tellurium dioxide",
@@ -4604,7 +6954,17 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Te]=O"
+   "pubchemSmiles": "O=[Te]=O",
+   "ghs": [
+    "H317",
+    "H332",
+    "H360",
+    "H360Df",
+    "H361",
+    "H362",
+    "H373",
+    "H411"
+   ]
   },
   {
    "name": "Iodine pentoxide",
@@ -4624,7 +6984,12 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=I(=O)OI(=O)=O"
+   "pubchemSmiles": "O=I(=O)OI(=O)=O",
+   "ghs": [
+    "H272",
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Iodine monochloride",
@@ -4644,7 +7009,14 @@
     "opacity": 0.92
    },
    "experimental": true,
-   "pubchemSmiles": "ClI"
+   "pubchemSmiles": "ClI",
+   "ghs": [
+    "H300",
+    "H311",
+    "H314",
+    "H334",
+    "H335"
+   ]
   },
   {
    "name": "Iodine trichloride",
@@ -4665,7 +7037,11 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "ClI(Cl)Cl"
+   "pubchemSmiles": "ClI(Cl)Cl",
+   "ghs": [
+    "H272",
+    "H314"
+   ]
   },
   {
    "name": "Chlorine dioxide",
@@ -4685,7 +7061,25 @@
     "opacity": 0.15
    },
    "experimental": true,
-   "pubchemSmiles": "O=Cl[O]"
+   "pubchemSmiles": "O=Cl[O]",
+   "ghs": [
+    "H270",
+    "H301",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H320",
+    "H330",
+    "H336",
+    "H341",
+    "H360",
+    "H362",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Chlorine trifluoride",
@@ -4705,7 +7099,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "FCl(F)F"
+   "pubchemSmiles": "FCl(F)F",
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372",
+    "H400"
+   ]
   },
   {
    "name": "Chlorine monofluoride",
@@ -4725,7 +7129,8 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "FCl"
+   "pubchemSmiles": "FCl",
+   "ghs": []
   },
   {
    "name": "Oxygen difluoride",
@@ -4745,7 +7150,12 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "O(F)F"
+   "pubchemSmiles": "O(F)F",
+   "ghs": [
+    "H270",
+    "H314",
+    "H330"
+   ]
   },
   {
    "name": "Dinitrogen tetroxide",
@@ -4765,7 +7175,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([N+](=O)[O-])[O-]"
+   "pubchemSmiles": "[N+](=O)([N+](=O)[O-])[O-]",
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H318",
+    "H330",
+    "H341",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Dinitrogen pentoxide",
@@ -4786,7 +7206,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[N+](=O)([O-])O[N+](=O)[O-]"
+   "pubchemSmiles": "[N+](=O)([O-])O[N+](=O)[O-]",
+   "ghs": []
   },
   {
    "name": "Dinitrogen trioxide",
@@ -4806,7 +7227,14 @@
     "opacity": 0.32
    },
    "experimental": true,
-   "pubchemSmiles": "N(=O)[N+](=O)[O-]"
+   "pubchemSmiles": "N(=O)[N+](=O)[O-]",
+   "ghs": [
+    "H270",
+    "H280",
+    "H310",
+    "H314",
+    "H330"
+   ]
   },
   {
    "name": "Nitrosyl chloride",
@@ -4826,7 +7254,13 @@
     "opacity": 0.32
    },
    "experimental": true,
-   "pubchemSmiles": "N(=O)Cl"
+   "pubchemSmiles": "N(=O)Cl",
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H330"
+   ]
   },
   {
    "name": "Nitrogen trichloride",
@@ -4846,7 +7280,8 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "N(Cl)(Cl)Cl"
+   "pubchemSmiles": "N(Cl)(Cl)Cl",
+   "ghs": []
   },
   {
    "name": "Nitrogen trifluoride",
@@ -4866,7 +7301,14 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "N(F)(F)F"
+   "pubchemSmiles": "N(F)(F)F",
+   "ghs": [
+    "H270",
+    "H280",
+    "H332",
+    "H371",
+    "H373"
+   ]
   },
   {
    "name": "Hydroxylamine",
@@ -4887,7 +7329,22 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "NO"
+   "pubchemSmiles": "NO",
+   "ghs": [
+    "H200",
+    "H290",
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H318",
+    "H335",
+    "H351",
+    "H371",
+    "H372",
+    "H373",
+    "H400"
+   ]
   },
   {
    "name": "Phosphorus trichloride",
@@ -4907,7 +7364,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "P(Cl)(Cl)Cl"
+   "pubchemSmiles": "P(Cl)(Cl)Cl",
+   "ghs": [
+    "H260",
+    "H290",
+    "H300",
+    "H312",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372",
+    "H373"
+   ]
   },
   {
    "name": "Phosphorus pentachloride",
@@ -4927,7 +7396,19 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "P(Cl)(Cl)(Cl)(Cl)Cl"
+   "pubchemSmiles": "P(Cl)(Cl)(Cl)(Cl)Cl",
+   "ghs": [
+    "H300",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H371",
+    "H373"
+   ]
   },
   {
    "name": "Phosphorus pentoxide",
@@ -4948,7 +7429,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "O=P(=O)OP(=O)=O"
+   "pubchemSmiles": "O=P(=O)OP(=O)=O",
+   "ghs": []
   },
   {
    "name": "Phosphoryl chloride",
@@ -4968,7 +7450,19 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=P(Cl)(Cl)Cl"
+   "pubchemSmiles": "O=P(Cl)(Cl)Cl",
+   "ghs": [
+    "H290",
+    "H300",
+    "H302",
+    "H311",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Phosphorus tribromide",
@@ -4988,7 +7482,11 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "P(Br)(Br)Br"
+   "pubchemSmiles": "P(Br)(Br)Br",
+   "ghs": [
+    "H314",
+    "H335"
+   ]
   },
   {
    "name": "Sulfur dichloride",
@@ -5008,7 +7506,15 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "S(Cl)Cl"
+   "pubchemSmiles": "S(Cl)Cl",
+   "ghs": [
+    "H314",
+    "H318",
+    "H335",
+    "H371",
+    "H373",
+    "H400"
+   ]
   },
   {
    "name": "Thionyl chloride",
@@ -5028,7 +7534,21 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "O=S(Cl)Cl"
+   "pubchemSmiles": "O=S(Cl)Cl",
+   "ghs": [
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H332",
+    "H334",
+    "H335",
+    "H370"
+   ]
   },
   {
    "name": "Sulfuryl chloride",
@@ -5048,7 +7568,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "O=S(=O)(Cl)Cl"
+   "pubchemSmiles": "O=S(=O)(Cl)Cl",
+   "ghs": [
+    "H314",
+    "H318",
+    "H330",
+    "H335",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Disulfur dichloride",
@@ -5068,7 +7596,18 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "S(SCl)Cl"
+   "pubchemSmiles": "S(SCl)Cl",
+   "ghs": [
+    "H301",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H332",
+    "H335",
+    "H371",
+    "H400"
+   ]
   },
   {
    "name": "Carbonyl sulfide",
@@ -5088,7 +7627,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)=S"
+   "pubchemSmiles": "C(=O)=S",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H319",
+    "H330",
+    "H331",
+    "H335",
+    "H370",
+    "H373"
+   ]
   },
   {
    "name": "Phosgene",
@@ -5108,7 +7658,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(Cl)Cl"
+   "pubchemSmiles": "C(=O)(Cl)Cl",
+   "ghs": [
+    "H280",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Hydrogen selenide",
@@ -5128,7 +7688,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[SeH2]"
+   "pubchemSmiles": "[SeH2]",
+   "ghs": [
+    "H220",
+    "H280",
+    "H319",
+    "H330",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Hydrogen telluride",
@@ -5148,7 +7719,12 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[TeH2]"
+   "pubchemSmiles": "[TeH2]",
+   "ghs": [
+    "H220",
+    "H280",
+    "H330"
+   ]
   },
   {
    "name": "Arsine",
@@ -5168,7 +7744,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[AsH3]"
+   "pubchemSmiles": "[AsH3]",
+   "ghs": [
+    "H220",
+    "H280",
+    "H330",
+    "H350",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Stibine",
@@ -5188,7 +7775,13 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[SbH3]"
+   "pubchemSmiles": "[SbH3]",
+   "ghs": [
+    "H220",
+    "H280",
+    "H330",
+    "H370"
+   ]
   },
   {
    "name": "Germane",
@@ -5208,7 +7801,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[GeH4]"
+   "pubchemSmiles": "[GeH4]",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H319",
+    "H330",
+    "H335",
+    "H336",
+    "H370",
+    "H371"
+   ]
   },
   {
    "name": "Xenon difluoride",
@@ -5229,7 +7833,13 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "F[Xe]F"
+   "pubchemSmiles": "F[Xe]F",
+   "ghs": [
+    "H272",
+    "H301",
+    "H314",
+    "H330"
+   ]
   },
   {
    "name": "Xenon tetrafluoride",
@@ -5250,7 +7860,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "F[Xe](F)(F)F"
+   "pubchemSmiles": "F[Xe](F)(F)F",
+   "ghs": []
   },
   {
    "name": "Uranium hexafluoride",
@@ -5270,7 +7881,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "F[U](F)(F)(F)(F)F"
+   "pubchemSmiles": "F[U](F)(F)(F)(F)F",
+   "ghs": []
   },
   {
    "name": "Uranium dioxide",
@@ -5290,7 +7902,15 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[U+4]"
+   "pubchemSmiles": "[O-2].[O-2].[U+4]",
+   "ghs": [
+    "H300",
+    "H330",
+    "H373",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Thorium dioxide",
@@ -5310,7 +7930,13 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Th]=O"
+   "pubchemSmiles": "O=[Th]=O",
+   "ghs": [
+    "H301",
+    "H311",
+    "H331",
+    "H350"
+   ]
   },
   {
    "name": "Tungsten trioxide",
@@ -5330,7 +7956,13 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[W](=O)=O"
+   "pubchemSmiles": "O=[W](=O)=O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Tungsten carbide",
@@ -5351,7 +7983,8 @@
     "translucent": true
    },
    "experimental": false,
-   "pubchemSmiles": "[C-]#[W+]"
+   "pubchemSmiles": "[C-]#[W+]",
+   "ghs": []
   },
   {
    "name": "Molybdenum disulfide",
@@ -5371,7 +8004,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "S=[Mo]=S"
+   "pubchemSmiles": "S=[Mo]=S",
+   "ghs": []
   },
   {
    "name": "Molybdenum trioxide",
@@ -5391,7 +8025,17 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Mo](=O)=O"
+   "pubchemSmiles": "O=[Mo](=O)=O",
+   "ghs": [
+    "H301",
+    "H319",
+    "H335",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373"
+   ]
   },
   {
    "name": "Zirconium dioxide",
@@ -5411,7 +8055,8 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Zr]=O"
+   "pubchemSmiles": "O=[Zr]=O",
+   "ghs": []
   },
   {
    "name": "Cerium dioxide",
@@ -5431,7 +8076,11 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "O=[Ce]=O"
+   "pubchemSmiles": "O=[Ce]=O",
+   "ghs": [
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Gallium arsenide",
@@ -5451,7 +8100,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Ga]#[As]"
+   "pubchemSmiles": "[Ga]#[As]",
+   "ghs": [
+    "H331",
+    "H350",
+    "H360",
+    "H360F",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Gallium nitride",
@@ -5471,7 +8128,10 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "N#[Ga]"
+   "pubchemSmiles": "N#[Ga]",
+   "ghs": [
+    "H317"
+   ]
   },
   {
    "name": "Indium phosphide",
@@ -5492,7 +8152,14 @@
     "color": "#1d1d1f"
    },
    "experimental": true,
-   "pubchemSmiles": "P#[In]"
+   "pubchemSmiles": "P#[In]",
+   "ghs": [
+    "H350",
+    "H361",
+    "H361f",
+    "H372",
+    "H373"
+   ]
   },
   {
    "name": "Beryllium oxide",
@@ -5512,7 +8179,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Be]=O"
+   "pubchemSmiles": "[Be]=O",
+   "ghs": [
+    "H301",
+    "H305",
+    "H315",
+    "H317",
+    "H319",
+    "H330",
+    "H334",
+    "H335",
+    "H350",
+    "H350i",
+    "H361",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Beryllium chloride",
@@ -5532,7 +8214,22 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[Be+2].[Cl-].[Cl-]"
+   "pubchemSmiles": "[Be+2].[Cl-].[Cl-]",
+   "ghs": [
+    "H301",
+    "H315",
+    "H317",
+    "H319",
+    "H330",
+    "H334",
+    "H335",
+    "H350",
+    "H350i",
+    "H372",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Scandium oxide",
@@ -5552,7 +8249,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[O-2].[Sc+3].[Sc+3]"
+   "pubchemSmiles": "[O-2].[O-2].[O-2].[Sc+3].[Sc+3]",
+   "ghs": []
   },
   {
    "name": "Yttrium oxide",
@@ -5572,7 +8270,14 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "[O-2].[O-2].[O-2].[Y+3].[Y+3]"
+   "pubchemSmiles": "[O-2].[O-2].[O-2].[Y+3].[Y+3]",
+   "ghs": [
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H413"
+   ]
   },
   {
    "name": "Nitrous acid",
@@ -5592,7 +8297,13 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "N(=O)O"
+   "pubchemSmiles": "N(=O)O",
+   "ghs": [
+    "H300",
+    "H314",
+    "H318",
+    "H400"
+   ]
   },
   {
    "name": "Hypochlorous acid",
@@ -5612,7 +8323,8 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "OCl"
+   "pubchemSmiles": "OCl",
+   "ghs": []
   },
   {
    "name": "Chloric acid",
@@ -5632,7 +8344,12 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "OCl(=O)=O"
+   "pubchemSmiles": "OCl(=O)=O",
+   "ghs": [
+    "H271",
+    "H290",
+    "H314"
+   ]
   },
   {
    "name": "Perchloric acid",
@@ -5652,7 +8369,19 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "OCl(=O)(=O)=O"
+   "pubchemSmiles": "OCl(=O)(=O)=O",
+   "ghs": [
+    "H271",
+    "H290",
+    "H302",
+    "H314",
+    "H318",
+    "H335",
+    "H351",
+    "H361",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Sulfurous acid",
@@ -5672,7 +8401,12 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "OS(=O)O"
+   "pubchemSmiles": "OS(=O)O",
+   "ghs": [
+    "H314",
+    "H318",
+    "H332"
+   ]
   },
   {
    "name": "Hydrazoic acid",
@@ -5692,7 +8426,13 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "N=[N+]=[N-]"
+   "pubchemSmiles": "N=[N+]=[N-]",
+   "ghs": [
+    "H200",
+    "H319",
+    "H335",
+    "H370"
+   ]
   },
   {
    "name": "Chlorous acid",
@@ -5713,7 +8453,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "OCl=O"
+   "pubchemSmiles": "OCl=O",
+   "ghs": []
   },
   {
    "name": "Hypobromous acid",
@@ -5733,7 +8474,8 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "OBr"
+   "pubchemSmiles": "OBr",
+   "ghs": []
   },
   {
    "name": "Periodic acid",
@@ -5753,7 +8495,12 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "OI(=O)(=O)=O"
+   "pubchemSmiles": "OI(=O)(=O)=O",
+   "ghs": [
+    "H302",
+    "H314",
+    "H371"
+   ]
   },
   {
    "name": "Selenic acid",
@@ -5773,7 +8520,17 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O[Se](=O)(=O)O"
+   "pubchemSmiles": "O[Se](=O)(=O)O",
+   "ghs": [
+    "H301",
+    "H315",
+    "H318",
+    "H331",
+    "H370",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Arsenic acid",
@@ -5793,7 +8550,24 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "O[As](=O)(O)O"
+   "pubchemSmiles": "O[As](=O)(O)O",
+   "ghs": [
+    "H300",
+    "H301",
+    "H312",
+    "H314",
+    "H318",
+    "H319",
+    "H331",
+    "H341",
+    "H350",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Cyanic acid",
@@ -5813,7 +8587,8 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(#N)O"
+   "pubchemSmiles": "C(#N)O",
+   "ghs": []
   },
   {
    "name": "Thiocyanic acid",
@@ -5833,7 +8608,13 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(#N)S"
+   "pubchemSmiles": "C(#N)S",
+   "ghs": [
+    "H302",
+    "H312",
+    "H332",
+    "H412"
+   ]
   },
   {
    "name": "Propylene glycol",
@@ -5853,7 +8634,12 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(CO)O"
+   "pubchemSmiles": "CC(CO)O",
+   "ghs": [
+    "H336",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "1-butanol",
@@ -5873,7 +8659,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCO"
+   "pubchemSmiles": "CCCCO",
+   "ghs": [
+    "H226",
+    "H302",
+    "H305",
+    "H313",
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H336",
+    "H372"
+   ]
   },
   {
    "name": "Tert-butanol",
@@ -5894,7 +8692,21 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)(C)O"
+   "pubchemSmiles": "CC(C)(C)O",
+   "ghs": [
+    "H225",
+    "H228",
+    "H303",
+    "H316",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H351",
+    "H361",
+    "H371"
+   ]
   },
   {
    "name": "2-butanol",
@@ -5914,7 +8726,16 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCC(C)O"
+   "pubchemSmiles": "CCC(C)O",
+   "ghs": [
+    "H226",
+    "H303",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H361"
+   ]
   },
   {
    "name": "1-pentanol",
@@ -5934,7 +8755,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCO"
+   "pubchemSmiles": "CCCCCO",
+   "ghs": [
+    "H226",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H371"
+   ]
   },
   {
    "name": "1-hexanol",
@@ -5954,7 +8783,14 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCO"
+   "pubchemSmiles": "CCCCCCO",
+   "ghs": [
+    "H226",
+    "H302",
+    "H312",
+    "H315",
+    "H319"
+   ]
   },
   {
    "name": "1-octanol",
@@ -5974,7 +8810,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCO"
+   "pubchemSmiles": "CCCCCCCCO",
+   "ghs": [
+    "H227",
+    "H302",
+    "H305",
+    "H315",
+    "H316",
+    "H319",
+    "H335",
+    "H341",
+    "H370",
+    "H371",
+    "H401",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Cyclohexanol",
@@ -5995,7 +8846,22 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCC(CC1)O"
+   "pubchemSmiles": "C1CCC(CC1)O",
+   "ghs": [
+    "H302",
+    "H303",
+    "H315",
+    "H316",
+    "H318",
+    "H332",
+    "H335",
+    "H336",
+    "H361",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Benzyl alcohol",
@@ -6015,7 +8881,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)CO"
+   "pubchemSmiles": "C1=CC=C(C=C1)CO",
+   "ghs": [
+    "H227",
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H319",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H372",
+    "H401"
+   ]
   },
   {
    "name": "Allyl alcohol",
@@ -6035,7 +8916,27 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C=CCO"
+   "pubchemSmiles": "C=CCO",
+   "ghs": [
+    "H225",
+    "H301",
+    "H305",
+    "H310",
+    "H311",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H335",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410",
+    "H412"
+   ]
   },
   {
    "name": "Catechol",
@@ -6055,7 +8956,29 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C(=C1)O)O"
+   "pubchemSmiles": "C1=CC=C(C(=C1)O)O",
+   "ghs": [
+    "H301",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H341",
+    "H350",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Hydroquinone",
@@ -6075,7 +8998,25 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC(=CC=C1O)O"
+   "pubchemSmiles": "C1=CC(=CC=C1O)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H316",
+    "H317",
+    "H318",
+    "H319",
+    "H336",
+    "H340",
+    "H341",
+    "H351",
+    "H360",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Resorcinol",
@@ -6095,7 +9036,20 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC(=CC(=C1)O)O"
+   "pubchemSmiles": "C1=CC(=CC(=C1)O)O",
+   "ghs": [
+    "H302",
+    "H313",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H333",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "P-cresol",
@@ -6116,7 +9070,21 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=CC=C(C=C1)O"
+   "pubchemSmiles": "CC1=CC=C(C=C1)O",
+   "ghs": [
+    "H301",
+    "H311",
+    "H314",
+    "H318",
+    "H335",
+    "H351",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Acetic anhydride",
@@ -6136,7 +9104,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)OC(=O)C"
+   "pubchemSmiles": "CC(=O)OC(=O)C",
+   "ghs": [
+    "H226",
+    "H290",
+    "H302",
+    "H313",
+    "H314",
+    "H318",
+    "H330",
+    "H331",
+    "H332",
+    "H336",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Propionic acid",
@@ -6156,7 +9139,17 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCC(=O)O"
+   "pubchemSmiles": "CCC(=O)O",
+   "ghs": [
+    "H226",
+    "H302",
+    "H303",
+    "H311",
+    "H314",
+    "H318",
+    "H335",
+    "H402"
+   ]
   },
   {
    "name": "Butyric acid",
@@ -6176,7 +9169,14 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCCC(=O)O"
+   "pubchemSmiles": "CCCC(=O)O",
+   "ghs": [
+    "H227",
+    "H311",
+    "H314",
+    "H318",
+    "H371"
+   ]
   },
   {
    "name": "Valeric acid",
@@ -6196,7 +9196,16 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCC(=O)O"
+   "pubchemSmiles": "CCCCC(=O)O",
+   "ghs": [
+    "H227",
+    "H302",
+    "H311",
+    "H314",
+    "H318",
+    "H332",
+    "H412"
+   ]
   },
   {
    "name": "Lactic acid",
@@ -6216,7 +9225,12 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C(=O)O)O"
+   "pubchemSmiles": "CC(C(=O)O)O",
+   "ghs": [
+    "H314",
+    "H315",
+    "H318"
+   ]
   },
   {
    "name": "Citric acid",
@@ -6237,7 +9251,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(=O)O)C(CC(=O)O)(C(=O)O)O"
+   "pubchemSmiles": "C(C(=O)O)C(CC(=O)O)(C(=O)O)O",
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Oxalic acid",
@@ -6258,7 +9277,22 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(C(=O)O)O"
+   "pubchemSmiles": "C(=O)(C(=O)O)O",
+   "ghs": [
+    "H302",
+    "H312",
+    "H314",
+    "H315",
+    "H318",
+    "H335",
+    "H361",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Malonic acid",
@@ -6278,7 +9312,12 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(=O)O)C(=O)O"
+   "pubchemSmiles": "C(C(=O)O)C(=O)O",
+   "ghs": [
+    "H302",
+    "H318",
+    "H319"
+   ]
   },
   {
    "name": "Succinic acid",
@@ -6298,7 +9337,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(CC(=O)O)C(=O)O"
+   "pubchemSmiles": "C(CC(=O)O)C(=O)O",
+   "ghs": [
+    "H318"
+   ]
   },
   {
    "name": "Tartaric acid",
@@ -6319,7 +9361,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)O)(C(=O)O)O"
+   "pubchemSmiles": "C(C(C(=O)O)O)(C(=O)O)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Malic acid",
@@ -6339,7 +9389,14 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)O)C(=O)O"
+   "pubchemSmiles": "C(C(C(=O)O)O)C(=O)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Maleic acid",
@@ -6359,7 +9416,18 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(=CC(=O)O)C(=O)O"
+   "pubchemSmiles": "C(=CC(=O)O)C(=O)O",
+   "ghs": [
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H335",
+    "H370",
+    "H402"
+   ]
   },
   {
    "name": "Benzoic acid",
@@ -6379,7 +9447,16 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)C(=O)O"
+   "pubchemSmiles": "C1=CC=C(C=C1)C(=O)O",
+   "ghs": [
+    "H315",
+    "H318",
+    "H335",
+    "H361",
+    "H372",
+    "H373",
+    "H402"
+   ]
   },
   {
    "name": "Salicylic acid",
@@ -6399,7 +9476,20 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C(=C1)C(=O)O)O"
+   "pubchemSmiles": "C1=CC=C(C(=C1)C(=O)O)O",
+   "ghs": [
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H361",
+    "H361d",
+    "H370",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Ascorbic acid",
@@ -6419,7 +9509,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C1C(=C(C(=O)O1)O)O)O)O"
+   "pubchemSmiles": "C(C(C1C(=C(C(=O)O1)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Stearic acid",
@@ -6439,7 +9530,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCCCCCCCCCC(=O)O"
+   "pubchemSmiles": "CCCCCCCCCCCCCCCCCC(=O)O",
+   "ghs": [
+    "H301",
+    "H400"
+   ]
   },
   {
    "name": "Palmitic acid",
@@ -6459,7 +9554,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCCCCCCCC(=O)O"
+   "pubchemSmiles": "CCCCCCCCCCCCCCCC(=O)O",
+   "ghs": []
   },
   {
    "name": "Oleic acid",
@@ -6479,7 +9575,10 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCC=CCCCCCCCC(=O)O"
+   "pubchemSmiles": "CCCCCCCCC=CCCCCCCCC(=O)O",
+   "ghs": [
+    "H315"
+   ]
   },
   {
    "name": "Acrylic acid",
@@ -6499,7 +9598,23 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C=CC(=O)O"
+   "pubchemSmiles": "C=CC(=O)O",
+   "ghs": [
+    "H226",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H318",
+    "H331",
+    "H332",
+    "H335",
+    "H370",
+    "H371",
+    "H372",
+    "H400",
+    "H411"
+   ]
   },
   {
    "name": "Pyruvic acid",
@@ -6519,7 +9634,11 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)C(=O)O"
+   "pubchemSmiles": "CC(=O)C(=O)O",
+   "ghs": [
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Glycolic acid",
@@ -6540,7 +9659,18 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(=O)O)O"
+   "pubchemSmiles": "C(C(=O)O)O",
+   "ghs": [
+    "H302",
+    "H314",
+    "H318",
+    "H332",
+    "H333",
+    "H361",
+    "H370",
+    "H373",
+    "H402"
+   ]
   },
   {
    "name": "Trichloroacetic acid",
@@ -6561,7 +9691,19 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(C(Cl)(Cl)Cl)O"
+   "pubchemSmiles": "C(=O)(C(Cl)(Cl)Cl)O",
+   "ghs": [
+    "H303",
+    "H314",
+    "H318",
+    "H336",
+    "H341",
+    "H351",
+    "H361",
+    "H371",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Methyl acetate",
@@ -6581,7 +9723,16 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)OC"
+   "pubchemSmiles": "CC(=O)OC",
+   "ghs": [
+    "H225",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Butyl acetate",
@@ -6601,7 +9752,20 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCOC(=O)C"
+   "pubchemSmiles": "CCCCOC(=O)C",
+   "ghs": [
+    "H225",
+    "H226",
+    "H316",
+    "H320",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H371",
+    "H402"
+   ]
   },
   {
    "name": "Isoamyl acetate",
@@ -6621,7 +9785,18 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)CCOC(=O)C"
+   "pubchemSmiles": "CC(C)CCOC(=O)C",
+   "ghs": [
+    "H226",
+    "H315",
+    "H316",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Methyl salicylate",
@@ -6641,7 +9816,16 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "COC(=O)C1=CC=CC=C1O"
+   "pubchemSmiles": "COC(=O)C1=CC=CC=C1O",
+   "ghs": [
+    "H302",
+    "H314",
+    "H317",
+    "H318",
+    "H319",
+    "H361d",
+    "H412"
+   ]
   },
   {
    "name": "Ethyl formate",
@@ -6661,7 +9845,17 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCOC=O"
+   "pubchemSmiles": "CCOC=O",
+   "ghs": [
+    "H225",
+    "H302",
+    "H319",
+    "H332",
+    "H333",
+    "H335",
+    "H336",
+    "H370"
+   ]
   },
   {
    "name": "Methyl formate",
@@ -6681,7 +9875,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "COC=O"
+   "pubchemSmiles": "COC=O",
+   "ghs": [
+    "H224",
+    "H301",
+    "H302",
+    "H315",
+    "H316",
+    "H319",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H371",
+    "H373"
+   ]
   },
   {
    "name": "Ethyl butyrate",
@@ -6701,7 +9910,13 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCC(=O)OCC"
+   "pubchemSmiles": "CCCC(=O)OCC",
+   "ghs": [
+    "H226",
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Vinyl acetate",
@@ -6721,7 +9936,25 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)OC=C"
+   "pubchemSmiles": "CC(=O)OC=C",
+   "ghs": [
+    "H225",
+    "H303",
+    "H313",
+    "H315",
+    "H316",
+    "H317",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H373",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Butanone",
@@ -6741,7 +9974,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCC(=O)C"
+   "pubchemSmiles": "CCC(=O)C",
+   "ghs": [
+    "H225",
+    "H303",
+    "H305",
+    "H315",
+    "H319",
+    "H320",
+    "H332",
+    "H333",
+    "H335",
+    "H336",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Cyclohexanone",
@@ -6761,7 +10009,28 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCC(=O)CC1"
+   "pubchemSmiles": "C1CCC(=O)CC1",
+   "ghs": [
+    "H226",
+    "H302",
+    "H305",
+    "H311",
+    "H312",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H351",
+    "H361",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Acetophenone",
@@ -6781,7 +10050,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)C1=CC=CC=C1"
+   "pubchemSmiles": "CC(=O)C1=CC=CC=C1",
+   "ghs": [
+    "H227",
+    "H302",
+    "H315",
+    "H316",
+    "H318",
+    "H319",
+    "H335",
+    "H336",
+    "H360",
+    "H361"
+   ]
   },
   {
    "name": "Benzaldehyde",
@@ -6801,7 +10082,25 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)C=O"
+   "pubchemSmiles": "C1=CC=C(C=C1)C=O",
+   "ghs": [
+    "H227",
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H319",
+    "H320",
+    "H332",
+    "H334",
+    "H335",
+    "H336",
+    "H371",
+    "H372",
+    "H373",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Cinnamaldehyde",
@@ -6821,7 +10120,16 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)C=CC=O"
+   "pubchemSmiles": "C1=CC=C(C=C1)C=CC=O",
+   "ghs": [
+    "H312",
+    "H315",
+    "H317",
+    "H319",
+    "H335",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Vanillin",
@@ -6841,7 +10149,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "COC1=C(C=CC(=C1)C=O)O"
+   "pubchemSmiles": "COC1=C(C=CC(=C1)C=O)O",
+   "ghs": [
+    "H302",
+    "H319",
+    "H320",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Propanal",
@@ -6861,7 +10177,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCC=O"
+   "pubchemSmiles": "CCC=O",
+   "ghs": [
+    "H225",
+    "H302",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H371",
+    "H373",
+    "H402"
+   ]
   },
   {
    "name": "Butanal",
@@ -6881,7 +10209,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCC=O"
+   "pubchemSmiles": "CCCC=O",
+   "ghs": [
+    "H225",
+    "H319",
+    "H350",
+    "H370",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Glyoxal",
@@ -6901,7 +10237,22 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)C=O"
+   "pubchemSmiles": "C(=O)C=O",
+   "ghs": [
+    "H301",
+    "H302",
+    "H315",
+    "H317",
+    "H319",
+    "H331",
+    "H332",
+    "H334",
+    "H335",
+    "H341",
+    "H371",
+    "H372",
+    "H402"
+   ]
   },
   {
    "name": "Acrolein",
@@ -6921,7 +10272,23 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C=CC=O"
+   "pubchemSmiles": "C=CC=O",
+   "ghs": [
+    "H225",
+    "H300",
+    "H301",
+    "H310",
+    "H311",
+    "H314",
+    "H318",
+    "H330",
+    "H336",
+    "H350",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Formamide",
@@ -6941,7 +10308,18 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)N"
+   "pubchemSmiles": "C(=O)N",
+   "ghs": [
+    "H290",
+    "H316",
+    "H320",
+    "H336",
+    "H351",
+    "H360",
+    "H360D",
+    "H360Df",
+    "H373"
+   ]
   },
   {
    "name": "Acetamide",
@@ -6962,7 +10340,13 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)N"
+   "pubchemSmiles": "CC(=O)N",
+   "ghs": [
+    "H316",
+    "H320",
+    "H351",
+    "H361"
+   ]
   },
   {
    "name": "Dimethylformamide",
@@ -6982,7 +10366,26 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CN(C)C=O"
+   "pubchemSmiles": "CN(C)C=O",
+   "ghs": [
+    "H226",
+    "H303",
+    "H312",
+    "H313",
+    "H315",
+    "H318",
+    "H319",
+    "H320",
+    "H331",
+    "H332",
+    "H341",
+    "H350",
+    "H360",
+    "H360D",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Acetonitrile",
@@ -7002,7 +10405,20 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC#N"
+   "pubchemSmiles": "CC#N",
+   "ghs": [
+    "H225",
+    "H302",
+    "H303",
+    "H311",
+    "H312",
+    "H318",
+    "H319",
+    "H332",
+    "H341",
+    "H370",
+    "H373"
+   ]
   },
   {
    "name": "Methylamine",
@@ -7022,7 +10438,24 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CN"
+   "pubchemSmiles": "CN",
+   "ghs": [
+    "H220",
+    "H224",
+    "H225",
+    "H280",
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H331",
+    "H332",
+    "H335",
+    "H340",
+    "H370",
+    "H373"
+   ]
   },
   {
    "name": "Dimethylamine",
@@ -7042,7 +10475,25 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CNC"
+   "pubchemSmiles": "CNC",
+   "ghs": [
+    "H220",
+    "H224",
+    "H280",
+    "H302",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H372",
+    "H401",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Trimethylamine",
@@ -7062,7 +10513,23 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CN(C)C"
+   "pubchemSmiles": "CN(C)C",
+   "ghs": [
+    "H220",
+    "H224",
+    "H280",
+    "H302",
+    "H314",
+    "H315",
+    "H318",
+    "H320",
+    "H332",
+    "H335",
+    "H371",
+    "H372",
+    "H373",
+    "H402"
+   ]
   },
   {
    "name": "Ethylamine",
@@ -7082,7 +10549,22 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CCN"
+   "pubchemSmiles": "CCN",
+   "ghs": [
+    "H220",
+    "H280",
+    "H302",
+    "H311",
+    "H314",
+    "H318",
+    "H319",
+    "H332",
+    "H333",
+    "H335",
+    "H372",
+    "H373",
+    "H401"
+   ]
   },
   {
    "name": "Ethylenediamine",
@@ -7102,7 +10584,23 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(CN)N"
+   "pubchemSmiles": "C(CN)N",
+   "ghs": [
+    "H226",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H332",
+    "H334",
+    "H361",
+    "H370",
+    "H373",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Aniline",
@@ -7122,7 +10620,28 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)N"
+   "pubchemSmiles": "C1=CC=C(C=C1)N",
+   "ghs": [
+    "H227",
+    "H301",
+    "H302",
+    "H311",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H332",
+    "H341",
+    "H350",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Pyridine",
@@ -7142,7 +10661,26 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=NC=C1"
+   "pubchemSmiles": "C1=CC=NC=C1",
+   "ghs": [
+    "H225",
+    "H302",
+    "H304",
+    "H311",
+    "H312",
+    "H314",
+    "H318",
+    "H332",
+    "H335",
+    "H336",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Pyrrole",
@@ -7162,7 +10700,11 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CNC=C1"
+   "pubchemSmiles": "C1=CNC=C1",
+   "ghs": [
+    "H226",
+    "H302"
+   ]
   },
   {
    "name": "Imidazole",
@@ -7183,7 +10725,17 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CN=CN1"
+   "pubchemSmiles": "C1=CN=CN1",
+   "ghs": [
+    "H302",
+    "H314",
+    "H318",
+    "H319",
+    "H360",
+    "H360D",
+    "H361",
+    "H371"
+   ]
   },
   {
    "name": "Indole",
@@ -7204,7 +10756,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C(=C1)C=CN2"
+   "pubchemSmiles": "C1=CC=C2C(=C1)C=CN2",
+   "ghs": [
+    "H302",
+    "H311",
+    "H319"
+   ]
   },
   {
    "name": "Pyrimidine",
@@ -7224,7 +10781,10 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CN=CN=C1"
+   "pubchemSmiles": "C1=CN=CN=C1",
+   "ghs": [
+    "H226"
+   ]
   },
   {
    "name": "Purine",
@@ -7245,7 +10805,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=C2C(=NC=N1)N=CN2"
+   "pubchemSmiles": "C1=C2C(=NC=N1)N=CN2",
+   "ghs": []
   },
   {
    "name": "Nicotine",
@@ -7265,7 +10826,21 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CN1CCCC1C2=CN=CC=C2"
+   "pubchemSmiles": "CN1CCCC1C2=CN=CC=C2",
+   "ghs": [
+    "H300",
+    "H301",
+    "H310",
+    "H315",
+    "H318",
+    "H330",
+    "H335",
+    "H341",
+    "H361",
+    "H370",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Caffeine",
@@ -7285,7 +10860,13 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"
+   "pubchemSmiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+   "ghs": [
+    "H301",
+    "H302",
+    "H332",
+    "H360"
+   ]
   },
   {
    "name": "Theobromine",
@@ -7305,7 +10886,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CN1C=NC2=C1C(=O)NC(=O)N2C"
+   "pubchemSmiles": "CN1C=NC2=C1C(=O)NC(=O)N2C",
+   "ghs": [
+    "H302",
+    "H319",
+    "H341",
+    "H360",
+    "H370"
+   ]
   },
   {
    "name": "Capsaicin",
@@ -7325,7 +10913,17 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)C=CCCCCC(=O)NCC1=CC(=C(C=C1)O)OC"
+   "pubchemSmiles": "CC(C)C=CCCCCC(=O)NCC1=CC(=C(C=C1)O)OC",
+   "ghs": [
+    "H301",
+    "H302",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H334",
+    "H335"
+   ]
   },
   {
    "name": "Menthol",
@@ -7345,7 +10943,15 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC1CCC(C(C1)O)C(C)C"
+   "pubchemSmiles": "CC1CCC(C(C1)O)C(C)C",
+   "ghs": [
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Camphor",
@@ -7366,7 +10972,25 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC1(C2CCC1(C(=O)C2)C)C"
+   "pubchemSmiles": "CC1(C2CCC1(C(=O)C2)C)C",
+   "ghs": [
+    "H228",
+    "H302",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H360",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Limonene",
@@ -7386,7 +11010,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=CCC(CC1)C(=C)C"
+   "pubchemSmiles": "CC1=CCC(CC1)C(=C)C",
+   "ghs": [
+    "H226",
+    "H304",
+    "H315",
+    "H317",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Isoprene",
@@ -7406,7 +11038,28 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=C)C=C"
+   "pubchemSmiles": "CC(=C)C=C",
+   "ghs": [
+    "H224",
+    "H303",
+    "H304",
+    "H315",
+    "H316",
+    "H317",
+    "H320",
+    "H334",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H361fd",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Styrene",
@@ -7426,7 +11079,30 @@
     "opacity": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C=CC1=CC=CC=C1"
+   "pubchemSmiles": "C=CC1=CC=CC=C1",
+   "ghs": [
+    "H226",
+    "H303",
+    "H304",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H351",
+    "H360",
+    "H361",
+    "H361d",
+    "H370",
+    "H372",
+    "H400",
+    "H401",
+    "H411",
+    "H412",
+    "H413"
+   ]
   },
   {
    "name": "Anthracene",
@@ -7447,7 +11123,18 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C=C3C=CC=CC3=CC2=C1"
+   "pubchemSmiles": "C1=CC=C2C=C3C=CC=CC3=CC2=C1",
+   "ghs": [
+    "H315",
+    "H317",
+    "H319",
+    "H335",
+    "H350",
+    "H351",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Phenanthrene",
@@ -7468,7 +11155,16 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C(=C1)C=CC3=CC=CC=C32"
+   "pubchemSmiles": "C1=CC=C2C(=C1)C=CC3=CC=CC=C32",
+   "ghs": [
+    "H302",
+    "H315",
+    "H317",
+    "H319",
+    "H335",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Biphenyl",
@@ -7488,7 +11184,23 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)C2=CC=CC=C2"
+   "pubchemSmiles": "C1=CC=C(C=C1)C2=CC=CC=C2",
+   "ghs": [
+    "H303",
+    "H313",
+    "H315",
+    "H316",
+    "H319",
+    "H320",
+    "H330",
+    "H335",
+    "H350",
+    "H351",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "O-xylene",
@@ -7508,7 +11220,24 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=CC=CC=C1C"
+   "pubchemSmiles": "CC1=CC=CC=C1C",
+   "ghs": [
+    "H226",
+    "H303",
+    "H304",
+    "H312",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H361",
+    "H370",
+    "H400",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "P-xylene",
@@ -7528,7 +11257,24 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=CC=C(C=C1)C"
+   "pubchemSmiles": "CC1=CC=C(C=C1)C",
+   "ghs": [
+    "H226",
+    "H303",
+    "H304",
+    "H312",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H360",
+    "H361",
+    "H370",
+    "H371",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Ethylbenzene",
@@ -7548,7 +11294,28 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCC1=CC=CC=C1"
+   "pubchemSmiles": "CCC1=CC=CC=C1",
+   "ghs": [
+    "H225",
+    "H303",
+    "H304",
+    "H315",
+    "H316",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H351",
+    "H360",
+    "H371",
+    "H372",
+    "H373",
+    "H400",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Cumene",
@@ -7568,7 +11335,27 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)C1=CC=CC=C1"
+   "pubchemSmiles": "CC(C)C1=CC=CC=C1",
+   "ghs": [
+    "H226",
+    "H303",
+    "H304",
+    "H316",
+    "H320",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H350",
+    "H350i",
+    "H351",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Nitrobenzene",
@@ -7588,7 +11375,28 @@
     "opacity": 0.35
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)[N+](=O)[O-]"
+   "pubchemSmiles": "C1=CC=C(C=C1)[N+](=O)[O-]",
+   "ghs": [
+    "H227",
+    "H301",
+    "H302",
+    "H311",
+    "H316",
+    "H320",
+    "H331",
+    "H332",
+    "H336",
+    "H351",
+    "H360",
+    "H360F",
+    "H361",
+    "H361f",
+    "H370",
+    "H372",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Chlorobenzene",
@@ -7608,7 +11416,29 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)Cl"
+   "pubchemSmiles": "C1=CC=C(C=C1)Cl",
+   "ghs": [
+    "H226",
+    "H302",
+    "H303",
+    "H305",
+    "H312",
+    "H315",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H351",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H401",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Bromobenzene",
@@ -7628,7 +11458,14 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)Br"
+   "pubchemSmiles": "C1=CC=C(C=C1)Br",
+   "ghs": [
+    "H226",
+    "H315",
+    "H331",
+    "H373",
+    "H411"
+   ]
   },
   {
    "name": "Iodobenzene",
@@ -7648,7 +11485,11 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)I"
+   "pubchemSmiles": "C1=CC=C(C=C1)I",
+   "ghs": [
+    "H302",
+    "H319"
+   ]
   },
   {
    "name": "Fluorobenzene",
@@ -7668,7 +11509,12 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)F"
+   "pubchemSmiles": "C1=CC=C(C=C1)F",
+   "ghs": [
+    "H225",
+    "H318",
+    "H411"
+   ]
   },
   {
    "name": "Benzoyl chloride",
@@ -7688,7 +11534,24 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)C(=O)Cl"
+   "pubchemSmiles": "C1=CC=C(C=C1)C(=O)Cl",
+   "ghs": [
+    "H227",
+    "H302",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H332",
+    "H351",
+    "H371",
+    "H372",
+    "H400",
+    "H402",
+    "H410"
+   ]
   },
   {
    "name": "Trinitrotoluene",
@@ -7708,7 +11571,26 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=C(C=C(C=C1[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]"
+   "pubchemSmiles": "CC1=C(C=C(C=C1[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+   "ghs": [
+    "H201",
+    "H301",
+    "H302",
+    "H311",
+    "H315",
+    "H317",
+    "H319",
+    "H331",
+    "H335",
+    "H350",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Picric acid",
@@ -7728,7 +11610,25 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=C(C=C(C(=C1[N+](=O)[O-])O)[N+](=O)[O-])[N+](=O)[O-]"
+   "pubchemSmiles": "C1=C(C=C(C(=C1[N+](=O)[O-])O)[N+](=O)[O-])[N+](=O)[O-]",
+   "ghs": [
+    "H201",
+    "H228",
+    "H301",
+    "H302",
+    "H311",
+    "H317",
+    "H319",
+    "H320",
+    "H331",
+    "H335",
+    "H361f",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H411"
+   ]
   },
   {
    "name": "Nitroglycerin",
@@ -7748,7 +11648,27 @@
     "opacity": 0.15
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(CO[N+](=O)[O-])O[N+](=O)[O-])O[N+](=O)[O-]"
+   "pubchemSmiles": "C(C(CO[N+](=O)[O-])O[N+](=O)[O-])O[N+](=O)[O-]",
+   "ghs": [
+    "H200",
+    "H201",
+    "H300",
+    "H301",
+    "H302",
+    "H310",
+    "H317",
+    "H319",
+    "H330",
+    "H351",
+    "H361",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Alanine",
@@ -7768,7 +11688,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C(=O)O)N"
+   "pubchemSmiles": "CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Serine",
@@ -7789,7 +11710,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)N)O"
+   "pubchemSmiles": "C(C(C(=O)O)N)O",
+   "ghs": []
   },
   {
    "name": "Cysteine",
@@ -7810,7 +11732,10 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)N)S"
+   "pubchemSmiles": "C(C(C(=O)O)N)S",
+   "ghs": [
+    "H302"
+   ]
   },
   {
    "name": "Valine",
@@ -7830,7 +11755,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)C(C(=O)O)N"
+   "pubchemSmiles": "CC(C)C(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Leucine",
@@ -7850,7 +11776,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)CC(C(=O)O)N"
+   "pubchemSmiles": "CC(C)CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Isoleucine",
@@ -7870,7 +11797,8 @@
     "roughness": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "CCC(C)C(C(=O)O)N"
+   "pubchemSmiles": "CCC(C)C(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Phenylalanine",
@@ -7890,7 +11818,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C(C=C1)CC(C(=O)O)N"
+   "pubchemSmiles": "C1=CC=C(C=C1)CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Tyrosine",
@@ -7910,7 +11839,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC(=CC=C1CC(C(=O)O)N)O"
+   "pubchemSmiles": "C1=CC(=CC=C1CC(C(=O)O)N)O",
+   "ghs": []
   },
   {
    "name": "Tryptophan",
@@ -7930,7 +11860,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C(=C1)C(=CN2)CC(C(=O)O)N"
+   "pubchemSmiles": "C1=CC=C2C(=C1)C(=CN2)CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Aspartic acid",
@@ -7950,7 +11881,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)N)C(=O)O"
+   "pubchemSmiles": "C(C(C(=O)O)N)C(=O)O",
+   "ghs": []
   },
   {
    "name": "Glutamic acid",
@@ -7970,7 +11902,11 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(CC(=O)O)C(C(=O)O)N"
+   "pubchemSmiles": "C(CC(=O)O)C(C(=O)O)N",
+   "ghs": [
+    "H314",
+    "H318"
+   ]
   },
   {
    "name": "Lysine",
@@ -7991,7 +11927,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(CCN)CC(C(=O)O)N"
+   "pubchemSmiles": "C(CCN)CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Arginine",
@@ -8011,7 +11948,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(CC(C(=O)O)N)CN=C(N)N"
+   "pubchemSmiles": "C(CC(C(=O)O)N)CN=C(N)N",
+   "ghs": []
   },
   {
    "name": "Proline",
@@ -8031,7 +11969,8 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "C1CC(NC1)C(=O)O"
+   "pubchemSmiles": "C1CC(NC1)C(=O)O",
+   "ghs": []
   },
   {
    "name": "Histidine",
@@ -8052,7 +11991,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=C(NC=N1)CC(C(=O)O)N"
+   "pubchemSmiles": "C1=C(NC=N1)CC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Methionine",
@@ -8073,7 +12013,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CSCCC(C(=O)O)N"
+   "pubchemSmiles": "CSCCC(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Threonine",
@@ -8094,7 +12035,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C(C(=O)O)N)O"
+   "pubchemSmiles": "CC(C(C(=O)O)N)O",
+   "ghs": []
   },
   {
    "name": "Asparagine",
@@ -8114,7 +12056,8 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(=O)O)N)C(=O)N"
+   "pubchemSmiles": "C(C(C(=O)O)N)C(=O)N",
+   "ghs": []
   },
   {
    "name": "Glutamine",
@@ -8134,7 +12077,8 @@
     "opacity": 0.6
    },
    "experimental": true,
-   "pubchemSmiles": "C(CC(=O)N)C(C(=O)O)N"
+   "pubchemSmiles": "C(CC(=O)N)C(C(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Fructose",
@@ -8154,7 +12098,8 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1C(C(C(C(O1)(CO)O)O)O)O"
+   "pubchemSmiles": "C1C(C(C(C(O1)(CO)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Galactose",
@@ -8174,7 +12119,10 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(C1C(C(C(C(O1)O)O)O)O)O"
+   "pubchemSmiles": "C(C1C(C(C(C(O1)O)O)O)O)O",
+   "ghs": [
+    "H319"
+   ]
   },
   {
    "name": "Sucrose",
@@ -8194,7 +12142,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2(C(C(C(O2)CO)O)O)CO)O)O)O)O"
+   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2(C(C(C(O2)CO)O)O)CO)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Lactose",
@@ -8215,7 +12164,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2C(OC(C(C2O)O)O)CO)O)O)O)O"
+   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2C(OC(C(C2O)O)O)CO)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Ribose",
@@ -8235,7 +12185,8 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C1C(C(C(C(O1)O)O)O)O"
+   "pubchemSmiles": "C1C(C(C(C(O1)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Deoxyribose",
@@ -8256,7 +12207,12 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1C(C(OC1O)CO)O"
+   "pubchemSmiles": "C1C(C(OC1O)CO)O",
+   "ghs": [
+    "H315",
+    "H319",
+    "H335"
+   ]
   },
   {
    "name": "Xylitol",
@@ -8277,7 +12233,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(C(CO)O)O)O)O"
+   "pubchemSmiles": "C(C(C(C(CO)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Sorbitol",
@@ -8297,7 +12254,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C(C(C(C(CO)O)O)O)O)O"
+   "pubchemSmiles": "C(C(C(C(C(CO)O)O)O)O)O",
+   "ghs": []
   },
   {
    "name": "Cholesterol",
@@ -8317,7 +12275,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C"
+   "pubchemSmiles": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C",
+   "ghs": []
   },
   {
    "name": "Testosterone",
@@ -8337,7 +12296,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC12CCC3C(C1CCC2O)CCC4=CC(=O)CCC34C"
+   "pubchemSmiles": "CC12CCC3C(C1CCC2O)CCC4=CC(=O)CCC34C",
+   "ghs": [
+    "H302",
+    "H350",
+    "H351",
+    "H360",
+    "H400"
+   ]
   },
   {
    "name": "Estradiol",
@@ -8357,7 +12323,16 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC12CCC3C(C1CCC2O)CCC4=C3C=CC(=C4)O"
+   "pubchemSmiles": "CC12CCC3C(C1CCC2O)CCC4=C3C=CC(=C4)O",
+   "ghs": [
+    "H350",
+    "H351",
+    "H360",
+    "H362",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Adrenaline",
@@ -8377,7 +12352,12 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CNCC(C1=CC(=C(C=C1)O)O)O"
+   "pubchemSmiles": "CNCC(C1=CC(=C(C=C1)O)O)O",
+   "ghs": [
+    "H301",
+    "H310",
+    "H331"
+   ]
   },
   {
    "name": "Dopamine",
@@ -8398,7 +12378,13 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC(=C(C=C1CCN)O)O"
+   "pubchemSmiles": "C1=CC(=C(C=C1CCN)O)O",
+   "ghs": [
+    "H302",
+    "H361",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Serotonin",
@@ -8419,7 +12405,11 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC2=C(C=C1O)C(=CN2)CCN"
+   "pubchemSmiles": "C1=CC2=C(C=C1O)C(=CN2)CCN",
+   "ghs": [
+    "H301",
+    "H361"
+   ]
   },
   {
    "name": "Melatonin",
@@ -8439,7 +12429,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)NCCC1=CNC2=C1C=C(C=C2)OC"
+   "pubchemSmiles": "CC(=O)NCCC1=CNC2=C1C=C(C=C2)OC",
+   "ghs": []
   },
   {
    "name": "Histamine",
@@ -8460,7 +12451,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=C(NC=N1)CCN"
+   "pubchemSmiles": "C1=C(NC=N1)CCN",
+   "ghs": [
+    "H301",
+    "H315",
+    "H317",
+    "H319",
+    "H334",
+    "H335"
+   ]
   },
   {
    "name": "Ibuprofen",
@@ -8480,7 +12479,17 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O"
+   "pubchemSmiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
+   "ghs": [
+    "H302",
+    "H319",
+    "H335",
+    "H360",
+    "H362",
+    "H371",
+    "H373",
+    "H411"
+   ]
   },
   {
    "name": "Paracetamol",
@@ -8500,7 +12509,21 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)NC1=CC=C(C=C1)O"
+   "pubchemSmiles": "CC(=O)NC1=CC=C(C=C1)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H341",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Quinine",
@@ -8520,7 +12543,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "COC1=CC2=C(C=CN=C2C=C1)C(C3CC4CCN3CC4C=C)O"
+   "pubchemSmiles": "COC1=CC2=C(C=CN=C2C=C1)C(C3CC4CCN3CC4C=C)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H317",
+    "H319",
+    "H334"
+   ]
   },
   {
    "name": "Thymol",
@@ -8541,7 +12571,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "CC1=CC(=C(C=C1)C(C)C)O"
+   "pubchemSmiles": "CC1=CC(=C(C=C1)C(C)C)O",
+   "ghs": [
+    "H302",
+    "H314",
+    "H317",
+    "H318",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Eugenol",
@@ -8561,7 +12599,17 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "COC1=C(C=CC(=C1)CC=C)O"
+   "pubchemSmiles": "COC1=C(C=CC(=C1)CC=C)O",
+   "ghs": [
+    "H302",
+    "H315",
+    "H317",
+    "H319",
+    "H336",
+    "H351",
+    "H401",
+    "H412"
+   ]
   },
   {
    "name": "Coumarin",
@@ -8582,7 +12630,13 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C(=C1)C=CC(=O)O2"
+   "pubchemSmiles": "C1=CC=C2C(=C1)C=CC(=O)O2",
+   "ghs": [
+    "H301",
+    "H302",
+    "H317",
+    "H373"
+   ]
   },
   {
    "name": "Saccharin",
@@ -8602,7 +12656,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CC=C2C(=C1)C(=O)NS2(=O)=O"
+   "pubchemSmiles": "C1=CC=C2C(=C1)C(=O)NS2(=O)=O",
+   "ghs": []
   },
   {
    "name": "Aspartame",
@@ -8623,7 +12678,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "COC(=O)C(CC1=CC=CC=C1)NC(=O)C(CC(=O)O)N"
+   "pubchemSmiles": "COC(=O)C(CC1=CC=CC=C1)NC(=O)C(CC(=O)O)N",
+   "ghs": []
   },
   {
    "name": "Sucralose",
@@ -8643,7 +12699,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2(C(C(C(O2)CCl)O)O)CCl)O)O)Cl)O"
+   "pubchemSmiles": "C(C1C(C(C(C(O1)OC2(C(C(C(O2)CCl)O)O)CCl)O)O)Cl)O",
+   "ghs": []
   },
   {
    "name": "Isobutane",
@@ -8663,7 +12720,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)C"
+   "pubchemSmiles": "CC(C)C",
+   "ghs": [
+    "H220",
+    "H280",
+    "H332",
+    "H336",
+    "H340",
+    "H350",
+    "H370",
+    "H371"
+   ]
   },
   {
    "name": "Isopentane",
@@ -8683,7 +12750,17 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCC(C)C"
+   "pubchemSmiles": "CCC(C)C",
+   "ghs": [
+    "H224",
+    "H304",
+    "H315",
+    "H319",
+    "H335",
+    "H336",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Neopentane",
@@ -8703,7 +12780,12 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CC(C)(C)C"
+   "pubchemSmiles": "CC(C)(C)C",
+   "ghs": [
+    "H220",
+    "H280",
+    "H411"
+   ]
   },
   {
    "name": "Heptane",
@@ -8723,7 +12805,20 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCC"
+   "pubchemSmiles": "CCCCCCC",
+   "ghs": [
+    "H225",
+    "H304",
+    "H315",
+    "H319",
+    "H320",
+    "H335",
+    "H336",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Nonane",
@@ -8743,7 +12838,20 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCC"
+   "pubchemSmiles": "CCCCCCCCC",
+   "ghs": [
+    "H226",
+    "H304",
+    "H315",
+    "H319",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H371",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Decane",
@@ -8763,7 +12871,11 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCC"
+   "pubchemSmiles": "CCCCCCCCCC",
+   "ghs": [
+    "H226",
+    "H304"
+   ]
   },
   {
    "name": "Dodecane",
@@ -8783,7 +12895,13 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCCCC"
+   "pubchemSmiles": "CCCCCCCCCCCC",
+   "ghs": [
+    "H226",
+    "H227",
+    "H304",
+    "H319"
+   ]
   },
   {
    "name": "Hexadecane",
@@ -8803,7 +12921,11 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCCCCCCCC"
+   "pubchemSmiles": "CCCCCCCCCCCCCCCC",
+   "ghs": [
+    "H304",
+    "H315"
+   ]
   },
   {
    "name": "Eicosane",
@@ -8823,7 +12945,10 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "CCCCCCCCCCCCCCCCCCCC"
+   "pubchemSmiles": "CCCCCCCCCCCCCCCCCCCC",
+   "ghs": [
+    "H304"
+   ]
   },
   {
    "name": "Propene",
@@ -8843,7 +12968,14 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CC=C"
+   "pubchemSmiles": "CC=C",
+   "ghs": [
+    "H220",
+    "H280",
+    "H336",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "1-butene",
@@ -8863,7 +12995,13 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CCC=C"
+   "pubchemSmiles": "CCC=C",
+   "ghs": [
+    "H220",
+    "H280",
+    "H320",
+    "H336"
+   ]
   },
   {
    "name": "Propyne",
@@ -8883,7 +13021,13 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CC#C"
+   "pubchemSmiles": "CC#C",
+   "ghs": [
+    "H220",
+    "H280",
+    "H335",
+    "H336"
+   ]
   },
   {
    "name": "Cyclopropane",
@@ -8903,7 +13047,12 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C1CC1"
+   "pubchemSmiles": "C1CC1",
+   "ghs": [
+    "H220",
+    "H280",
+    "H336"
+   ]
   },
   {
    "name": "Cyclobutane",
@@ -8923,7 +13072,11 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCC1"
+   "pubchemSmiles": "C1CCC1",
+   "ghs": [
+    "H220",
+    "H280"
+   ]
   },
   {
    "name": "Cyclopentane",
@@ -8943,7 +13096,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCCC1"
+   "pubchemSmiles": "C1CCCC1",
+   "ghs": [
+    "H225",
+    "H304",
+    "H315",
+    "H319",
+    "H320",
+    "H333",
+    "H335",
+    "H336",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Cyclohexene",
@@ -8963,7 +13128,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCC=CC1"
+   "pubchemSmiles": "C1CCC=CC1",
+   "ghs": [
+    "H225",
+    "H302",
+    "H304",
+    "H305",
+    "H311",
+    "H312",
+    "H316",
+    "H319",
+    "H335",
+    "H336",
+    "H371",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Methylcyclohexane",
@@ -8983,7 +13163,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC1CCCCC1"
+   "pubchemSmiles": "CC1CCCCC1",
+   "ghs": [
+    "H225",
+    "H302",
+    "H304",
+    "H315",
+    "H316",
+    "H320",
+    "H332",
+    "H335",
+    "H336",
+    "H373",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Chloroethane",
@@ -9003,7 +13198,21 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CCCl"
+   "pubchemSmiles": "CCCl",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H319",
+    "H336",
+    "H351",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Bromomethane",
@@ -9023,7 +13232,32 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CBr"
+   "pubchemSmiles": "CBr",
+   "ghs": [
+    "H220",
+    "H221",
+    "H280",
+    "H301",
+    "H314",
+    "H315",
+    "H316",
+    "H318",
+    "H319",
+    "H320",
+    "H330",
+    "H331",
+    "H335",
+    "H341",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H401",
+    "H410",
+    "H411",
+    "H420"
+   ]
   },
   {
    "name": "Iodomethane",
@@ -9043,7 +13277,26 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CI"
+   "pubchemSmiles": "CI",
+   "ghs": [
+    "H226",
+    "H301",
+    "H312",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H335",
+    "H336",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H411"
+   ]
   },
   {
    "name": "Trichloroethylene",
@@ -9063,7 +13316,25 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(=C(Cl)Cl)Cl"
+   "pubchemSmiles": "C(=C(Cl)Cl)Cl",
+   "ghs": [
+    "H305",
+    "H315",
+    "H317",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H341",
+    "H350",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H401",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Tetrachloroethylene",
@@ -9083,7 +13354,27 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(=C(Cl)Cl)(Cl)Cl"
+   "pubchemSmiles": "C(=C(Cl)Cl)(Cl)Cl",
+   "ghs": [
+    "H305",
+    "H313",
+    "H314",
+    "H315",
+    "H317",
+    "H319",
+    "H320",
+    "H332",
+    "H336",
+    "H350",
+    "H351",
+    "H361",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Vinyl chloride",
@@ -9103,7 +13394,19 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C=CCl"
+   "pubchemSmiles": "C=CCl",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H320",
+    "H336",
+    "H341",
+    "H350",
+    "H361",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Tetrafluoroethylene",
@@ -9123,7 +13426,18 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(=C(F)F)(F)F"
+   "pubchemSmiles": "C(=C(F)F)(F)F",
+   "ghs": [
+    "H220",
+    "H231",
+    "H280",
+    "H320",
+    "H350",
+    "H350i",
+    "H351",
+    "H371",
+    "H373"
+   ]
   },
   {
    "name": "Dichlorodifluoromethane",
@@ -9143,7 +13457,13 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(F)(F)(Cl)Cl"
+   "pubchemSmiles": "C(F)(F)(Cl)Cl",
+   "ghs": [
+    "H280",
+    "H336",
+    "H372",
+    "H420"
+   ]
   },
   {
    "name": "Chlorodifluoromethane",
@@ -9163,7 +13483,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(F)(F)Cl"
+   "pubchemSmiles": "C(F)(F)Cl",
+   "ghs": [
+    "H280",
+    "H316",
+    "H320",
+    "H336",
+    "H360",
+    "H361",
+    "H370",
+    "H420"
+   ]
   },
   {
    "name": "Fluoromethane",
@@ -9183,7 +13513,11 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CF"
+   "pubchemSmiles": "CF",
+   "ghs": [
+    "H220",
+    "H280"
+   ]
   },
   {
    "name": "Fluoroform",
@@ -9203,7 +13537,11 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(F)(F)F"
+   "pubchemSmiles": "C(F)(F)F",
+   "ghs": [
+    "H280",
+    "H336"
+   ]
   },
   {
    "name": "Carbon tetrafluoride",
@@ -9223,7 +13561,11 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(F)(F)(F)F"
+   "pubchemSmiles": "C(F)(F)(F)F",
+   "ghs": [
+    "H280",
+    "H336"
+   ]
   },
   {
    "name": "Bromoform",
@@ -9243,7 +13585,25 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(Br)(Br)Br"
+   "pubchemSmiles": "C(Br)(Br)Br",
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H320",
+    "H331",
+    "H335",
+    "H336",
+    "H341",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Iodoform",
@@ -9263,7 +13623,18 @@
     "roughness": 0.9
    },
    "experimental": true,
-   "pubchemSmiles": "C(I)(I)I"
+   "pubchemSmiles": "C(I)(I)I",
+   "ghs": [
+    "H302",
+    "H312",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H401",
+    "H411"
+   ]
   },
   {
    "name": "Methanethiol",
@@ -9283,7 +13654,19 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "CS"
+   "pubchemSmiles": "CS",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H319",
+    "H331",
+    "H336",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Ethanethiol",
@@ -9303,7 +13686,22 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CCS"
+   "pubchemSmiles": "CCS",
+   "ghs": [
+    "H224",
+    "H225",
+    "H302",
+    "H316",
+    "H319",
+    "H320",
+    "H331",
+    "H332",
+    "H335",
+    "H336",
+    "H370",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Dimethyl sulfide",
@@ -9323,7 +13721,15 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CSC"
+   "pubchemSmiles": "CSC",
+   "ghs": [
+    "H225",
+    "H301",
+    "H303",
+    "H316",
+    "H320",
+    "H402"
+   ]
   },
   {
    "name": "Dimethyl sulfoxide",
@@ -9343,7 +13749,12 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CS(=O)C"
+   "pubchemSmiles": "CS(=O)C",
+   "ghs": [
+    "H227",
+    "H319",
+    "H371"
+   ]
   },
   {
    "name": "Thiophene",
@@ -9363,7 +13774,19 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=CSC=C1"
+   "pubchemSmiles": "C1=CSC=C1",
+   "ghs": [
+    "H225",
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H332",
+    "H335",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Furan",
@@ -9383,7 +13806,24 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1=COC=C1"
+   "pubchemSmiles": "C1=COC=C1",
+   "ghs": [
+    "H224",
+    "H302",
+    "H315",
+    "H331",
+    "H332",
+    "H335",
+    "H341",
+    "H350",
+    "H351",
+    "H370",
+    "H371",
+    "H372",
+    "H373",
+    "H402",
+    "H412"
+   ]
   },
   {
    "name": "Tetrahydrofuran",
@@ -9403,7 +13843,21 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C1CCOC1"
+   "pubchemSmiles": "C1CCOC1",
+   "ghs": [
+    "H225",
+    "H302",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H351",
+    "H361",
+    "H370",
+    "H371",
+    "H372"
+   ]
   },
   {
    "name": "Ethylene oxide",
@@ -9423,7 +13877,31 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C1CO1"
+   "pubchemSmiles": "C1CO1",
+   "ghs": [
+    "H220",
+    "H280",
+    "H301",
+    "H302",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H319",
+    "H331",
+    "H335",
+    "H336",
+    "H340",
+    "H350",
+    "H360",
+    "H360Fd",
+    "H370",
+    "H372",
+    "H373",
+    "H402",
+    "H411",
+    "H412"
+   ]
   },
   {
    "name": "Ketene",
@@ -9443,7 +13921,17 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C=C=O"
+   "pubchemSmiles": "C=C=O",
+   "ghs": [
+    "H220",
+    "H280",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H335",
+    "H370"
+   ]
   },
   {
    "name": "Cyanogen",
@@ -9463,7 +13951,20 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "C(#N)C#N"
+   "pubchemSmiles": "C(#N)C#N",
+   "ghs": [
+    "H220",
+    "H280",
+    "H319",
+    "H330",
+    "H331",
+    "H335",
+    "H336",
+    "H370",
+    "H373",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Cyanuric acid",
@@ -9483,7 +13984,8 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "C1(=O)NC(=O)NC(=O)N1"
+   "pubchemSmiles": "C1(=O)NC(=O)NC(=O)N1",
+   "ghs": []
   },
   {
    "name": "Melamine",
@@ -9504,7 +14006,15 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "C1(=NC(=NC(=N1)N)N)N"
+   "pubchemSmiles": "C1(=NC(=NC(=N1)N)N)N",
+   "ghs": [
+    "H227",
+    "H315",
+    "H317",
+    "H336",
+    "H351",
+    "H373"
+   ]
   },
   {
    "name": "Oxalyl chloride",
@@ -9524,7 +14034,14 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "C(=O)(C(=O)Cl)Cl"
+   "pubchemSmiles": "C(=O)(C(=O)Cl)Cl",
+   "ghs": [
+    "H260",
+    "H314",
+    "H318",
+    "H331",
+    "H335"
+   ]
   },
   {
    "name": "Methyl isocyanate",
@@ -9544,7 +14061,26 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CN=C=O"
+   "pubchemSmiles": "CN=C=O",
+   "ghs": [
+    "H225",
+    "H301",
+    "H310",
+    "H311",
+    "H314",
+    "H315",
+    "H317",
+    "H318",
+    "H330",
+    "H334",
+    "H335",
+    "H341",
+    "H360",
+    "H361",
+    "H361d",
+    "H370",
+    "H372"
+   ]
   },
   {
    "name": "Peracetic acid",
@@ -9564,7 +14100,27 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)OO"
+   "pubchemSmiles": "CC(=O)OO",
+   "ghs": [
+    "H226",
+    "H227",
+    "H242",
+    "H290",
+    "H301",
+    "H302",
+    "H310",
+    "H312",
+    "H314",
+    "H318",
+    "H330",
+    "H332",
+    "H341",
+    "H370",
+    "H372",
+    "H400",
+    "H410",
+    "H411"
+   ]
   },
   {
    "name": "Acetyl chloride",
@@ -9584,7 +14140,16 @@
     "opacity": 0.16
    },
    "experimental": true,
-   "pubchemSmiles": "CC(=O)Cl"
+   "pubchemSmiles": "CC(=O)Cl",
+   "ghs": [
+    "H225",
+    "H290",
+    "H302",
+    "H314",
+    "H318",
+    "H335",
+    "H402"
+   ]
   },
   {
    "name": "Ozone",
@@ -9604,7 +14169,23 @@
     "opacity": 0.05
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][O+]=O"
+   "pubchemSmiles": "[O-][O+]=O",
+   "ghs": [
+    "H270",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H335",
+    "H341",
+    "H351",
+    "H361",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   },
   {
    "name": "Sodium amide",
@@ -9624,7 +14205,14 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[NH2-].[Na+]"
+   "pubchemSmiles": "[NH2-].[Na+]",
+   "ghs": [
+    "H260",
+    "H261",
+    "H314",
+    "H318",
+    "H400"
+   ]
   },
   {
    "name": "Potassium hydride",
@@ -9645,7 +14233,8 @@
     "translucent": true
    },
    "experimental": true,
-   "pubchemSmiles": "[H-].[K+]"
+   "pubchemSmiles": "[H-].[K+]",
+   "ghs": []
   },
   {
    "name": "Sodium dichromate",
@@ -9665,8 +14254,921 @@
     "roughness": 0.3
    },
    "experimental": true,
-   "pubchemSmiles": "[O-][Cr](=O)(=O)O[Cr](=O)(=O)[O-].[Na+].[Na+]"
+   "pubchemSmiles": "[O-][Cr](=O)(=O)O[Cr](=O)(=O)[O-].[Na+].[Na+]",
+   "ghs": [
+    "H272",
+    "H300",
+    "H301",
+    "H311",
+    "H312",
+    "H314",
+    "H317",
+    "H318",
+    "H330",
+    "H332",
+    "H334",
+    "H335",
+    "H340",
+    "H341",
+    "H350",
+    "H360",
+    "H360FD",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
   }
  ],
- "version": 2
+ "version": 2,
+ "elements": {
+  "H": {
+   "cid": 783,
+   "ghs": [
+    "H220",
+    "H280",
+    "H281"
+   ]
+  },
+  "He": {
+   "cid": 23987,
+   "ghs": [
+    "H280",
+    "H281"
+   ]
+  },
+  "Li": {
+   "cid": 3028194,
+   "ghs": [
+    "H260",
+    "H314",
+    "H318",
+    "H371"
+   ]
+  },
+  "Be": {
+   "cid": 5460467,
+   "ghs": [
+    "H301",
+    "H315",
+    "H317",
+    "H319",
+    "H330",
+    "H334",
+    "H335",
+    "H350",
+    "H350i",
+    "H370",
+    "H372"
+   ]
+  },
+  "B": {
+   "cid": 5462311,
+   "ghs": [
+    "H302",
+    "H319",
+    "H332",
+    "H335",
+    "H371"
+   ]
+  },
+  "C": {
+   "cid": 5462310,
+   "ghs": [
+    "H319",
+    "H335"
+   ]
+  },
+  "N": {
+   "cid": 947,
+   "ghs": [
+    "H280",
+    "H304",
+    "H401"
+   ]
+  },
+  "O": {
+   "cid": 977,
+   "ghs": [
+    "H270",
+    "H280",
+    "H335",
+    "H361"
+   ]
+  },
+  "F": {
+   "cid": 24524,
+   "ghs": [
+    "H270",
+    "H280",
+    "H310",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H361",
+    "H370",
+    "H372"
+   ]
+  },
+  "Ne": {
+   "cid": 23935,
+   "ghs": [
+    "H280",
+    "H281"
+   ]
+  },
+  "Na": {
+   "cid": 5360545,
+   "ghs": [
+    "H260",
+    "H314",
+    "H318"
+   ]
+  },
+  "Mg": {
+   "cid": 5462224,
+   "ghs": [
+    "H228",
+    "H250",
+    "H260",
+    "H261",
+    "H315",
+    "H319",
+    "H335"
+   ]
+  },
+  "Al": {
+   "cid": 5359268,
+   "ghs": [
+    "H228",
+    "H250",
+    "H261",
+    "H370",
+    "H372"
+   ]
+  },
+  "Si": {
+   "cid": 5461123,
+   "ghs": [
+    "H228",
+    "H320"
+   ]
+  },
+  "P": {
+   "cid": 5462309,
+   "ghs": [
+    "H228",
+    "H412"
+   ]
+  },
+  "S": {
+   "cid": 5362487,
+   "ghs": [
+    "H228",
+    "H315",
+    "H370",
+    "H373"
+   ]
+  },
+  "Cl": {
+   "cid": 24526,
+   "ghs": [
+    "H270",
+    "H280",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H330",
+    "H331",
+    "H335",
+    "H370",
+    "H372",
+    "H373",
+    "H400"
+   ]
+  },
+  "Ar": {
+   "cid": 23968,
+   "ghs": [
+    "H280",
+    "H281"
+   ]
+  },
+  "K": {
+   "cid": 5462222,
+   "ghs": [
+    "H260",
+    "H314",
+    "H318"
+   ]
+  },
+  "Ca": {
+   "cid": 5460341,
+   "ghs": [
+    "H250",
+    "H261",
+    "H314",
+    "H318"
+   ]
+  },
+  "Sc": {
+   "cid": 23952,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Ti": {
+   "cid": 23963,
+   "ghs": [
+    "H228",
+    "H250",
+    "H251"
+   ]
+  },
+  "V": {
+   "cid": 23990,
+   "ghs": []
+  },
+  "Cr": {
+   "cid": 23976,
+   "ghs": [
+    "H317",
+    "H319",
+    "H320",
+    "H334",
+    "H335",
+    "H341",
+    "H371",
+    "H400",
+    "H410"
+   ]
+  },
+  "Mn": {
+   "cid": 23930,
+   "ghs": [
+    "H316",
+    "H320",
+    "H360",
+    "H370",
+    "H372",
+    "H401",
+    "H411"
+   ]
+  },
+  "Fe": {
+   "cid": 23925,
+   "ghs": [
+    "H228",
+    "H319",
+    "H335"
+   ]
+  },
+  "Co": {
+   "cid": 104730,
+   "ghs": [
+    "H228",
+    "H302",
+    "H317",
+    "H319",
+    "H320",
+    "H330",
+    "H334",
+    "H335",
+    "H341",
+    "H350",
+    "H350i",
+    "H351",
+    "H360",
+    "H360F",
+    "H360Fd",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410",
+    "H413"
+   ]
+  },
+  "Ni": {
+   "cid": 935,
+   "ghs": [
+    "H250",
+    "H317",
+    "H334",
+    "H351",
+    "H360",
+    "H370",
+    "H372",
+    "H411",
+    "H412"
+   ]
+  },
+  "Cu": {
+   "cid": 23978,
+   "ghs": [
+    "H317",
+    "H335",
+    "H370",
+    "H372",
+    "H400",
+    "H410",
+    "H411"
+   ]
+  },
+  "Zn": {
+   "cid": 23994,
+   "ghs": [
+    "H250",
+    "H260",
+    "H320",
+    "H400",
+    "H410"
+   ]
+  },
+  "Ga": {
+   "cid": 5360835,
+   "ghs": [
+    "H290",
+    "H314"
+   ]
+  },
+  "Ge": {
+   "cid": 6326954,
+   "ghs": []
+  },
+  "As": {
+   "cid": 5359596,
+   "ghs": [
+    "H228",
+    "H251",
+    "H301",
+    "H302",
+    "H315",
+    "H318",
+    "H319",
+    "H331",
+    "H341",
+    "H350",
+    "H360",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
+  },
+  "Se": {
+   "cid": 6326970,
+   "ghs": [
+    "H301",
+    "H331",
+    "H361",
+    "H370",
+    "H372",
+    "H373",
+    "H413"
+   ]
+  },
+  "Br": {
+   "cid": 24408,
+   "ghs": [
+    "H290",
+    "H301",
+    "H314",
+    "H318",
+    "H330",
+    "H370",
+    "H372",
+    "H400"
+   ]
+  },
+  "Kr": {
+   "cid": 5416,
+   "ghs": [
+    "H280",
+    "H281"
+   ]
+  },
+  "Rb": {
+   "cid": 5357696,
+   "ghs": [
+    "H260",
+    "H314"
+   ]
+  },
+  "Sr": {
+   "cid": 5359327,
+   "ghs": [
+    "H250",
+    "H260",
+    "H314",
+    "H318",
+    "H360D"
+   ]
+  },
+  "Y": {
+   "cid": 23993,
+   "ghs": [
+    "H228",
+    "H371"
+   ]
+  },
+  "Zr": {
+   "cid": 23995,
+   "ghs": [
+    "H228",
+    "H250",
+    "H251",
+    "H260",
+    "H317",
+    "H335"
+   ]
+  },
+  "Nb": {
+   "cid": 23936,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Mo": {
+   "cid": 23932,
+   "ghs": [
+    "H228",
+    "H315",
+    "H319",
+    "H335"
+   ]
+  },
+  "Tc": {
+   "cid": 23957,
+   "ghs": []
+  },
+  "Ru": {
+   "cid": 23950,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Rh": {
+   "cid": 23948,
+   "ghs": [
+    "H334"
+   ]
+  },
+  "Pd": {
+   "cid": 23938,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Ag": {
+   "cid": 23954,
+   "ghs": [
+    "H317",
+    "H320",
+    "H360",
+    "H361f",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
+  },
+  "Cd": {
+   "cid": 23973,
+   "ghs": [
+    "H250",
+    "H302",
+    "H330",
+    "H341",
+    "H350",
+    "H361",
+    "H361fd",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
+  },
+  "In": {
+   "cid": 5359967,
+   "ghs": [
+    "H303",
+    "H372"
+   ]
+  },
+  "Sn": {
+   "cid": 5352426,
+   "ghs": [
+    "H319",
+    "H335",
+    "H372"
+   ]
+  },
+  "Sb": {
+   "cid": 5354495,
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H332",
+    "H335",
+    "H351",
+    "H370",
+    "H372",
+    "H373",
+    "H401",
+    "H411"
+   ]
+  },
+  "Te": {
+   "cid": 6327182,
+   "ghs": [
+    "H301",
+    "H315",
+    "H317",
+    "H319",
+    "H332",
+    "H335",
+    "H336",
+    "H360",
+    "H360Df",
+    "H361",
+    "H362",
+    "H371",
+    "H413"
+   ]
+  },
+  "I": {
+   "cid": 807,
+   "ghs": [
+    "H302",
+    "H312",
+    "H315",
+    "H317",
+    "H319",
+    "H330",
+    "H332",
+    "H335",
+    "H372",
+    "H400",
+    "H410"
+   ]
+  },
+  "Xe": {
+   "cid": 23991,
+   "ghs": [
+    "H280"
+   ]
+  },
+  "Cs": {
+   "cid": 5354618,
+   "ghs": [
+    "H260",
+    "H314",
+    "H318"
+   ]
+  },
+  "Ba": {
+   "cid": 5355457,
+   "ghs": [
+    "H228",
+    "H260",
+    "H261",
+    "H301",
+    "H314",
+    "H315",
+    "H318",
+    "H319",
+    "H335",
+    "H370",
+    "H372"
+   ]
+  },
+  "La": {
+   "cid": 23926,
+   "ghs": []
+  },
+  "Ce": {
+   "cid": 23974,
+   "ghs": [
+    "H228",
+    "H261",
+    "H302",
+    "H312",
+    "H370"
+   ]
+  },
+  "Pr": {
+   "cid": 23942,
+   "ghs": [
+    "H228",
+    "H251",
+    "H315",
+    "H319"
+   ]
+  },
+  "Nd": {
+   "cid": 23934,
+   "ghs": [
+    "H228",
+    "H251",
+    "H315",
+    "H319"
+   ]
+  },
+  "Pm": {
+   "cid": 23944,
+   "ghs": []
+  },
+  "Sm": {
+   "cid": 23951,
+   "ghs": [
+    "H228",
+    "H261"
+   ]
+  },
+  "Eu": {
+   "cid": 23981,
+   "ghs": [
+    "H250"
+   ]
+  },
+  "Gd": {
+   "cid": 23982,
+   "ghs": [
+    "H261"
+   ]
+  },
+  "Tb": {
+   "cid": 23958,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Dy": {
+   "cid": 23912,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Ho": {
+   "cid": 23988,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Er": {
+   "cid": 23980,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Tm": {
+   "cid": 23961,
+   "ghs": [
+    "H228",
+    "H319",
+    "H335"
+   ]
+  },
+  "Yb": {
+   "cid": 23992,
+   "ghs": [
+    "H228",
+    "H302",
+    "H312",
+    "H315",
+    "H319",
+    "H332",
+    "H335"
+   ]
+  },
+  "Lu": {
+   "cid": 23929,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Hf": {
+   "cid": 23986,
+   "ghs": [
+    "H250"
+   ]
+  },
+  "Ta": {
+   "cid": 23956,
+   "ghs": [
+    "H228",
+    "H252",
+    "H302",
+    "H320",
+    "H335"
+   ]
+  },
+  "W": {
+   "cid": 23964,
+   "ghs": [
+    "H228",
+    "H252",
+    "H320",
+    "H335"
+   ]
+  },
+  "Re": {
+   "cid": 23947,
+   "ghs": [
+    "H228"
+   ]
+  },
+  "Os": {
+   "cid": 23937,
+   "ghs": [
+    "H228",
+    "H315",
+    "H318",
+    "H335",
+    "H413"
+   ]
+  },
+  "Ir": {
+   "cid": 23924,
+   "ghs": [
+    "H413"
+   ]
+  },
+  "Pt": {
+   "cid": 23939,
+   "ghs": [
+    "H315",
+    "H319",
+    "H334",
+    "H335"
+   ]
+  },
+  "Au": {
+   "cid": 23985,
+   "ghs": []
+  },
+  "Hg": {
+   "cid": 23931,
+   "ghs": [
+    "H300",
+    "H317",
+    "H319",
+    "H330",
+    "H341",
+    "H360",
+    "H360D",
+    "H360FD",
+    "H370",
+    "H372",
+    "H400",
+    "H410"
+   ]
+  },
+  "Tl": {
+   "cid": 5359464,
+   "ghs": [
+    "H300",
+    "H310",
+    "H314",
+    "H319",
+    "H330",
+    "H340",
+    "H360",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H413"
+   ]
+  },
+  "Pb": {
+   "cid": 5352425,
+   "ghs": [
+    "H302",
+    "H332",
+    "H341",
+    "H351",
+    "H360",
+    "H360Df",
+    "H360FD",
+    "H362",
+    "H370",
+    "H372",
+    "H373",
+    "H400",
+    "H410"
+   ]
+  },
+  "Bi": {
+   "cid": 5359367,
+   "ghs": [
+    "H370",
+    "H372"
+   ]
+  },
+  "Po": {
+   "cid": 6328143,
+   "ghs": []
+  },
+  "At": {
+   "cid": 5460480,
+   "ghs": []
+  },
+  "Rn": {
+   "cid": 24857,
+   "ghs": []
+  },
+  "Fr": {
+   "cid": 6328145,
+   "ghs": []
+  },
+  "Ra": {
+   "cid": 6328144,
+   "ghs": []
+  },
+  "Ac": {
+   "cid": 23965,
+   "ghs": []
+  },
+  "Th": {
+   "cid": 23960,
+   "ghs": [
+    "H302",
+    "H315",
+    "H319",
+    "H335",
+    "H373"
+   ]
+  },
+  "Pa": {
+   "cid": 23945,
+   "ghs": []
+  },
+  "U": {
+   "cid": 23989,
+   "ghs": [
+    "H250",
+    "H300",
+    "H330",
+    "H350",
+    "H370",
+    "H372",
+    "H373",
+    "H413"
+   ]
+  },
+  "Np": {
+   "cid": 23933,
+   "ghs": []
+  },
+  "Pu": {
+   "cid": 23940,
+   "ghs": []
+  },
+  "Am": {
+   "cid": 23966,
+   "ghs": []
+  },
+  "Cm": {
+   "cid": 23979,
+   "ghs": []
+  },
+  "Bk": {
+   "cid": 23971,
+   "ghs": []
+  },
+  "Cf": {
+   "cid": 23997,
+   "ghs": []
+  },
+  "Es": {
+   "cid": 23913,
+   "ghs": []
+  },
+  "Fm": {
+   "cid": 23998,
+   "ghs": []
+  },
+  "Md": {
+   "cid": 23943,
+   "ghs": []
+  },
+  "No": {
+   "cid": 24822,
+   "ghs": []
+  },
+  "Lr": {
+   "cid": 31192,
+   "ghs": []
+  }
+ }
 }

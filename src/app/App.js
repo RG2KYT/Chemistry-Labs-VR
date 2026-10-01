@@ -18,6 +18,7 @@ import { Toasts } from '../ui/Toasts.js';
 import { History } from '../lab/History.js';
 import { Combiner } from '../lab/Combiner.js';
 import { onSubstanceUpdate } from '../chem/compounds.js';
+import { Drinking } from '../lab/Drinking.js';
 
 class Events {
   constructor() {
@@ -120,6 +121,7 @@ export class App {
     this.input = new InputManager(this);
     this.grab = new Interaction(this);
     this.toasts = new Toasts(this);
+    this.drinking = new Drinking(this);
     this.history = new History(this);
     this.combiner = new Combiner(this);
 
@@ -554,6 +556,7 @@ export class App {
     safe('dissolve', () => this.dissolver.update(dt));
     safe('effects', () => this.effects.update(dt));
     safe('room', () => this.labRoom.update(dt));
+    safe('drinking', () => this.drinking.update(dt));
     safe('toasts', () => this.toasts.update(dt));
     safe('audio', () => this.audio.updateListener(this.camera));
     if (this.renderEnabled !== false) this.renderer.render(this.scene, this.camera);

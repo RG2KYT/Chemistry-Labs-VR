@@ -7,6 +7,7 @@ import {
   TestTubeRack, Tripod, Tongs,
 } from './tools.js';
 import { PortableFreezer, Matchstick, Matchbox } from './coldfire.js';
+import { SolidPiece } from './SolidPiece.js';
 
 function mesh(geo, mat, x = 0, y = 0, z = 0) {
   const m = new THREE.Mesh(geo, mat);
@@ -285,6 +286,8 @@ export const CATALOG = [
 ];
 
 export const CATALOG_BY_ID = Object.fromEntries(CATALOG.map((d) => [d.id, d]));
+// Not in the equipment list: free-standing pieces of solid made by the synthesizer etc.
+CATALOG_BY_ID.piece = { id: 'piece', name: 'Solid', category: 'Hidden', cls: SolidPiece, hidden: true };
 export const CATEGORIES = ['All', 'Glassware', 'Heat & cold', 'Measuring', 'Tools'];
 
 /** Instantiate an item (not yet placed in the world). */

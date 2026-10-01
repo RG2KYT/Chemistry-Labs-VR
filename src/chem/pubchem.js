@@ -7,7 +7,7 @@
 import { appearanceFrom, parseTemperature, parseDensity } from './appearance.js';
 
 const API = 'https://pubchem.ncbi.nlm.nih.gov/rest';
-const CACHE_KEY = 'chemlab-pubchem-v1';
+const CACHE_KEY = 'chemlab-pubchem-v2';
 let cache = null;
 
 function loadCache() {
@@ -88,14 +88,25 @@ export function cleanName(title) {
   return n.trim() || null;
 }
 
+/** GHS hazard codes (H300 "Fatal if swallowed" …) reported by ≥30 % of notifiers. */
+export function ghsCodes(list) {
+  const best = new Map();
+  for (const t of list) {
+    const m = /^(H\d{3}[A-Za-z]*)(?:\s*\(([\d.]+)%\))?/.exec(t || '');
+    if (m) best.set(m[1], Math.max(best.get(m[1]) || 0, m[2] ? Number(m[2]) : 100));
+  }
+  return [...best].filter(([, p]) => p >= 30).map(([c]) => c).sort();
+}
+
 async function details(cid, title, formula, metal) {
-  const [colorForm, physical, melt, boil, dens, descJson] = await Promise.all([
+  const [colorForm, physical, melt, boil, dens, descJson, ghs] = await Promise.all([
     heading(cid, 'Color/Form'),
     heading(cid, 'Physical Description'),
     heading(cid, 'Melting Point'),
     heading(cid, 'Boiling Point'),
     heading(cid, 'Density'),
     getJson(`${API}/pug/compound/cid/${cid}/description/JSON`).catch(() => null),
+    heading(cid, 'GHS Classification'),
   ]);
   const descs = (descJson?.InformationList?.Information || []).map((i) => i.Description).filter(Boolean);
   const mp = firstTemp(melt);
@@ -109,7 +120,7 @@ async function details(cid, title, formula, metal) {
   if (!experimental) info = 'Listed in PubChem, but nobody has reported measuring it — it may never have been made in a real lab. Its look is estimated.';
   return {
     status: 'found', cid, name: titleCase(name), info, mp, bp, density, look,
-    describe: colorForm[0] || physical[0] || '', experimental: !!experimental,
+    describe: colorForm[0] || physical[0] || '', experimental: !!experimental, ghs: ghsCodes(ghs),
   };
 }
 

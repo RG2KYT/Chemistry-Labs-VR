@@ -10,6 +10,7 @@ import { BY_SYMBOL } from '../chem/elements.js';
 import { moleculeSpecFor } from '../chem/compounds.js';
 import { SUBSTANCES } from '../chem/substances.js';
 import { baseOf, variantId, temperatureFor, availableForms, ROOM } from '../chem/phases.js';
+import { spawnSolid, pieceForm } from './SolidPiece.js';
 
 const _v = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -518,7 +519,8 @@ export class Machine extends Entity {
     else if (s.phase === 'solid') this.remaining = this.amount / (s.density || 1);
     else this.remaining = this.amount;
     this.app.events.emit('synthesize', s);
-    if (!this.docked) this.setState('waiting', `Identified: ${s.name}. Place a beaker or flask in the dock below.`, '#ffb35a');
+    if (s.phase === 'solid' && !this.docked) this.setState('synthesizing', `Synthesizing ${s.name}… it will drop onto the tray (solids need no container).` + this.heatWarning(), '#c69bff');
+    else if (!this.docked) this.setState('waiting', `Identified: ${s.name}. ${s.phase === 'gas' ? 'A gas' : 'A liquid'} needs a container — place a beaker or flask in the dock below.`, '#ffb35a');
     else this.setState('synthesizing', 'Synthesizing ' + s.name + '…' + this.heatWarning(), this.heatWarning() ? '#ffb35a' : '#c69bff');
   }
 
@@ -549,6 +551,7 @@ export class Machine extends Entity {
   pour(dt) {
     const sub = this.current.substance;
     const c = this.docked;
+    if (sub.phase === 'solid' && this.dropSolid(sub, c)) return;
     if (!c) {
       // Valve closes until a container is back in the dock.
       this.message = 'Paused — put a container back in the dock.';
@@ -591,6 +594,27 @@ export class Machine extends Entity {
     }
   }
 
+  /**
+   * Solids come out as real pieces (an ingot, ice cubes, a crystal, a heap of powder) — on the
+   * tray, or into the docked container. Powders pour into a container as a stream of grains,
+   * and so does anything too big for a narrow container mouth.
+   */
+  dropSolid(sub, c) {
+    const vol = this.remaining;
+    if (!(vol > 0)) return false;
+    const form = pieceForm(sub);
+    const size = Math.cbrt(vol * 1e-6);
+    if (c && (form === 'powder' || form === 'pellets' || c.rimR * 2 < size * 1.5)) return false; // pour as grains
+    const nozzle = this.toWorld(NOZZLE, new THREE.Vector3());
+    const at = c ? c.rim().center.add(new THREE.Vector3(0, 0.03, 0)) : nozzle.add(new THREE.Vector3(0, -0.05, 0));
+    if (!c) at.y = Math.max(at.y, this.toWorld(PAD, new THREE.Vector3()).y + size + 0.01);
+    spawnSolid(this.app, sub.id, vol, this.productTemp ?? ROOM, at, { scatter: c ? Math.min(0.02, c.rimR) : 0.04 });
+    this.remaining = 0;
+    const grams = Math.round(vol * (sub.density || 1));
+    this.finish(c ? `Done: ${grams} g of ${sub.name} dropped into the ${c.name.toLowerCase()}.` : `Done: ${grams} g of ${sub.name} — take it from the tray.`);
+    return true;
+  }
+
   finish(message, color = '#8ff0c2') {
     if (this.stream) { this.app.fluids.stop(this.stream); this.stream = null; }
     this.setState('drain', message, color);
@@ -607,10 +631,10 @@ export class Machine extends Entity {
     const inv = this.object.matrixWorld.clone().invert();
     const up = UP.clone().applyQuaternion(this.object.quaternion);
     for (const e of this.app.entities) {
-      if (!e.isContainer || e.isHeld || e.removed || e.disabled || e.stasis || e.contents.isEmpty) continue;
+      if (!(e.isContainer || e.isSolidPiece) || e.isHeld || e.removed || e.disabled || e.stasis || e.contents.isEmpty) continue;
       const local = e.object.position.clone().applyMatrix4(inv);
       if (Math.hypot(local.x, local.z) > 0.17 || local.y < TOP_Y - 0.05 || local.y > TOP_Y + 0.08) continue;
-      if (e.upVector(new THREE.Vector3()).dot(up) < 0.85) continue;
+      if (e.isContainer && e.upVector(new THREE.Vector3()).dot(up) < 0.85) continue;
       return e;
     }
     return null;

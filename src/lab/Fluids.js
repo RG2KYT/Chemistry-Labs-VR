@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Mixture } from '../chem/Mixture.js';
+import { depositSolid } from './SolidPiece.js';
 
 const RINGS = 44;
 const SIDES = 8;
@@ -173,7 +174,8 @@ export class Fluids {
     // Puddles evaporate
     for (let i = this.puddles.length - 1; i >= 0; i--) {
       const p = this.puddles[i];
-      p.volume -= dt * (p.corrosive ? 1.2 : 0.35) * Math.max(1, p.volume * 0.05);
+      // Puddles dry slowly (a spill of water lasts minutes, as in a real lab)
+      p.volume -= dt * (p.corrosive ? 0.25 : 0.04) * Math.max(1, p.volume * 0.02);
       if (p.corrosive && Math.random() < dt * 6) this.app.effects.smoke(p.mesh.position.clone(), 0xd8f0c0, 0.18, 0.02, 0.08);
       if (p.volume <= 0) {
         p.mesh.removeFromParent();
@@ -201,6 +203,11 @@ export class Fluids {
       hit.target.passThrough(portion);
       return;
     }
+    // Grains pile up where they land; liquid poured on a solid piece wets it (and may react).
+    if (portion.solidVolume > 0) depositSolid(this.app, hit.point, portion.takeSolid(portion.solidVolume));
+    if (hit.target && hit.target.isSolidPiece && portion.liquidVolume > 0) {
+      hit.target.receiveLiquid(portion.takeLiquid(portion.liquidVolume * 0.6));
+    }
     // Acid eats whatever it lands on (and the thing reforms a few seconds later).
     if (portion.isCorrosive && hit.target && hit.target.dissolvable && hit.target !== s.source) {
       this.app.dissolver.dissolve(hit.target, hit.point);
@@ -220,11 +227,10 @@ export class Fluids {
       const v = new THREE.Vector3((Math.random() - 0.5) * 1.2, Math.random() * 1.2, (Math.random() - 0.5) * 1.2);
       this.app.effects.droplet(point.clone(), v, color, 0.003 + Math.random() * 0.004, 1);
     }
-    if (!granular) {
-      const p = point.clone();
-      p.y = floorY;
-      this.addPuddle(p, new THREE.Vector3(0, 1, 0), mixture);
-    }
+    const p = point.clone();
+    p.y = floorY;
+    if (mixture.solidVolume > 0) depositSolid(this.app, p, mixture.takeSolid(mixture.solidVolume));
+    if (!granular) this.addPuddle(p, new THREE.Vector3(0, 1, 0), mixture);
   }
 
   addPuddle(point, normal, mixture) {
