@@ -92,10 +92,14 @@ export class HandBase {
     this.velocity.copy(this._posHist[i1]).sub(this._posHist[i0]).divideScalar(dt);
     const dq = this._quatHist[i1].clone().multiply(this._quatHist[i0].clone().invert());
     if (dq.w < 0) { dq.x = -dq.x; dq.y = -dq.y; dq.z = -dq.z; dq.w = -dq.w; }
-    const angle = 2 * Math.acos(Math.min(1, dq.w));
-    const s = Math.sqrt(1 - dq.w * dq.w);
+    const w = Math.min(1, Math.max(-1, dq.w));
+    const angle = 2 * Math.acos(w);
+    const s = Math.sqrt(Math.max(0, 1 - w * w));
     if (s < 1e-4 || angle < 1e-4) this.angularVelocity.set(0, 0, 0);
     else this.angularVelocity.set(dq.x / s, dq.y / s, dq.z / s).multiplyScalar(angle / dt);
+    // Never let a bad tracking sample poison the physics with NaN / huge values.
+    if (!Number.isFinite(this.angularVelocity.lengthSq()) || this.angularVelocity.length() > 40) this.angularVelocity.set(0, 0, 0);
+    if (!Number.isFinite(this.velocity.lengthSq())) this.velocity.set(0, 0, 0);
   }
 
   resetMotion() {

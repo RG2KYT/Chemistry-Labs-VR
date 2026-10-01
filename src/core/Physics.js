@@ -106,6 +106,7 @@ export class Physics {
     this.accumulator = Math.min(this.accumulator + dt, 1 / 30);
     const h = 1 / 90;
     let steps = 0;
+    const impacts = [];
     while (this.accumulator >= h * 0.5 && steps < 3) {
       this.world.timestep = Math.min(h, Math.max(this.accumulator, 1 / 144));
       this.world.step(this.eventQueue);
@@ -119,10 +120,15 @@ export class Physics {
         const o1 = this.colliderOwners.get(h1);
         const o2 = this.colliderOwners.get(h2);
         if (onImpact) {
-          if (o1 && this.impactListeners.has(o1)) onImpact(o1, o2, this.impactSpeed(c1, c2));
-          if (o2 && this.impactListeners.has(o2)) onImpact(o2, o1, this.impactSpeed(c2, c1));
+          if (o1 && this.impactListeners.has(o1)) impacts.push([o1, o2, this.impactSpeed(c1, c2)]);
+          if (o2 && this.impactListeners.has(o2)) impacts.push([o2, o1, this.impactSpeed(c2, c1)]);
         }
       });
+    }
+    // Handle impacts (which may break and remove bodies) only after the event queue is
+    // drained, never while Rapier is iterating.
+    for (const [a, b, speed] of impacts) {
+      if (!a.removed && Number.isFinite(speed)) onImpact(a, b, speed);
     }
   }
 

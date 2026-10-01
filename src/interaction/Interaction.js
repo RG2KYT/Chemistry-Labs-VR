@@ -173,7 +173,10 @@ export class Interaction {
     const ang = hand.angularVelocity.clone();
     const r = _v.copy(e.object.position).sub(hand.gripPosition);
     lin.add(_v2.copy(ang).cross(r));
+    if (!Number.isFinite(lin.lengthSq())) lin.set(0, 0, 0);
+    if (!Number.isFinite(ang.lengthSq())) ang.set(0, 0, 0);
     if (lin.length() > 12) lin.setLength(12);
+    if (ang.length() > 30) ang.setLength(30);
     if (hand.kind === 'mouse') { lin.multiplyScalar(0.6); ang.multiplyScalar(0.3); }
     e.onRelease(rec, lin, ang);
     if (!silent) this.app.events.emit('release', rec);

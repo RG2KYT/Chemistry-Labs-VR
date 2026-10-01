@@ -525,26 +525,47 @@ export class App {
       }
     }
 
-    this.input.update(dt, this.elapsed);
+    // Every subsystem runs guarded: an unexpected error in one part must never stop the
+    // XR frame loop (which would freeze the headset view).
+    const safe = (name, fn) => {
+      try {
+        fn();
+      } catch (err) {
+        this.reportError(name, err);
+      }
+    };
+    safe('input', () => this.input.update(dt, this.elapsed));
     if (frame && this.inXR && this.mode !== 'lab') {
-      this.roomScan.update(frame, this.renderer.xr.getReferenceSpace());
+      safe('room scan', () => this.roomScan.update(frame, this.renderer.xr.getReferenceSpace()));
     }
-    this.locomotion(dt);
-    this.grab.update(dt);
-    this.molecules.update(dt);
-    this.combiner.update(dt);
-    this.physics.step(dt, (ent, other, speed) => ent.onImpact?.(speed, other));
+    safe('locomotion', () => this.locomotion(dt));
+    safe('grab', () => this.grab.update(dt));
+    safe('molecules', () => this.molecules.update(dt));
+    safe('combine', () => this.combiner.update(dt));
+    safe('physics', () => this.physics.step(dt, (ent, other, speed) => safe('impact', () => ent.onImpact?.(speed, other))));
     for (const e of this.entities) {
-      if (e.body && !e.removed && !e.disabled && !e.absorbing && e.kind !== 'machine') e.syncFromBody();
+      if (e.body && !e.removed && !e.disabled && !e.absorbing && e.kind !== 'machine') safe('sync', () => e.syncFromBody());
     }
-    for (const e of this.entities.slice()) if (!e.removed) e.update(dt);
-    this.fluids.update(dt);
-    this.dissolver.update(dt);
-    this.effects.update(dt);
-    this.labRoom.update(dt);
-    this.toasts.update(dt);
-    this.audio.updateListener(this.camera);
+    for (const e of this.entities.slice()) if (!e.removed) safe(e.name || e.kind, () => e.update(dt));
+    safe('fluids', () => this.fluids.update(dt));
+    safe('dissolve', () => this.dissolver.update(dt));
+    safe('effects', () => this.effects.update(dt));
+    safe('room', () => this.labRoom.update(dt));
+    safe('toasts', () => this.toasts.update(dt));
+    safe('audio', () => this.audio.updateListener(this.camera));
     if (this.renderEnabled !== false) this.renderer.render(this.scene, this.camera);
+  }
+
+  reportError(where, err) {
+    this.errors = this.errors || [];
+    const msg = `${where}: ${err && err.message ? err.message : err}`;
+    if (this.errors.length < 50) this.errors.push(msg + (err && err.stack ? '\n' + err.stack : ''));
+    console.error('[lab]', msg, err);
+    const now = performance.now();
+    if (!this._lastErrorToast || now - this._lastErrorToast > 8000) {
+      this._lastErrorToast = now;
+      try { this.toasts.show('Oops — something glitched (' + msg.slice(0, 80) + '). The lab keeps running.', '#ff9b8f', 4); } catch { /* ignore */ }
+    }
   }
 
   welcome() {

@@ -128,6 +128,7 @@ export class Entity {
   }
 
   applyHeldPose(pos, quat) {
+    if (!Number.isFinite(pos.x + pos.y + pos.z) || !Number.isFinite(quat.x + quat.y + quat.z + quat.w)) return;
     if (this.body) {
       this.body.setNextKinematicTranslation(pos);
       this.body.setNextKinematicRotation(quat);
